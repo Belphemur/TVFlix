@@ -1,9 +1,7 @@
-tvflix README
-==================
-
-Getting Started
----------------
-
+#TVFlix README
+##Framework
+SQLAchemy and Pyramid
+##Getting Started
 - cd <directory containing this file>
 
 - $VENV/bin/python setup.py develop
