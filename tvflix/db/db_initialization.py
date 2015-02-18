@@ -70,7 +70,7 @@ def initialize_db(path):
     if not readSchema(path):
         sys.exit("No schema file found!")
     if  not checkdb():
-        sys.exit("Database exists, please detele it before creating a new one")
+        sys.exit("Database exists, please delete it before creating a new one")
     if not createdb():
         sys.exit("Ooops, could not create a database")
     
