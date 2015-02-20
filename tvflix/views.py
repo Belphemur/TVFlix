@@ -4,15 +4,16 @@ from pyramid.view import view_config
 from sqlalchemy.exc import DBAPIError
 
 from .models import (
-    DBSession,
-    MyModel,
+    Session,
+    User
     )
 
-
+#test method
 @view_config(route_name='home', renderer='templates/mytemplate.pt')
 def my_view(request):
     try:
-        one = DBSession.query(MyModel).filter(MyModel.name == 'one').first()
+        one = Session.query(User).filter(User.user_id == 2).first()
+        print one.username
     except DBAPIError:
         return Response(conn_err_msg, content_type='text/plain', status_int=500)
     return {'one': one, 'project': 'tvflix'}
