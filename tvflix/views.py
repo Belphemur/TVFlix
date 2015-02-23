@@ -3,10 +3,8 @@ from pyramid.view import view_config
 
 from sqlalchemy.exc import DBAPIError
 
-from .models import (
-    Session,
-    User
-    )
+from .models import Session
+from .models.user import User
 
 #test method
 @view_config(route_name='home', renderer='templates/mytemplate.pt')
