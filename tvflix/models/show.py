@@ -6,9 +6,10 @@ from sqlalchemy import (
     ForeignKey
 )
 
-from ..models import Base
+from ..models import Base, Session
 from ..models.show_tag import Shows_Tag
 from sqlalchemy.orm import relationship
+
 
 class Show(Base):
     __tablename__ = "Shows"
@@ -21,4 +22,41 @@ class Show(Base):
     summary = Column(Text, nullable=False)
     channel = Column(Unicode(25), nullable=False)
     tags = relationship("Tag", secondary=Shows_Tag)
+    episodes = relationship("Episode")
+
+    @classmethod
+    def GetShowByLabel(cls, label):
+        """
+        This method will return a show using it's unique label. The label is a human-readable way to get a show.
+        :param label: the unique label of the show
+        :return: The show if exists else return None
+        """
+        return Session.query(Show).filter(Show.showlabel == label).one()
+
+    @classmethod
+    def SearchShowsByKeywords(cls, keywords):
+        """
+        Search for shows in the database using a string
+        :param keywords: string represents the text to search
+        :return: array
+        """
+        return None
+
+    def GetEpisodes(self):
+        """
+        Return all the episodes for the Show
+
+        :return: Array of Episode
+        """
+        return self.episodes
+
+    def GetEpisodeForSeason(self, season):
+        """
+        Get the episodes for the wanted season
+        :param season: season number
+        :return: Array of Episode
+        """
+        return None
+
+
     
