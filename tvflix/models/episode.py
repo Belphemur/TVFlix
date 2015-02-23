@@ -32,3 +32,35 @@ class Episode(Base):
         :return: Array of Episodes
         """
         return None
+    
+    @classmethod
+    def AddEpisode(cls,  title, season, number, bcast_date, summary):
+        """
+        Add the wanted Episode to the database.
+        :param title: string
+        :param season: integer
+        :param number: integer
+        :param bcast_date: datetime
+        :param summary: string
+        :return: True if added successfully else False
+        """
+        return None
+
+    def ModifyEpisode(self, title, season, number, bcast_date, summary):
+        """
+        Modify the Episode
+        :param title: string
+        :param season: integer
+        :param number: integer
+        :param bcast_date: datetime
+        :param summary: string
+        :return: True if modified successfully else False
+        """
+        return None
+
+    def DeleteEpisode(self):
+        """
+        Delete the Episode
+        :return: True if deleted, else False
+        """
+        return None
