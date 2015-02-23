@@ -23,3 +23,12 @@ class Episode(Base):
     summary = Column(Text)
     
     show = relationship("Show", backref='Episode', foreign_keys=[show_id])
+
+    @classmethod
+    def SearchEpisodeByKeywords(cls, keywords):
+        """
+        Search Episode by using the keywords given
+        :param keywords: string
+        :return: Array of Episodes
+        """
+        return None

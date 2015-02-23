@@ -29,7 +29,7 @@ class Show(Base):
     def GetShowByLabel(cls, label):
         """
         This method will return a show using it's unique label. The label is a human-readable way to get a show.
-        :param label: the unique label of the show
+        :param label: string
         :return: The show if exists else return None
         """
         return Session.query(Show).filter(Show.showlabel == label).one()
@@ -38,7 +38,7 @@ class Show(Base):
     def SearchShowsByKeywords(cls, keywords):
         """
         Search for shows in the database using a string
-        :param keywords: string represents the text to search
+        :param keywords: string
         :return: array
         """
         return None
