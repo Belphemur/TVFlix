@@ -1,6 +1,7 @@
 -- Created by Vertabelo (http://vertabelo.com)
 -- Script type: create
--- Generated at Tue Feb 17 19:29:45 UTC 2015
+-- Scope: [tables, references, sequences, views, procedures]
+-- Generated at Mon Feb 23 15:35:46 UTC 2015
 
 
 
@@ -81,7 +82,8 @@ CREATE TABLE Users (
     user_id integer NOT NULL  PRIMARY KEY AUTOINCREMENT,
     username varchar(155) NOT NULL,
     password varchar(100) NOT NULL,
-    api_key varchar(64) NOT NULL
+    api_key varchar(64) NOT NULL,
+    admin boolean NOT NULL
 );
 
 CREATE UNIQUE INDEX Users_api_key
