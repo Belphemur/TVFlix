@@ -18,6 +18,8 @@ from ..models.comment import Comment
 from ..models.tag import Tag
 from ..models.show_tag import Shows_Tag
 
+
+
 from pyramid.paster import (
     get_appsettings,
     setup_logging,
@@ -59,6 +61,8 @@ def main(argv=sys.argv):
     
     Session.configure(bind=engine)
     Base.metadata.create_all(engine)
+    Base.metadata.bind = engine
+    from ..models.episode_showlabel import Episode_ShowLabel
     
     #lets add users
     with transaction.manager:
@@ -86,19 +90,19 @@ def main(argv=sys.argv):
         
     #Episodes
     with transaction.manager:
-        epi1 = Episode(show_id=1, title = "everybody dies 1", season = 1, number = 1, 
+        session = Session()
+        epi1 = Episode(show_id=1, title = "everybody dies 1", season = 1, number = 1,
                         bcast_date = date.today(), summary = 'Series starts, everybody are still alive')
-                        
-        epi2 = Episode(show_id=1, title = "tits", season = 1, number = 2, 
+
+        epi2 = Episode(show_id=1, title = "tits", season = 1, number = 2,
                         bcast_date = date.today(), summary = 'Just boobs')
-                        
-        epi3 = Episode(show_id=1, title = "Dragons", season = 2, number = 1, 
+
+        epi3 = Episode(show_id=1, title = "Dragons", season = 2, number = 1,
                         bcast_date = date.today(), summary = 'Boobs and dragons')
-                        
+
         Session.add(epi1)
         Session.add(epi2)
         Session.add(epi3)
-                        
     #Comments
     with transaction.manager:
         com1 = Comment(user_id = 2, show_id = 1, comment = "OH god no, why everyone keeps dying!??!! Bad show",
