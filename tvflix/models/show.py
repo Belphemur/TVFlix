@@ -3,9 +3,12 @@ from sqlalchemy import (
     Integer,
     Unicode,
     Text,
+    ForeignKey
 )
 
 from ..models import Base
+from ..models.show_tag import Shows_Tag
+from sqlalchemy.orm import relationship
 
 class Show(Base):
     __tablename__ = "Shows"
@@ -17,4 +20,5 @@ class Show(Base):
     bcast_day = Column(Integer)
     summary = Column(Text, nullable=False)
     channel = Column(Unicode(25), nullable=False)
+    tags = relationship("Tag", secondary=Shows_Tag)
     
