@@ -23,6 +23,7 @@ class Show(Base):
     channel = Column(Unicode(25), nullable=False)
     tags = relationship("Tag", secondary=Shows_Tag)
     episodes = relationship("Episode")
+    comments = relationship("Comments")
 
     @classmethod
     def GetShowByLabel(cls, label):
@@ -57,6 +58,20 @@ class Show(Base):
         :return: Array of Episode
         """
         return None
+
+    def GetComments(self):
+        """
+        Get the comments made by the Users on the Show
+        :return: Array of Comments
+        """
+        return self.comments
+
+    def GetTags(self):
+        """
+        Get the tags associated with the Show
+        :return: Array of Tags
+        """
+        return self.tags
 
 
     
