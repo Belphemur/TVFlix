@@ -8,11 +8,15 @@ from datetime import date, datetime
 
 from sqlalchemy import (
     engine_from_config,
-    create_engine
     )
     
-from sqlalchemy.ext.automap import automap_base
-from sqlalchemy.orm import Session
+from ..models import Base, Session
+from ..models.show import Show
+from ..models.episode import Episode
+from ..models.user import User
+from ..models.comment import Comment
+from ..models.tag import Tag
+from ..models.show_tag import Shows_Tag
 
 from pyramid.paster import (
     get_appsettings,
@@ -43,39 +47,25 @@ def main(argv=sys.argv):
     setup_logging(config_uri)
     settings = get_appsettings(config_uri, options=options)
     engine = engine_from_config(settings, 'sqlalchemy.')
-
+    
     db_dir = str(engine) #get path for db
     #parsing
     db_dir = db_dir[db_dir.rfind('sqlite:///'):]
     db_dir = db_dir.replace("sqlite:///","")
     db_dir = db_dir.replace(")","")
 
-    #create the database
-    initialize_db(db_dir) 
+    #create the database from premade schema
+    initialize_db(db_dir)
     
-    Base = automap_base()
-    # reflect the tables
-    Base.prepare(engine, reflect=True)
-    
-    # mapped classes are now created with names by default
-    # matching that of the table name.
-    User = Base.classes.Users
-    Show = Base.classes.Shows  
-    Tags = Base.classes.Tags
-    #Show_tag = Base.classes.Shows_Tags #not working at the moment 
-    Episode = Base.classes.Episodes
-    Comment = Base.classes.Comments
-    
-    #creating a session
-    session = Session(engine)
+    Session.configure(bind=engine)
+    Base.metadata.create_all(engine)
     
     #lets add users
     with transaction.manager:
-        user1 = User(username='test user', password='password', api_key = apikey_generator())
-        user2 = User(username='Antoine', password='password', api_key = apikey_generator())
-        session.add(user1)
-        session.add(user2)
-        session.commit()
+        user1 = User(username = 'test user', password = 'password', api_key = apikey_generator())
+        user2 = User(username = 'Antoine', password = 'password', api_key =  apikey_generator())
+        Session.add(user1)
+        Session.add(user2)
       
     #Shows
     with transaction.manager:
@@ -90,10 +80,9 @@ def main(argv=sys.argv):
                     start_year= 2001, end_year=None, bcast_day=0, 
                     summary="Yellow folks but they are not Asians", channel="MTV")
                     
-        session.add(show1)
-        session.add(show2)
-        session.add(show3)
-        session.commit()
+        Session.add(show1)
+        Session.add(show2)
+        Session.add(show3)
         
     #Episodes
     with transaction.manager:
@@ -106,10 +95,9 @@ def main(argv=sys.argv):
         epi3 = Episode(show_id=1, title = "Dragons", season = 2, number = 1, 
                         bcast_date = date.today(), summary = 'Boobs and dragons')
                         
-        session.add(epi1)
-        session.add(epi2)
-        session.add(epi3)
-        session.commit()
+        Session.add(epi1)
+        Session.add(epi2)
+        Session.add(epi3)
                         
     #Comments
     with transaction.manager:
@@ -119,9 +107,27 @@ def main(argv=sys.argv):
         com2 = Comment(user_id = 1, show_id = 1, comment = "buhahaaa",
                         posted = datetime.now(), updated = None)
                         
-        session.add(com1)
-        session.add(com2)
-        session.commit()
+        Session.add(com1)
+        Session.add(com2)
+        
+    with transaction.manager:
+        tag1 = Tag(name = 'Drama')
+        tag2 = Tag(name = 'Nudity')
+        
+        Session.add(tag1)
+        Session.add(tag2)
+        
+    #linking the tags and shows
+    with transaction.manager:
+        conn = engine.connect()
+        conn.execute(Shows_Tag.insert(),[
+            {'show_id': 1, 'tag_id': 1},
+            {'show_id': 1, 'tag_id': 2},
+            {'show_id': 2, 'tag_id': 1}])
+
+        conn.close()
+        
+        
         
         
     
