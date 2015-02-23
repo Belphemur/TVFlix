@@ -4,6 +4,7 @@ from sqlalchemy import (
     Unicode,
 )
 from sqlalchemy.orm import relationship
+from sqlalchemy.types import Boolean
 
 from ..models import Base
 
@@ -13,7 +14,8 @@ class User(Base):
     username = Column(Unicode(155), nullable=False)
     password = Column(Unicode(100), nullable=False)
     api_key = Column(Unicode(64), nullable=False)
-    comments = relationship("Comments")
+    admin = Column(Boolean)
+    comments = relationship("Comment")
 
     @classmethod
     def GetUserByApiKey(cls, apiKey):

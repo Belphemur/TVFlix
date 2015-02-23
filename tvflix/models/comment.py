@@ -32,7 +32,7 @@ class Comment(Base):
         :param User: User
         :return: True if added successfully else False
         """
-        Comment(comment=message, user=User, show=Show, posted=datetime.datetime.now())
+        #Comment(comment=message, user=User, show=Show, posted=datetime.datetime.now())
         return None
 
     def ModifyComment(self, message):

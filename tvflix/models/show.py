@@ -23,7 +23,7 @@ class Show(Base):
     channel = Column(Unicode(25), nullable=False)
     tags = relationship("Tag", secondary=Shows_Tag)
     episodes = relationship("Episode")
-    comments = relationship("Comments")
+    comments = relationship("Comment")
 
     @classmethod
     def GetShowByLabel(cls, label):

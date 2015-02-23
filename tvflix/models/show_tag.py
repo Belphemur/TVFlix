@@ -5,8 +5,6 @@ from sqlalchemy import (
     Table
 )
 
-#from sqlalchemy.orm import relationship
-
 from ..models import Base
     
 Shows_Tag = Table('Shows_Tags', Base.metadata,

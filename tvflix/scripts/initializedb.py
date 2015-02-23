@@ -66,8 +66,8 @@ def main(argv=sys.argv):
     
     #lets add users
     with transaction.manager:
-        user1 = User(username = 'test user', password = 'password', api_key = apikey_generator())
-        user2 = User(username = 'Antoine', password = 'password', api_key =  apikey_generator())
+        user1 = User(username = 'test user', password = 'password', api_key = apikey_generator(), admin=False)
+        user2 = User(username = 'Antoine', password = 'password', api_key =  apikey_generator(), admin=True)
         Session.add(user1)
         Session.add(user2)
       
