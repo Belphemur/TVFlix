@@ -3,11 +3,13 @@ from sqlalchemy import (
     Integer,
     Unicode,
     Text,
-    ForeignKey
+    ForeignKey,
+    or_,
 )
 
 from ..models import Base, Session
 from ..models.show_tag import Shows_Tag
+from ..models.episode import Episode
 from sqlalchemy.orm import relationship
 
 
@@ -32,7 +34,10 @@ class Show(Base):
         :param label: string
         :return: The show if exists else return None
         """
-        return Session.query(Show).filter(Show.showlabel == label).one()
+        try:
+            return Session.query(Show).filter(Show.showlabel == label).one()
+        except:
+            return None
 
     @classmethod
     def SearchShowsByKeywords(cls, keywords):
@@ -41,6 +46,15 @@ class Show(Base):
         :param keywords: string
         :return: array
         """
+        show = Session.query(Show).filter(or_(
+                                    Show.title.like ('%'+ keywords +'%'),
+                                    Show.start_year == keywords,
+                                    Show.summary.like ('%'+ keywords +'%'),
+                                    Show.channel.like ('%'+ keywords +'%')
+                                    )).all()
+                                    
+        if show:
+            return show       
         return None
 
     def GetEpisodes(self):
@@ -49,7 +63,9 @@ class Show(Base):
 
         :return: Array of Episode
         """
-        return self.episodes
+        if self.episodes:
+            return self.episodes
+        return None
 
     def GetEpisodeForSeason(self, season):
         """
@@ -57,6 +73,10 @@ class Show(Base):
         :param season: season number
         :return: Array of Episode
         """
+                
+        epi = Session.query(Episode).filter(Episode.show_id == self.show_id, Episode.season == season).all()
+        if epi:
+            return epi       
         return None
 
     def GetComments(self):
@@ -64,14 +84,17 @@ class Show(Base):
         Get the comments made by the Users on the Show
         :return: Array of Comments
         """
-        return self.comments
-
+        if self.comments:
+            return self.comments
+        return None
+            
     def GetTags(self):
         """
         Get the tags associated with the Show
         :return: Array of Tags
         """
-        return self.tags
-
+        if self.tags:
+            return self.tags
+        return None
 
     

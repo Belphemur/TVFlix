@@ -10,3 +10,10 @@ SQLAchemy and Pyramid
 
 - $VENV/bin/pserve development.ini
 
+##Run tests
+- start enviroment
+
+- cd <directory containing this file>
+
+- $VENV/bin/nosetests tvflix
+
