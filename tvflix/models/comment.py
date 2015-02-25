@@ -7,6 +7,7 @@ from sqlalchemy import (
     DateTime,
 )
 from sqlalchemy.orm import relationship
+import transaction
 
 from ..models import Base, Session
 
@@ -48,6 +49,7 @@ class Comment(Base):
         try:
             self.comment = message
             self.updated = datetime.datetime.now()
+            Session.add(self)
             return True
         except:
             return False
