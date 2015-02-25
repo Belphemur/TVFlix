@@ -24,9 +24,10 @@ class Show(Base):
     bcast_day = Column(Integer)
     summary = Column(Text, nullable=False)
     channel = Column(Unicode(25), nullable=False)
-    tags = relationship("Tag", secondary=Shows_Tag)
-    episodes = relationship("Episode")
-    comments = relationship("Comment")
+    tags = relationship("Tag", secondary=Shows_Tag, lazy='joined')
+    episodes = relationship(Episode)
+    episodes_dynamic = relationship(Episode, lazy='dynamic')
+    comments = relationship("Comment", lazy='joined')
 
     @classmethod
     def GetShowByLabel(cls, label):
@@ -75,9 +76,21 @@ class Show(Base):
         :return: Array of Episode
         """
                 
-        epi = Session.query(Episode).filter(and_(Episode.show_id == self.show_id, Episode.season == season)).all()
+        epi = self.episodes_dynamic.filter(Episode.season == season).all()
         if epi:
             return epi       
+        return None
+
+    def GetEpisodeBySeasonByNumber(self, season, epnumber):
+        """
+        Return an episode using it's season/number
+        :param season: integer
+        :param epnumber: integer
+        :return: episode
+        """
+        epi = self.episodes_dynamic.filter(and_(Episode.season == season, Episode.number == epnumber)).all()
+        if epi:
+            return epi
         return None
 
     def GetComments(self):

@@ -93,8 +93,7 @@ class Episode(Base):
         :return: True if deleted, else False
         """
         try:
-            epi = Session.query(Episode).filter(Episode.ep_id == self.ep_id).first()
-            Session.delete(epi)
+            Session.delete(self)
             return True
         except:
             return False

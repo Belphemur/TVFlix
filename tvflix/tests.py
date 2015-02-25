@@ -39,11 +39,11 @@ class TestMyViewSuccessCondition(unittest.TestCase):
 
         request = testing.DummyRequest()
         info = my_view(request)
-        #self.assertEqual(info['one'].name, 'one')
+        # self.assertEqual(info['one'].name, 'one')
         self.assertEqual(info['project'], 'tvflix')
 
 
-#testing database
+# testing database
 class TestMyDatabaseMethodsAndStuff(unittest.TestCase):
     def setUp(self):
         self.config = testing.setUp()
@@ -271,7 +271,7 @@ class TestMyDatabaseMethodsAndStuff(unittest.TestCase):
     def testAddNewEpisode(self):
         show = Show.GetShowByLabel('game-of-thrones')
         self.assertTrue(Episode.AddEpisode(show, 'test2', 2, 3, date.today(), 'blaalaaa'))
-        self.assertTrue(show.GetEpisodeForSeason(2))
+        self.assertIsNotNone(show.GetEpisodeBySeasonByNumber(2, 3))
 
     def testAddNewEpisodeFailconditionOneMissing(self):
         self.assertFalse(Episode.AddEpisode('test2', 3, date.today(), 'blaalaaa'))

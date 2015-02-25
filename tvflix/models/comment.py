@@ -59,8 +59,7 @@ class Comment(Base):
         :return: True if deleted, else False
         """
         try:
-            com = Session.query(Comment).filter(Comment.comment_id == self.comment_id).first()
-            Session.delete(com)
+            Session.delete(self)
             return True
         except:
             return False
