@@ -42,7 +42,7 @@ class Episode(Base):
         return None
     
     @classmethod
-    def AddEpisode(cls, title=None, season=None, number=None, bcast_date=None, summary=None):
+    def AddEpisode(cls, show = None, title=None, season=None, number=None, bcast_date=None, summary=None):
         """
         Add the wanted Episode to the database.
         :param title: string
@@ -52,9 +52,9 @@ class Episode(Base):
         :param summary: string
         :return: True if added successfully else False
         """
-        if title and season and number and bcast_date and summary:
+        if title and season and number and bcast_date and summary and show:
             try:
-                Session.add(Episode(title = title, season = season, number = number, 
+                Session.add(Episode(show = show, title = title, season = season, number = number,
                         bcast_date = bcast_date, summary = summary))
                 return True
             except:
