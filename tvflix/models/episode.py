@@ -59,7 +59,7 @@ class Episode(Base):
                 Session.flush()
                 return True
             except:
-                return False
+                raise
         return False
 
     def ModifyEpisode(self, title=None, season=None, number=None, bcast_date=None, summary=None):
@@ -85,7 +85,7 @@ class Episode(Base):
                 self.summary
             return True
         except:
-            return False
+            raise
     
     #Session.delete(episode) exists...
     def DeleteEpisode(self):
@@ -97,4 +97,4 @@ class Episode(Base):
             Session.delete(self)
             return True
         except:
-            return False
+            raise

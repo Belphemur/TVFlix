@@ -38,7 +38,7 @@ class Comment(Base):
                 Session.add(Comment(comment=message, user=User, show=Show, posted=datetime.datetime.now()))
                 Session.flush()
                 return True
-        return None
+        return False
 
     def ModifyComment(self, message):
         """
@@ -51,7 +51,7 @@ class Comment(Base):
             self.updated = datetime.datetime.now()
             return True
         except:
-            return False
+            raise
     
     #i would rather use Session.delete(comment)
     def DeleteComment(self):
@@ -63,4 +63,4 @@ class Comment(Base):
             Session.delete(self)
             return True
         except:
-            return False
+            raise
