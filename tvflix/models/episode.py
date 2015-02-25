@@ -5,11 +5,12 @@ from sqlalchemy import (
     ForeignKey,
     Text,
     Date,
+    or_
 )
 
 from sqlalchemy.orm import relationship
 
-from ..models import Base
+from ..models import Base, Session
 
 
 class Episode(Base):
@@ -29,12 +30,19 @@ class Episode(Base):
         """
         Search Episode by using the keywords given
         :param keywords: string
-        :return: Array of Episodes
+        :return: Array of Episodes or None if no episodes found
         """
+        episode = Session.query(Episode).filter(or_(
+                                    Episode.title.like ('%'+ keywords +'%'),
+                                    Episode.summary.like ('%'+ keywords +'%')
+                                    )).all()
+                                    
+        if episode:
+            return episode
         return None
     
     @classmethod
-    def AddEpisode(cls,  title, season, number, bcast_date, summary):
+    def AddEpisode(cls, title=None, season=None, number=None, bcast_date=None, summary=None):
         """
         Add the wanted Episode to the database.
         :param title: string
@@ -44,9 +52,16 @@ class Episode(Base):
         :param summary: string
         :return: True if added successfully else False
         """
-        return None
+        if title and season and number and bcast_date and summary:
+            try:
+                Session.add(Episode(title = title, season = season, number = number, 
+                        bcast_date = bcast_date, summary = summary))
+                return True
+            except:
+                return False
+        return False
 
-    def ModifyEpisode(self, title, season, number, bcast_date, summary):
+    def ModifyEpisode(self, title=None, season=None, number=None, bcast_date=None, summary=None):
         """
         Modify the Episode
         :param title: string
@@ -56,11 +71,30 @@ class Episode(Base):
         :param summary: string
         :return: True if modified successfully else False
         """
-        return None
-
+        try:
+            if title:
+                self.title = title
+            if season:    
+                self.season = season
+            if number:
+                self.number = number
+            if bcast_date:
+                self.bcast_date = bcast_date
+            if summary:
+                self.summary
+            return True
+        except:
+            return False
+    
+    #Session.delete(episode) exists...
     def DeleteEpisode(self):
         """
         Delete the Episode
         :return: True if deleted, else False
         """
-        return None
+        try:
+            epi = Session.query(Episode).filter(Episode.ep_id == self.ep_id).first()
+            Session.delete(epi)
+            return True
+        except:
+            return False

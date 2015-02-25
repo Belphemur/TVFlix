@@ -5,6 +5,7 @@ from sqlalchemy import (
     Text,
     ForeignKey,
     or_,
+    and_
 )
 
 from ..models import Base, Session
@@ -74,7 +75,7 @@ class Show(Base):
         :return: Array of Episode
         """
                 
-        epi = Session.query(Episode).filter(Episode.show_id == self.show_id, Episode.season == season).all()
+        epi = Session.query(Episode).filter(and_(Episode.show_id == self.show_id, Episode.season == season)).all()
         if epi:
             return epi       
         return None

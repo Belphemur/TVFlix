@@ -2,11 +2,13 @@ from sqlalchemy import (
     Column,
     Integer,
     Unicode,
+    and_
 )
 from sqlalchemy.orm import relationship
 from sqlalchemy.types import Boolean
 
-from ..models import Base
+from ..models import Base, Session
+from ..models.comment import Comment
 
 class User(Base):
     __tablename__ = "Users"
@@ -24,6 +26,9 @@ class User(Base):
         :param apiKey: string
         :return: an User if found else None
         """
+        user = Session.query(User).filter(User.api_key == apiKey).first()
+        if user:
+            return user
         return None
 
     def GetCommentForShow(self,Show):
@@ -32,5 +37,9 @@ class User(Base):
         :param Show: Show
         :return: None if the comment doesn't exists, else the Comment
         """
+        if Show:
+            comment = Session.query(Comment).filter(and_(Comment.show_id == Show.show_id, Comment.user_id == self.user_id)).first()
+            if comment:
+                return comment
         return None
     

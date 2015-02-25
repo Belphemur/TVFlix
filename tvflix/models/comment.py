@@ -8,7 +8,7 @@ from sqlalchemy import (
 )
 from sqlalchemy.orm import relationship
 
-from ..models import Base
+from ..models import Base, Session
 
 
 class Comment(Base):
@@ -32,7 +32,11 @@ class Comment(Base):
         :param User: User
         :return: True if added successfully else False
         """
-        #Comment(comment=message, user=User, show=Show, posted=datetime.datetime.now())
+        if User and Show:
+            comment = User.GetCommentForShow(Show)
+            if not comment:
+                Session.add(Comment(comment=message, user=User, show=Show, posted=datetime.datetime.now()))
+                return True
         return None
 
     def ModifyComment(self, message):
@@ -41,12 +45,22 @@ class Comment(Base):
         :param message: string
         :return: True if modified else False
         """
-        self.comment = message
-        updated = datetime.datetime.now()
-
+        try:
+            self.comment = message
+            self.updated = datetime.datetime.now()
+            return True
+        except:
+            return False
+    
+    #i would rather use Session.delete(comment)
     def DeleteComment(self):
         """
         Delete the comment
         :return: True if deleted, else False
         """
-        return None
+        try:
+            com = Session.query(Comment).filter(Comment.comment_id == self.comment_id).first()
+            Session.delete(com)
+            return True
+        except:
+            return False

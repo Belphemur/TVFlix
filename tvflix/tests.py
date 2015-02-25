@@ -191,3 +191,92 @@ class TestMyDatabaseMethodsAndStuff(unittest.TestCase):
         show=Show.GetShowByLabel('test')
         self.assertIsNone(show.GetTags())
         
+    #tests for user
+    def testGetUserByApiKey(self):
+        user = User.GetUserByApiKey('asdasd')
+        self.assertEqual(user.user_id, 1)
+        
+    def testGetUserByApiKeyFailcondition(self):
+        user = User.GetUserByApiKey('nokey')
+        self.assertIsNone(user)
+        
+    def testGetUserComment(self):
+        user = User.GetUserByApiKey('asdasd')
+        show = Show.GetShowByLabel('game-of-thrones')
+        comment = user.GetCommentForShow(show)
+        self.assertEqual(comment.comment_id, 2)
+        
+    def testGetUserCommentFailureCondition(self):
+        user = User.GetUserByApiKey('asdasd')
+        show = Show.GetShowByLabel('noshow')
+        comment = user.GetCommentForShow(show)
+        self.assertIsNone(comment)
+        
+    #test comments
+    def testAddComment(self):
+        user = User.GetUserByApiKey('asd')
+        show = Show.GetShowByLabel('test')
+        self.assertTrue(Comment.AddComment('test comment!! wuhuu', show, user))
+        
+    def testAddCommentUserFailure(self):
+        user = User.GetUserByApiKey('asd11')
+        show = Show.GetShowByLabel('test')
+        self.assertFalse(Comment.AddComment('test comment!! wuhuu', show, user))
+        
+    def testAddCommentShowFailure(self):
+        user = User.GetUserByApiKey('asd')
+        show = Show.GetShowByLabel('noshow')
+        self.assertFalse(Comment.AddComment('test comment!! wuhuu', show, user))
+        
+    def testAddCommentSecondCommentFailure(self):
+        user = User.GetUserByApiKey('asd')
+        show = Show.GetShowByLabel('game-of-thrones')
+        self.assertFalse(Comment.AddComment('test comment!! wuhuu', show, user))
+    
+    #can't really fail
+    def testModifyComment(self):
+        user = User.GetUserByApiKey('asdasd')
+        show = Show.GetShowByLabel('game-of-thrones')
+        comment = user.GetCommentForShow(show)
+        self.assertTrue(comment.ModifyComment('New msg'))
+       
+    #doesn't have failing condition. either comment is or isn't
+    def testDeleteComment(self):
+        user = User.GetUserByApiKey('asdasd')
+        show = Show.GetShowByLabel('game-of-thrones')
+        comment = user.GetCommentForShow(show)
+        
+        self.assertTrue(comment.DeleteComment())
+        
+    #tests for episodes
+    def testSearchEpisodeByKeywords(self):
+        epi1 = Episode.SearchEpisodeByKeywords('boobs')
+        epi2 = Episode.SearchEpisodeByKeywords('tits')
+        
+        for i in epi1:
+            self.assertEqual(i.show_id, 1)
+            
+        for i in epi2:
+            self.assertEqual(i.number, 2)
+            
+    def testSearchEpisodeByKeywordsFailCondition(self):
+        self.assertIsNone(Episode.SearchEpisodeByKeywords('failure'))
+        
+    def testAddNewEpisode(self):
+        self.assertTrue(Episode.AddEpisode('test2', 2, 3, date.today(), 'blaalaaa'))
+        
+    def testAddNewEpisodeFailconditionOneMissing(self):
+        self.assertFalse(Episode.AddEpisode('test2', 3, date.today(), 'blaalaaa'))
+        
+    def testUpdatingEpisode(self):
+        epi = Episode.SearchEpisodeByKeywords('tits')
+        self.assertTrue(epi[0].ModifyEpisode(title='asd', summary = 'asdasdas'))
+        
+    #if episode then it works    
+    def testDeleteEpisode(self):    
+        epi = Episode.SearchEpisodeByKeywords('tits')
+        self.assertTrue(epi[0].DeleteEpisode())    
+        
+        
+
+    
