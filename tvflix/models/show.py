@@ -88,7 +88,7 @@ class Show(Base):
         :param epnumber: integer
         :return: episode
         """
-        epi = self.episodes_dynamic.filter(and_(Episode.season == season, Episode.number == epnumber)).all()
+        epi = self.episodes_dynamic.filter(and_(Episode.season == season, Episode.number == epnumber)).one()
         if epi:
             return epi
         return None
