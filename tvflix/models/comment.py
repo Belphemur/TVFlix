@@ -36,6 +36,7 @@ class Comment(Base):
             comment = User.GetCommentForShow(Show)
             if not comment:
                 Session.add(Comment(comment=message, user=User, show=Show, posted=datetime.datetime.now()))
+                Session.flush()
                 return True
         return None
 

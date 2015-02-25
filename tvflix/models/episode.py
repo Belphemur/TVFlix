@@ -56,6 +56,7 @@ class Episode(Base):
             try:
                 Session.add(Episode(show = show, title = title, season = season, number = number,
                         bcast_date = bcast_date, summary = summary))
+                Session.flush()
                 return True
             except:
                 return False
