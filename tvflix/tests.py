@@ -162,7 +162,7 @@ class TestMyDatabaseMethodsAndStuff(unittest.TestCase):
     def testGetEpisodesForSeason(self):
         show = Show.GetShowByLabel('game-of-thrones')
         season = 1
-        epi = show.GetEpisodeForSeason(season)
+        epi = show.GetEpisodeBySeason(season)
 
         for ep in epi:
             self.assertEqual(ep.season, season)
@@ -170,7 +170,7 @@ class TestMyDatabaseMethodsAndStuff(unittest.TestCase):
     def testGetEpisodesForSeasonFailCondition(self):
         show = Show.GetShowByLabel('game-of-thrones')
         season = 3
-        epi = show.GetEpisodeForSeason(season)
+        epi = show.GetEpisodeBySeason(season)
 
         self.assertIsNone(epi)
 
@@ -284,10 +284,10 @@ class TestMyDatabaseMethodsAndStuff(unittest.TestCase):
     #if episode then it works    
     def testDeleteEpisode(self):
         show = Show.GetShowByLabel('game-of-thrones')
-        for epi in show.GetEpisodeForSeason(1):
+        for epi in show.GetEpisodeBySeason(1):
             epi.DeleteEpisode()
 
-        self.assertIsNone(show.GetEpisodeForSeason(1))
+        self.assertIsNone(show.GetEpisodeBySeason(1))
         
         
 

@@ -69,7 +69,7 @@ class Show(Base):
             return self.episodes
         return None
 
-    def GetEpisodeForSeason(self, season):
+    def GetEpisodeBySeason(self, season):
         """
         Get the episodes for the wanted season
         :param season: season number
