@@ -53,7 +53,7 @@ class Show(Base):
         #checks if list of shows contains the specific show
         def checkIfShowInList(shows, singleShow):
             for show in shows:
-                if show.title == singleShow.title:
+                if show.show_id == singleShow.show_id:
                     return False                    
             return True
         
@@ -69,7 +69,7 @@ class Show(Base):
         if tag:
             #iterate list
             for i in tag:
-                #get show corresponding the tag
+                #get show corresponding to the tag
                 for j in i.show:
                     #check if shows list contains the show from tag search
                     if checkIfShowInList(shows, j):
