@@ -51,9 +51,9 @@ class Show(Base):
         """
         
         #checks if list of shows contains the specific show
-        def checkIfShowInList(showA, showB):
-            for show in showA:
-                if show.title == showB.title:
+        def checkIfShowInList(shows, singleShow):
+            for show in shows:
+                if show.title == singleShow.title:
                     return False                    
             return True
         
