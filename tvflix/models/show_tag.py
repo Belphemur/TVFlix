@@ -6,7 +6,6 @@ from sqlalchemy import (
 )
 
 from ..models import Base
-from ..models.tag import Tag
     
 Shows_Tag = Table('Shows_Tags', Base.metadata,
     Column('show_id', Integer, ForeignKey('Shows.show_id'), primary_key=True),

@@ -10,6 +10,7 @@ from sqlalchemy import (
 
 from ..models import Base, Session
 from ..models.show_tag import Shows_Tag
+from ..models.tag import Tag
 from ..models.episode import Episode
 from sqlalchemy.orm import relationship
 
@@ -48,15 +49,35 @@ class Show(Base):
         :param keywords: string
         :return: array
         """
-        show = Session.query(Show).filter(or_(
+        
+        #checks if list of shows contains the specific show
+        def checkIfShowInList(showA, showB):
+            for show in showA:
+                if show.title == showB.title:
+                    return False                    
+            return True
+        
+        shows = Session.query(Show).filter(or_(
                                     Show.title.like ('%'+ keywords +'%'),
                                     Show.start_year == keywords,
                                     Show.summary.like ('%'+ keywords +'%'),
                                     Show.channel.like ('%'+ keywords +'%')
                                     )).all()
                                     
-        if show:
-            return show       
+        tag = Session.query(Tag).filter(Tag.name.like ('%'+ keywords +'%')).all()
+        
+        if tag:
+            #iterate list
+            for i in tag:
+                #get show corresponding the tag
+                for j in i.show:
+                    #check if shows list contains the show from tag search
+                    if checkIfShowInList(shows, j):
+                        #add the show from tags to shows list
+                        shows.append(j)
+                                    
+        if shows:
+            return shows       
         return None
 
     def GetEpisodes(self):
