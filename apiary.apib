@@ -67,7 +67,7 @@ Get a list of all the season of the wanted show with their nb of episodes.
                        "self":{  
                           "href":"/tvflix/shows/game-of-thrones/seasons/1"
                        },
-                       "show":{  
+                       "shows":{  
                           "href":"/tvflix/shows/game-of-thrones"
                        },
                        "episodes":{  
@@ -84,7 +84,7 @@ Get a list of all the season of the wanted show with their nb of episodes.
                        "self":{  
                           "href":"/tvflix/shows/game-of-thrones/seasons/2"
                        },
-                       "show":{  
+                       "shows":{  
                           "href":"/tvflix/shows/game-of-thrones"
                        },
                        "episodes":{  
@@ -106,13 +106,13 @@ Get a list of all the season of the wanted show with their nb of episodes.
     + number (number, `1`) ... The number of the season
 
 ### Get a single season [GET]
-
+Get the information of the season
  + Response 200 (application/hal+json)
  
         { 
             "_links": { 
                 "self": { "href": "/tvflix/shows/game-of-thrones/seasons/1" },
-                "show": { "href": "/tvflix/shows/game-of-thrones" },
+                "shows": { "href": "/tvflix/shows/game-of-thrones" },
                 "episodes": {"href":/tvflix/shows/game-of-thrones/seasons/1/episodes"}
             },
             "number": "1",
@@ -195,7 +195,7 @@ Add an episode to the collection. If the episode already exist the API return a 
         }
 
 ## Episode [/shows/{label}/seasons/{number}/episodes/{ep}]
-
+ Episode is a annonced/broadcasted episode of the show.
  + Parameters
     + label (string, `game-of-thrones`) ... the label that is assigned to the show (usually the show name in lower-case with the space replaced by - )
     + number (number, `1`) ... The number of the season
@@ -222,6 +222,7 @@ Add an episode to the collection. If the episode already exist the API return a 
             }
 
 ### Get a single Episode [GET]
+Get all the information of the wanted episode.
  + Response 200
     [Episode][]
 
