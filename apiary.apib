@@ -413,3 +413,49 @@ Delete a Comment. If the comment doesn't exists the API return a 500 and if the 
         {
             "error":"comment doesn't exists"
         }
+        
+# Group Search 
+A Search represent searching either shows or episodes.
+
+## Search [/search/shows/{keywords}]
+Gets all the shows where keyword is associating
++ Parameters
+    + keywords (string, `action`) ... the keyword that is assigned to the show (usually the show name in lower-case with the space replaced by - )
+
+
+            
+### Search shows [GET]            
++ Response 200
+
+         {  
+           "_links":{  
+              "self":{  
+                 "href":"/tvflix/search/shows/action"
+              }
+           },
+           "size":"1",
+           "_embedded":{  
+              "search":[  
+                 {  
+                    "_links":{  
+                        "self":"/tvflix/shows/game-of-thrones",
+                        "comments":"/tvflix/shows/game-of-thrones/comments",
+                        "seasons":"/tvflix/shows/game-of-thrones/seasons"
+                    },
+                    "label":"game-of-thrones",
+                    "title":"Game of Thrones",
+                    "start_year":"2014",
+                    "end_year":"None",
+                    "summary":"Seven noble families fight for control of the mythical land of Westeros. Friction between the houses leads to full-scale war. All while a very ancient evil awakens in the farthest north. Amidst the war, a neglected military order of misfits, the Night's Watch, is all that stands between the realms of men and icy horrors beyond.",
+                    "channel":"HBO",
+                    "tags":[  
+                      "drama",
+                      "action"
+                   ]
+                 }
+              ]
+           }
+        }
+
+    
+    
