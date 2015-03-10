@@ -67,10 +67,10 @@ Get a list of all the season of the wanted show with their nb of episodes.
                        "self":{  
                           "href":"/tvflix/shows/game-of-thrones/seasons/1"
                        },
-                       "shows":{  
+                       "show":{  
                           "href":"/tvflix/shows/game-of-thrones"
                        },
-                       "episodes":{  
+                       "episode":{  
                           "href":"/tvflix/shows/game-of-thrones/seasons/1/episodes"
                        }
                     },
@@ -84,10 +84,10 @@ Get a list of all the season of the wanted show with their nb of episodes.
                        "self":{  
                           "href":"/tvflix/shows/game-of-thrones/seasons/2"
                        },
-                       "shows":{  
+                       "show":{  
                           "href":"/tvflix/shows/game-of-thrones"
                        },
-                       "episodes":{  
+                       "episode":{  
                           "href":"/tvflix/shows/game-of-thrones/seasons/2/episodes"
                        }
                     },
@@ -112,8 +112,8 @@ Get the information of the season
         { 
             "_links": { 
                 "self": { "href": "/tvflix/shows/game-of-thrones/seasons/1" },
-                "shows": { "href": "/tvflix/shows/game-of-thrones" },
-                "episodes": {"href":/tvflix/shows/game-of-thrones/seasons/1/episodes"}
+                "show": { "href": "/tvflix/shows/game-of-thrones" },
+                "episode": {"href":/tvflix/shows/game-of-thrones/seasons/1/episodes"}
             },
             "number": "1",
             "episodes": "12",
@@ -292,7 +292,7 @@ Delete an episode. If the episode doesn't exist the API return a 500 and if the 
               "self":{  
                  "href":"/tvflix/shows/game-of-thrones/comments"
               }
-              "shows":{  
+              "show":{  
                  "href":"/tvflix/shows/game-of-thrones"
               }
            },
@@ -304,7 +304,7 @@ Delete an episode. If the episode doesn't exist the API return a 500 and if the 
                         "self":{  
                              "href":"/tvflix/shows/game-of-thrones/comments"
                       }
-                        "shows":{  
+                        "show":{  
                              "href":"/tvflix/shows/game-of-thrones"
                       }
                     },
@@ -356,7 +356,7 @@ A user can only make one comment per show.
                         "self":{  
                              "href":"/tvflix/shows/game-of-thrones/comments/pekka"
                       }
-                        "shows":{  
+                        "show":{  
                              "href":"/tvflix/shows/game-of-thrones"
                       }
                     },
@@ -435,7 +435,7 @@ Gets all the shows where keyword is associating
            },
            "size":"1",
            "_embedded":{  
-              "shows":[  
+              "show":[  
                  {  
                     "_links":{  
                         "self":"/tvflix/shows/game-of-thrones",
