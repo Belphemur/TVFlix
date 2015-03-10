@@ -33,7 +33,8 @@ A single show with all its informations
                ]
             }
             
-### Get a single show [GET]            
+### Get a single show [GET] 
+Get the information of the show like it's starting year, which channel, etc ...
 + Response 200
 
     [Show][]
@@ -44,7 +45,7 @@ A single show with all its informations
 # Group Seasons
 
 ## Season Collection [/shows/{label}/seasons]
-
+Represent a the seasons of a show
 + Parameters
     + label (string, `game-of-thrones`) ... the label that is assigned to the show (usually the show name in lower-case with the space replaced by - )
 
@@ -101,6 +102,7 @@ Get a list of all the season of the wanted show with their nb of episodes.
         }
        
 ## Season [/shows/{label}/seasons/{number}]
+Represent a single season of a show. It's a dynamic object generated using the information of the episodes.
  + Parameters
     + label (string, `game-of-thrones`) ... the label that is assigned to the show (usually the show name in lower-case with the space replaced by - )
     + number (number, `1`) ... The number of the season
@@ -123,13 +125,14 @@ Get the information of the season
 
 # Group Episodes
 ## Episodes Collection [/shows/{label}/seasons/{number}/episodes]
+Contains all the episodes of a season.
  + Parameters
     + label (string, `game-of-thrones`) ... the label that is assigned to the show (usually the show name in lower-case with the space replaced by - )
     + number (number, `1`) ... The number of the season
     
 
 ### Get all Episodes [GET]
-
+Return all the episodes that are registered in the wanted season.
  + Response 200 (application/hal+json)
 
         {  
@@ -195,7 +198,7 @@ Add an episode to the collection. If the episode already exist the API return a 
         }
 
 ## Episode [/shows/{label}/seasons/{number}/episodes/{ep}]
- Episode is a annonced/broadcasted episode of the show.
+ Episode is an annonced/broadcasted episode of the show.
  + Parameters
     + label (string, `game-of-thrones`) ... the label that is assigned to the show (usually the show name in lower-case with the space replaced by - )
     + number (number, `1`) ... The number of the season
@@ -280,10 +283,13 @@ Delete an episode. If the episode doesn't exist the API return a 500 and if the 
 # Group Comments
 
 ## Comments Collection [/shows/{label}/comments]
+Represent all the comments of a show made by the user.
  + Parameters
     + label (string, `game-of-thrones`) ... the label that is assigned to the show (usually the show name in lower-case with the space replaced by - )
     
 ### Get all Comments [GET]
+
+Return all the comments of the wanted show.
 
  + Response 200 (application/hal+json)
 
@@ -424,7 +430,8 @@ Gets all the shows where keyword is associating
 
 
             
-### Search shows [GET]            
+### Search shows [GET]    
+Search the database for shows matching the keywords.
 + Response 200
 
          {  
@@ -464,7 +471,8 @@ Gets all the episodes where keyword is associating
 
 
             
-### Search episodes [GET]            
+### Search episodes [GET]  
+Search the database for episodes matching the keywords.
 + Response 200
 
          {  
