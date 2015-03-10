@@ -1,0 +1,152 @@
+FORMAT: 1A
+
+# TVFlix
+We provide a RESTful API for community managed TV Show database. The shows contains different seasons and each season contain it's number of episodes that are advertised by the channel broadcasting the show. Each show and episodes have their own description that are provided by the community. Each show have a place specific for letting the registered user comment. 
+
+# Group Shows
+A Show represent a TV Show in the database. You can easily get the informations about the show and the different episode of the show.
+
+## Show [/shows/{label}]
+A single show with all its informations
++ Parameters
+    + label (string, `game-of-thrones`) ... the label that is assigned to the show (usually the show name in lower-case with the space replaced by - )
+
++ Model (application/json)
+
+    + Body
+    
+            {  
+               "links":[  
+                  {  
+                     "title":"shows",
+                     "rel":"self",
+                     "href":"/tvflix/shows/game-of-thrones"
+                  }
+               ],
+               "show":{  
+                  "label":"game-of-thrones",
+                  "title":"Game of Thrones",
+                  "start_year":"2014",
+                  "end_year":"None",
+                  "summary":"Seven noble families fight for control of the mythical land of Westeros. Friction between the houses leads to full-scale war. All while a very ancient evil awakens in the farthest north. Amidst the war, a neglected military order of misfits, the Night's Watch, is all that stands between the realms of men and icy horrors beyond.",
+                  "channel":"HBO",
+                  "tags": ["drama","action"]
+               }
+            }
+            
+### Get a single show [GET]            
++ Response 200
+
+    [Show][]
+    
+
+
+
+# Group Seasons
+
+## Seasons Collection [/shows/{label}/seasons]
+
++ Parameters
+    + label (string, `game-of-thrones`) ... the label that is assigned to the show (usually the show name in lower-case with the space replaced by - )
+
+### List all Seasons [GET]
+Get a list of all the season of the wanted show with their nb of episodes.
+
++ Response 200 (application/json)
+
+        {  
+           "links":[  
+              {  
+                 "title":"seasons",
+                 "rel":"collection",
+                 "href":"/tvflix/shows/game-of-thrones/seasons"
+              },
+              {  
+                 "title":"show",
+                 "rel":"related",
+                 "href":"/tvflix/shows/game-of-thrones"
+              }
+           ],
+           "seasons":[  
+              {  
+                "links":[  
+                      {  
+                         "title":"season",
+                         "rel":"self",
+                         "href":"/tvflix/shows/game-of-thrones/seasons/1"
+                      }
+                  ],
+                  "info": {
+                     "nb":1,
+                     "episodes":12
+                 }
+              },
+              {  
+                "links":[  
+                      {  
+                         "title":"season",
+                         "rel":"self",
+                         "href":"/tvflix/shows/game-of-thrones/seasons/2"
+                      }
+                  ],
+                   "info": {
+                     "nb":2,
+                     "episodes":11
+                 }
+              }
+           ]
+        }
+        
+## Episodes Collection [/shows/{label}/seasons/{number}]
+
++ Parameters
+    + label (string, `game-of-thrones`) ... the label that is assigned to the show (usually the show name in lower-case with the space replaced by - )
+    + number (number, `1`) ... The number of the season
+    
+### Get Episodes of a Season [GET]
+ + Response 200 (application/json)
+ 
+        {
+             "links":[  
+              {  
+                 "title":"episodes",
+                 "rel":"collection",
+                 "href":"/tvflix/shows/game-of-thrones/seasons/1"
+              },
+              {  
+                 "title":"seasons",
+                 "rel":"related",
+                 "href":"/tvflix/shows/game-of-thrones/seasons"
+              },
+           ],
+        }
+
+
+### Create a Note [POST]
++ Request (application/json)
+
+        { "title": "Buy cheese and bread for breakfast." }
+
++ Response 201 (application/json)
+
+        { "id": 3, "title": "Buy cheese and bread for breakfast." }
+
+## Note [/notes/{id}]
+A single Note object with all its details
+
++ Parameters
+    + id (required, number, `1`) ... Numeric `id` of the Note to perform action with. Has example value.
+
+### Retrieve a Note [GET]
++ Response 200 (application/json)
+
+    + Header
+
+            X-My-Header: The Value
+
+    + Body
+
+            { "id": 2, "title": "Pick-up posters from post-office" }
+
+### Remove a Note [DELETE]
++ Response 204
