@@ -43,7 +43,7 @@ A single show with all its informations
 
 # Group Seasons
 
-## Seasons Collection [/shows/{label}/seasons]
+## Season Collection [/shows/{label}/seasons]
 
 + Parameters
     + label (string, `game-of-thrones`) ... the label that is assigned to the show (usually the show name in lower-case with the space replaced by - )
@@ -99,61 +99,23 @@ Get a list of all the season of the wanted show with their nb of episodes.
               ]
            }
         }
-        
-## Episodes Collection [/shows/{label}/seasons/{number}]
-
-+ Parameters
+       
+## Season [/shows/{label}/seasons/{number}]
+### Get a single season [GET]
+ + Parameters
     + label (string, `game-of-thrones`) ... the label that is assigned to the show (usually the show name in lower-case with the space replaced by - )
     + number (number, `1`) ... The number of the season
-    
-### Get Episodes of a Season [GET]
- + Response 200 (application/json)
+
+ + Response 200 (application/hal+json)
  
-        {
-             "links":[  
-              {  
-                 "title":"episodes",
-                 "rel":"collection",
-                 "href":"/tvflix/shows/game-of-thrones/seasons/1"
-              },
-              {  
-                 "title":"show",
-                 "rel":"related",
-                 "href":"/tvflix/shows/game-of-thrones"
-              },
-           ],
-            "episodes": [
-                {
-                    "links" : [ { "title:"}]
-            ]
+        { 
+            "_links": { 
+                "self": { "href": "/tvflix/shows/game-of-thrones/seasons/1" },
+                "show": { "href": "/tvflix/shows/game-of-thrones" },
+                "episodes": {"href":/tvflix/shows/game-of-thrones/seasons/1/episodes"}
+            },
+            "number": "1",
+            "episodes": "12",
+            "last_bcast_episode":"12",
+            "start_date":"2013-03-10T12:45:01+00:00"
         }
-
-
-### Create a Note [POST]
-+ Request (application/json)
-
-        { "title": "Buy cheese and bread for breakfast." }
-
-+ Response 201 (application/json)
-
-        { "id": 3, "title": "Buy cheese and bread for breakfast." }
-
-## Note [/notes/{id}]
-A single Note object with all its details
-
-+ Parameters
-    + id (required, number, `1`) ... Numeric `id` of the Note to perform action with. Has example value.
-
-### Retrieve a Note [GET]
-+ Response 200 (application/json)
-
-    + Header
-
-            X-My-Header: The Value
-
-    + Body
-
-            { "id": 2, "title": "Pick-up posters from post-office" }
-
-### Remove a Note [DELETE]
-+ Response 204
