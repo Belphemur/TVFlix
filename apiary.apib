@@ -11,27 +11,25 @@ A single show with all its informations
 + Parameters
     + label (string, `game-of-thrones`) ... the label that is assigned to the show (usually the show name in lower-case with the space replaced by - )
 
-+ Model (application/json)
++ Model (application/hal+json)
 
     + Body
     
             {  
-               "links":[  
-                  {  
-                     "title":"shows",
-                     "rel":"self",
-                     "href":"/tvflix/shows/game-of-thrones"
-                  }
-               ],
-               "show":{  
-                  "label":"game-of-thrones",
-                  "title":"Game of Thrones",
-                  "start_year":"2014",
-                  "end_year":"None",
-                  "summary":"Seven noble families fight for control of the mythical land of Westeros. Friction between the houses leads to full-scale war. All while a very ancient evil awakens in the farthest north. Amidst the war, a neglected military order of misfits, the Night's Watch, is all that stands between the realms of men and icy horrors beyond.",
-                  "channel":"HBO",
-                  "tags": ["drama","action"]
-               }
+               "_links":{  
+                  "self":"/tvflix/shows/game-of-thrones",
+                  "comments":"/tvflix/shows/game-of-thrones/comments"
+               },
+               "label":"game-of-thrones",
+               "title":"Game of Thrones",
+               "start_year":"2014",
+               "end_year":"None",
+               "summary":"Seven noble families fight for control of the mythical land of Westeros. Friction between the houses leads to full-scale war. All while a very ancient evil awakens in the farthest north. Amidst the war, a neglected military order of misfits, the Night's Watch, is all that stands between the realms of men and icy horrors beyond.",
+               "channel":"HBO",
+               "tags":[  
+                  "drama",
+                  "action"
+               ]
             }
             
 ### Get a single show [GET]            
@@ -114,11 +112,15 @@ Get a list of all the season of the wanted show with their nb of episodes.
                  "href":"/tvflix/shows/game-of-thrones/seasons/1"
               },
               {  
-                 "title":"seasons",
+                 "title":"show",
                  "rel":"related",
-                 "href":"/tvflix/shows/game-of-thrones/seasons"
+                 "href":"/tvflix/shows/game-of-thrones"
               },
            ],
+            "episodes": [
+                {
+                    "links" : [ { "title:"}]
+            ]
         }
 
 
