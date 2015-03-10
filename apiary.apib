@@ -101,10 +101,11 @@ Get a list of all the season of the wanted show with their nb of episodes.
         }
        
 ## Season [/shows/{label}/seasons/{number}]
-### Get a single season [GET]
  + Parameters
     + label (string, `game-of-thrones`) ... the label that is assigned to the show (usually the show name in lower-case with the space replaced by - )
     + number (number, `1`) ... The number of the season
+
+### Get a single season [GET]
 
  + Response 200 (application/hal+json)
  
@@ -118,4 +119,46 @@ Get a list of all the season of the wanted show with their nb of episodes.
             "episodes": "12",
             "last_bcast_episode":"12",
             "start_date":"2013-03-10T12:45:01+00:00"
+        }
+
+# Group Episodes
+## Episodes Collection [/shows/{label}/seasons/{number}/episodes]
+ + Parameters
+    + label (string, `game-of-thrones`) ... the label that is assigned to the show (usually the show name in lower-case with the space replaced by - )
+    + number (number, `1`) ... The number of the season
+    
+
+### Get all Episodes [GET]
+
++ Response 200 (application/hal+json)
+
+        {  
+           "_links":{  
+              "season":{  
+                 "href":"/tvflix/shows/game-of-thrones/seasons/1"
+              },
+              "self":{  
+                 "href":"/tvflix/shows/game-of-thrones/seasons/1/episodes"
+              }
+           },
+           "size":"1",
+           "_embedded":{  
+              "episode":[  
+                 {  
+                    "_links":{  
+                       "self":{  
+                          "href":"/tvflix/shows/game-of-thrones/seasons/1/episodes/1"
+                       },
+                       "season":{  
+                          "href":"/tvflix/shows/game-of-thrones/seasons/1"
+                       }
+                    },
+                    "number":"1",
+                    "title":"Dragons",
+                    "bcast_date":"2013-03-10T12:45:01+00:00",
+                    "summary":"great episode",
+                    "season":"1"
+                 }
+              ]
+           }
         }
