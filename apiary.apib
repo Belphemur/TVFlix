@@ -18,7 +18,8 @@ A single show with all its informations
             {  
                "_links":{  
                   "self":"/tvflix/shows/game-of-thrones",
-                  "comments":"/tvflix/shows/game-of-thrones/comments"
+                  "comments":"/tvflix/shows/game-of-thrones/comments",
+                  "seasons":"/tvflix/shows/game-of-thrones/seasons"
                },
                "label":"game-of-thrones",
                "title":"Game of Thrones",
@@ -50,49 +51,53 @@ A single show with all its informations
 ### List all Seasons [GET]
 Get a list of all the season of the wanted show with their nb of episodes.
 
-+ Response 200 (application/json)
++ Response 200 (application/hal+json)
 
         {  
-           "links":[  
-              {  
-                 "title":"seasons",
-                 "rel":"collection",
+           "_links":{  
+              "self":{  
                  "href":"/tvflix/shows/game-of-thrones/seasons"
-              },
-              {  
-                 "title":"show",
-                 "rel":"related",
-                 "href":"/tvflix/shows/game-of-thrones"
               }
-           ],
-           "seasons":[  
-              {  
-                "links":[  
-                      {  
-                         "title":"season",
-                         "rel":"self",
-                         "href":"/tvflix/shows/game-of-thrones/seasons/1"
-                      }
-                  ],
-                  "info": {
-                     "nb":1,
-                     "episodes":12
+           },
+           "size":"2",
+           "_embedded":{  
+              "season":[  
+                 {  
+                    "_links":{  
+                       "self":{  
+                          "href":"/tvflix/shows/game-of-thrones/seasons/1"
+                       },
+                       "show":{  
+                          "href":"/tvflix/shows/game-of-thrones"
+                       },
+                       "episodes":{  
+                          "href":"/tvflix/shows/game-of-thrones/seasons/1/episodes"
+                       }
+                    },
+                    "number":"1",
+                    "episodes":"12",
+                    "last_bcast_episode":"12",
+                    "start_date":"2013-03-10T12:45:01+00:00"
+                 },
+                 {  
+                    "_links":{  
+                       "self":{  
+                          "href":"/tvflix/shows/game-of-thrones/seasons/2"
+                       },
+                       "show":{  
+                          "href":"/tvflix/shows/game-of-thrones"
+                       },
+                       "episodes":{  
+                          "href":"/tvflix/shows/game-of-thrones/seasons/2/episodes"
+                       }
+                    },
+                    "number":"2",
+                    "episodes":"10",
+                    "last_bcast_episode":"10",
+                    "start_date":"2014-03-10T12:45:01+00:00"
                  }
-              },
-              {  
-                "links":[  
-                      {  
-                         "title":"season",
-                         "rel":"self",
-                         "href":"/tvflix/shows/game-of-thrones/seasons/2"
-                      }
-                  ],
-                   "info": {
-                     "nb":2,
-                     "episodes":11
-                 }
-              }
-           ]
+              ]
+           }
         }
         
 ## Episodes Collection [/shows/{label}/seasons/{number}]
