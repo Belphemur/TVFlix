@@ -277,3 +277,139 @@ Delete an episode. If the episode doesn't exist the API return a 500 and if the 
             "error":"Episode doesn't exists"
         }
 
+# Group Comments
+
+## Comments Collection [/shows/{label}/comments]
+ + Parameters
+    + label (string, `game-of-thrones`) ... the label that is assigned to the show (usually the show name in lower-case with the space replaced by - )
+    
+### Get all Comments [GET]
+
+ + Response 200 (application/hal+json)
+
+        {  
+           "_links":{  
+              "self":{  
+                 "href":"/tvflix/shows/game-of-thrones/comments"
+              }
+              "shows":{  
+                 "href":"/tvflix/shows/game-of-thrones"
+              }
+           },
+           "size":"1",
+           "_embedded":{  
+              "comment":[  
+                 {  
+                    "_links":{  
+                        "self":{  
+                             "href":"/tvflix/shows/game-of-thrones/comments"
+                      }
+                        "shows":{  
+                             "href":"/tvflix/shows/game-of-thrones"
+                      }
+                    },
+                    "username":"pekka",
+                    "comment":"nice tv show, it's best",
+                    "posted":"2014-03-10T12:45:01+00:00",
+                    "updated": "None"
+                 }
+              ]
+           }
+        }
+
+### Add a Comment [POST]
+Add a Comment to the collection. If the comment from same user already exists, the API return a 500 and if the api-key doesn't give you access to this, a 401.
+ + Request (application/json)
+         {
+            "comment":"nice tv show, it's best"
+        }
+
+  + Headers
+  
+            apikey: [client_api_key]
+
+
+ + Response 201
+     [Comment][] 
+
+ + Response 401 (application/json)
+
+        {
+            "error":"Invalid api key"
+        }
+
+ + Response 500 (application/json)
+
+        {
+            "error":"Comment to this show already exists"
+        }
+
+## Comment [/shows/{label}/comments/{username}]
+A user can only make one comment per show.
+ + Parameters
+    + label (string, `game-of-thrones`) ... the label that is assigned to the show (usually the show name in lower-case with the space replaced by - )
+    + username (string, `pekka`) ... The username of the owner of the comment
+ + Model (application/hal+json)
+ 
+                 {  
+                    "_links":{  
+                        "self":{  
+                             "href":"/tvflix/shows/game-of-thrones/comments/pekka"
+                      }
+                        "shows":{  
+                             "href":"/tvflix/shows/game-of-thrones"
+                      }
+                    },
+                    "username":"pekka",
+                    "comment":"nice tv show, it's best",
+                    "posted":"2014-03-10T12:45:01+00:00",
+                    "updated": "None"
+                 }
+
+### Update a Comment [PUT]
+Update a comment to the collection. If the comment doesn't exists the API return a 500 and if the api-key doesn't give you access to this, a 401.
+ + Request (application/json)
+         {
+              "comment":"I like it"
+        }
+
+   + Headers
+  
+            apikey: [client_api_key]
+
+ + Response 200
+    [Comment][]
+
+ + Response 401 (application/json)
+
+        {
+            "error":"Invalid api key"
+        }
+        
+ + Response 500 (application/json)
+
+        {
+            "error":"No comment to update"
+        }
+                
+        
+### Delete a Comment [DELETE]
+Delete a Comment. If the comment doesn't exists the API return a 500 and if the api-key doesn't give you access to this, a 401.
+ + Request (application/json)
+     
+  + Headers
+      
+                apikey: [client_api_key] 
+ + Response 204
+
+ + Response 401 (application/json)
+
+        {
+            "error":"Invalid api key"
+        }
+        
+ + Response 500 (application/json)
+
+        {
+            "error":"comment doesn't exists"
+        }
