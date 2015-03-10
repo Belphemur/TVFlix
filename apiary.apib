@@ -420,7 +420,7 @@ A Search represent searching either shows or episodes.
 ## Search [/search/shows/{keywords}]
 Gets all the shows where keyword is associating
 + Parameters
-    + keywords (string, `action`) ... the keyword that is assigned to the show (usually the show name in lower-case with the space replaced by - )
+    + keywords (string, `action`) ... the keyword is random string
 
 
             
@@ -435,7 +435,7 @@ Gets all the shows where keyword is associating
            },
            "size":"1",
            "_embedded":{  
-              "search":[  
+              "shows":[  
                  {  
                     "_links":{  
                         "self":"/tvflix/shows/game-of-thrones",
@@ -457,5 +457,42 @@ Gets all the shows where keyword is associating
            }
         }
 
+## Search [/search/episodes/{keywords}]
+Gets all the episodes where keyword is associating
++ Parameters
+    + keywords (string, `action`) ... the keyword is random string
+
+
+            
+### Search episodes [GET]            
++ Response 200
+
+         {  
+           "_links":{  
+              "self":{  
+                 "href":"/tvflix/search/episodes/action"
+              }
+           },
+           "size":"1",
+           "_embedded":{  
+              "episode":[  
+                 {  
+                    "_links":{  
+                       "self":{  
+                          "href":"/tvflix/shows/game-of-thrones/seasons/1/episodes/1"
+                       },
+                       "season":{  
+                          "href":"/tvflix/shows/game-of-thrones/seasons/1"
+                       }
+                    },
+                    "number":"1",
+                    "title":"Dragons",
+                    "bcast_date":"2013-03-10T12:45:01+00:00",
+                    "summary":"great episode",
+                    "season":"1"
+                 }
+              ]
+           }
+        }
     
     
