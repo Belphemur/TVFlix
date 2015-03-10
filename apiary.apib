@@ -130,7 +130,7 @@ Get a list of all the season of the wanted show with their nb of episodes.
 
 ### Get all Episodes [GET]
 
-+ Response 200 (application/hal+json)
+ + Response 200 (application/hal+json)
 
         {  
            "_links":{  
@@ -162,3 +162,29 @@ Get a list of all the season of the wanted show with their nb of episodes.
               ]
            }
         }
+        
+## Episode [/shows/{label}/seasons/{number}/episodes/{ep}]
+ + Parameters
+    + label (string, `game-of-thrones`) ... the label that is assigned to the show (usually the show name in lower-case with the space replaced by - )
+    + number (number, `1`) ... The number of the season
+    + ep (number, `1`) ... The number of the episode
+
+### Get a single Episode [GET]
+ + Response 200 (application/hal+json)
+
+        {  
+            "_links":{  
+               "self":{  
+                  "href":"/tvflix/shows/game-of-thrones/seasons/1/episodes/1"
+               },
+               "season":{  
+                  "href":"/tvflix/shows/game-of-thrones/seasons/1"
+               }
+            },
+            "number":"1",
+            "title":"Dragons",
+            "bcast_date":"2013-03-10T12:45:01+00:00",
+            "summary":"great episode",
+            "season":"1"
+        }
+
