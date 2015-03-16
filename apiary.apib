@@ -509,7 +509,22 @@ Delete a Comment. If the comment doesn't exists the API return a 500 and if the 
         }
         
 # Group Search 
-A Search represent searching either shows or episodes.
+
+## Profile
+
+### Description
+Represent a search done on the database. A search can be either done on Episodes or Show. Depending which is searched, the profile change slightly in the embedded profile. If the search is done for shows, it will embedded a Show Profile, if it's done for episodes, it will embedded an Episode profile. The search is dynamic.
+
+### Related Profile
+ - *Show*
+ - *Episode*
+ 
+### Link relations
+None
+ 
+### Semantic descriptors
+None
+ 
 
 ## Shows [/search/shows/{keywords}]
 Gets all the shows where keyword is associating
