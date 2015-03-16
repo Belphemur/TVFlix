@@ -17,9 +17,15 @@ A single show with all its informations
     
             {  
                "_links":{  
-                  "self":"/tvflix/shows/game-of-thrones",
-                  "comments":"/tvflix/shows/game-of-thrones/comments",
-                  "seasons":"/tvflix/shows/game-of-thrones/seasons"
+                  "self":{  
+                     "href":"/tvflix/shows/game-of-thrones"
+                  },
+                  "comments":{  
+                     "href":"/tvflix/shows/game-of-thrones/comments"
+                  },
+                  "seasons":{  
+                     "href":"/tvflix/shows/game-of-thrones/seasons"
+                  }
                },
                "label":"game-of-thrones",
                "title":"Game of Thrones",
@@ -444,11 +450,17 @@ Search the database for shows matching the keywords.
            "_embedded":{  
               "show":[  
                  {  
-                    "_links":{  
-                        "self":"/tvflix/shows/game-of-thrones",
-                        "comments":"/tvflix/shows/game-of-thrones/comments",
-                        "seasons":"/tvflix/shows/game-of-thrones/seasons"
-                    },
+                   "_links":{  
+                      "self":{  
+                         "href":"/tvflix/shows/game-of-thrones"
+                      },
+                      "comments":{  
+                         "href":"/tvflix/shows/game-of-thrones/comments"
+                      },
+                      "seasons":{  
+                         "href":"/tvflix/shows/game-of-thrones/seasons"
+                      }
+                   },
                     "label":"game-of-thrones",
                     "title":"Game of Thrones",
                     "start_year":"2014",
