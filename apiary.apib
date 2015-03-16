@@ -14,7 +14,7 @@ A Show represent a TV Show in the database. You can easily get the informations 
  - *Season*
  
 ### Link relations
- - **comments**: List all the comment made by users on the show. Each item is an instance of the type Comment defined in Comment Profile. Can be accessed by GET. POST only for authentificated user using API Key. On the user that created the comment can PUT/DELETE.
+ - **comments**: List all the comment made by users on the show. Each item is an instance of the type Comment defined in Comment Profile. Can be accessed by GET. POST only for authentificated user using API Key.
  - **seasons**: List all the season of the show. Each item is an instance of the type Season defined in the Season Profile. Can be accessed only by GET.
  
 ### Semantic descriptors
@@ -375,7 +375,7 @@ Add a Comment to the collection. If the comment from same user already exists, t
  + Request (application/json)
          {
             "comment":"nice tv show, it's best"
-        }
+         }
 
   + Headers
   
