@@ -3,7 +3,7 @@ FORMAT: 1A
 # TVFlix
 We provide a RESTful API for community managed TV Show database. The shows contains different seasons and each season contain it's number of episodes that are advertised by the channel broadcasting the show. Each show and episodes have their own description that are provided by the community. Each show have a place specific for letting the registered user comment. 
 
-# Group Shows
+# Group Show
 A Show represent a TV Show in the database. You can easily get the informations about the show and the different episode of the show.
 
 ## Show [/shows/{label}]
@@ -42,7 +42,7 @@ Get the information of the show like it's starting year, which channel, etc ...
 
 
 
-# Group Seasons
+# Group Season
 
 ## Season Collection [/shows/{label}/seasons]
 Represent a the seasons of a show
@@ -123,7 +123,7 @@ Get the information of the season
             "start_date":"2013-03-10T12:45:01+00:00"
         }
 
-# Group Episodes
+# Group Episode
 ## Episodes Collection [/shows/{label}/seasons/{number}/episodes]
 Contains all the episodes of a season.
  + Parameters
@@ -280,7 +280,7 @@ Delete an episode. If the episode doesn't exist the API return a 500 and if the 
             "error":"Episode doesn't exists"
         }
 
-# Group Comments
+# Group Comment
 
 ## Comments Collection [/shows/{label}/comments]
 Represent all the comments of a show made by the user.
