@@ -171,6 +171,27 @@ Get the information of the season
         }
 
 # Group Episode
+## Profile
+
+### Description
+Represent an episode of a show. It's directly linked to its season. An episode can be either already broadcasted or be broadcasted in the future.
+
+### Dependencies
+- ISO 8601(Date and Time format). More info at: http://en.wikipedia.org/wiki/ISO_8601
+
+### Related Profile
+ - *Season*
+ 
+### Link relations
+ - **season**: List all the seasons of the show. Each item is an instance of the type Season defined in the Season Profile. Can be accessed only by GET. 
+ 
+### Semantic descriptors
+ - **number**: INT. Episode's number.
+ - **title**: STRING. Episode's name. 
+ - **bcast_episode**: Date (following ISO_8601). Date when episode has been/will be broadcast on TV. 
+ - **summary**: STRING. Summary of the episode.
+ - **season**: INT. Number of the season which episode belongs. 
+
 ## Episodes Collection [/shows/{label}/seasons/{number}/episodes]
 Contains all the episodes of a season.
  + Parameters
