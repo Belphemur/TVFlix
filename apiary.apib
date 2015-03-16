@@ -329,6 +329,26 @@ Delete an episode. If the episode doesn't exist the API return a 500 and if the 
 
 # Group Comment
 
+## Profile
+
+### Description
+Each authentificated user can make one single comment on each show. This Profile define the user comment.
+
+### Dependencies
+- ISO 8601(Date and Time format). More info at: http://en.wikipedia.org/wiki/ISO_8601
+
+### Related Profile
+ - *Show*
+ 
+### Link relations
+ - **show**: Represent the parent show on which the comment is made. Iten is an instance of the type Show, defined in the Show profile. Can only be accessible with GET.
+ 
+### Semantic descriptors
+ - **username**: STRING. Username of the User that posted the comment.
+ - **comment**: STRING. Content of the comment.
+ - **posted**: DATE (ISO_8601). When the comment has been posted.
+ - **updated**: DATE (ISO_8601)/NONE. If the user updated his comment, it's the date of modification, if it's the original comment, it will contain None.
+ 
 ## Comments Collection [/shows/{label}/comments]
 Represent all the comments of a show made by the user.
  + Parameters
