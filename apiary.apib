@@ -71,9 +71,28 @@ Get the information of the show like it's starting year, which channel, etc ...
 
 
 # Group Season
+## Profile
+### Description
+Represent a the season of a show conteining different episodes
+
+### Dependencies
+- ISO 8601(Date and Time format). More info at: http://en.wikipedia.org/wiki/ISO_8601
+
+### Related Profile
+ - *Show*
+ 
+### Link relations
+ - **show**: Parent show where season is related. Iten is an instance of the type Show, defined in the Show profile. Can only be accessible with GET. 
+ - **episode**: List of episodes related to the season. Each item is an instance of the type Episode defined in the Episode Profile. Can be accessible with GET. PUT and DELETE can be accessible only for admin using API key.
+
+### Semantic descriptors
+ - **number**: INT. Season's number.
+ - **episodes**: INT. Number of how many episodes are in season. 
+ - **last_bcast_episode**: INT. Number of last episode that has been broadcasted. 
+ - **start_date**: Date (following ISO_8601).
 
 ## Season Collection [/shows/{label}/seasons]
-Represent a the seasons of a show
+Represent all the seasons of a show
 + Parameters
     + label (string, `game-of-thrones`) ... the label that is assigned to the show (usually the show name in lower-case with the space replaced by - )
 
