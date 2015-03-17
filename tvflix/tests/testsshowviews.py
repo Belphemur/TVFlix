@@ -11,7 +11,7 @@ class TestMyShowView(unittest.TestCase):
         testing.tearDown()
 
     def test_passing_showView(self):
-        from ..views.showresource import ShowResource
+        from ..resources.showresource import ShowResource
 
         request = testing.DummyRequest()
         #url is /tvflix/shows/{label}, so this is how i define the label 
@@ -23,7 +23,7 @@ class TestMyShowView(unittest.TestCase):
     def test_failure_showView(self):
         pass
         #not yet working
-        '''from ..views.show import get_show   
+        '''from ..resources.show import get_show
 
         request = testing.DummyRequest()
         #url is /tvflix/shows/{label}, so this is how i define the label 
