@@ -22,7 +22,7 @@ class _404(exc.HTTPError):
     
 
 @resource(path='/tvflix/shows/{label}')    
-class show_view(object):
+class ShowResource(object):
     def __init__(self, request):
         self.request = request
         #set content type to hal+json

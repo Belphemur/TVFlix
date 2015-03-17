@@ -11,12 +11,13 @@ class TestMyShowView(unittest.TestCase):
         testing.tearDown()
 
     def test_passing_showView(self):
-        from ..views.show import get_show
+        from ..views.showresource import ShowResource
 
         request = testing.DummyRequest()
         #url is /tvflix/shows/{label}, so this is how i define the label 
-        request.matchdict = {'label': 'game-of-thrones'} 
-        info = get_show(request)
+        request.matchdict = {'label': 'game-of-thrones'}
+        show  = ShowResource(request)
+        info = show.get()
         self.assertEqual(info['channel'], 'HBO')
         
     def test_failure_showView(self):
