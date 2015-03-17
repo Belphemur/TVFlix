@@ -1,8 +1,8 @@
 #TVFlix README
 ##Framework
-SQLAchemy and Pyramid
+SQLAchemy, Pyramid and Cornice
 
-##dependencies
+##Dependencies
 pyramid, pyramid_tm, SQLAlchemy, transaction, zope.sqlalchemy, waitress, nose
 
 ##Getting Started
