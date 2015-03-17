@@ -1,3 +1,4 @@
+from pyramid.httpexceptions import HTTPNotFound
 from pyramid.response import Response
 from pyramid.view import view_config
 
@@ -11,14 +12,6 @@ from cornice import Service
 from cornice.resource import resource, view
 from webob import Response, exc
 import json
-
-
-class _404(exc.HTTPError):
-    def __init__(self, msg='Not Found'):
-        body = {'status': 404, 'message': msg}
-        Response.__init__(self, json.dumps(body))
-        self.status = 404
-        self.content_type = 'application/hal+json'
 
 
 @resource(path='/tvflix/shows/{label}')
@@ -57,5 +50,5 @@ class ShowResource(object):
             content["_links"] = _links
 
             return content
-        raise _404
+        raise HTTPNotFound
 

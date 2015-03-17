@@ -1,5 +1,6 @@
 import unittest
 from pyramid import testing
+from pyramid.httpexceptions import HTTPNotFound
 
 from ..models import Session, Base
 
@@ -23,10 +24,10 @@ class TestMyShowView(unittest.TestCase):
     def test_failure_showView(self):
         pass
         #not yet working
-        '''from ..views.show import get_show   
+        from ..resources.showresource import ShowResource
 
         request = testing.DummyRequest()
-        #url is /tvflix/shows/{label}, so this is how i define the label 
-        request.matchdict = {'label': 'no-such-show'} 
-        info = get_show(request)
-        self.assertEqual('Not Found' in info)'''
+        #url is /tvflix/shows/{label}, so this is how i define the label
+        request.matchdict = {'label': 'dont-exists'}
+        show  = ShowResource(request)
+        self.assertRaises(HTTPNotFound, show.get)
