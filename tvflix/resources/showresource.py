@@ -28,10 +28,12 @@ class ShowResource(object):
 
         if show:
             showTags = show.GetTags()
-            tags = []
-
-            for tag in showTags:
-                tags.append(tag.name)
+            tags = None
+            
+            if showTags:
+                tags = []
+                for tag in showTags:
+                    tags.append(tag.name)
 
             _links = {"self": {"href": "/tvflix/shows/" + str(label)},
                       "comments": {"href": "/tvflix/shows/"+ str(label) +"/comments"},

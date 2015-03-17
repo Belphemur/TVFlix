@@ -40,9 +40,13 @@ class TestMyDatabaseMethodsAndStuff(unittest.TestCase):
 
             show2 = Show(showlabel='test', title=u'test',
                          start_year=2011, end_year=2016, bcast_day=6, summary="Everybody disses", channel="test")
+                         
+            show3 = Show(showlabel='simpsons', title=u'The simpsons',
+                         start_year=2011, end_year=None, bcast_day=6, summary="Everybody disses", channel="MTV")
 
             Session.add(show1)
             Session.add(show2)
+            Session.add(show3)
 
         #Episodes
         with transaction.manager:
