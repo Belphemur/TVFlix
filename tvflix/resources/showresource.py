@@ -19,7 +19,7 @@ class _404(exc.HTTPError):
         Response.__init__(self, json.dumps(body))
         self.status = 404
         self.content_type = 'application/hal+json'
-    
+
 
 @resource(path='/tvflix/shows/{label}')
 class ShowResource(object):
