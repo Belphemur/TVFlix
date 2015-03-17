@@ -23,7 +23,7 @@ class TestMyShowView(unittest.TestCase):
     def test_failure_showView(self):
         pass
         #not yet working
-        '''from ..resources.show import get_show
+        '''from ..views.show import get_show   
 
         request = testing.DummyRequest()
         #url is /tvflix/shows/{label}, so this is how i define the label 
