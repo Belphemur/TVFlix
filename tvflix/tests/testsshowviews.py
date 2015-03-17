@@ -1,8 +1,6 @@
 import unittest
 from pyramid import testing
 
-from webtest import TestApp
-
 from ..models import Session, Base
 
 
