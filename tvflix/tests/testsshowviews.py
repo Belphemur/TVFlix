@@ -22,8 +22,6 @@ class TestMyShowView(unittest.TestCase):
         self.assertEqual(info['channel'], 'HBO')
         
     def test_failure_showView(self):
-        pass
-        #not yet working
         from ..resources.showresource import ShowResource
 
         request = testing.DummyRequest()
