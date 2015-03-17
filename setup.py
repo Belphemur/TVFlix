@@ -16,7 +16,8 @@ requires = [
     'transaction',
     'zope.sqlalchemy',
     'waitress',
-    'nose' #for running tests
+    'nose', #for running tests
+    'cornice'
     ]
 
 setup(name='tvflix',

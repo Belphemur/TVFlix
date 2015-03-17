@@ -4,43 +4,15 @@ from datetime import date, datetime
 
 from pyramid import testing
 
-from .models import Session
+from ..models import Session, Base
 
-from .models.user import User
-from .models.show import Show
-from .models.episode import Episode
-from .models.user import User
-from .models.comment import Comment
-from .models.tag import Tag
-from .models.show_tag import Shows_Tag
-
-
-# default view test
-class TestMyViewSuccessCondition(unittest.TestCase):
-    def setUp(self):
-        self.config = testing.setUp()
-        from sqlalchemy import create_engine
-
-        engine = create_engine('sqlite://')
-        from .models import Base
-
-        Session.configure(bind=engine)
-        Base.metadata.create_all(engine)
-        with transaction.manager:
-            model = User(username='test user44', password='password', api_key="test", admin=False)
-            Session.add(model)
-
-    def tearDown(self):
-        Session.remove()
-        testing.tearDown()
-
-    def test_passing_view(self):
-        from .views import my_view
-
-        request = testing.DummyRequest()
-        info = my_view(request)
-        # self.assertEqual(info['one'].name, 'one')
-        self.assertEqual(info['project'], 'tvflix')
+from ..models.user import User
+from ..models.show import Show
+from ..models.episode import Episode
+from ..models.user import User
+from ..models.comment import Comment
+from ..models.tag import Tag
+from ..models.show_tag import Shows_Tag
 
 
 # testing database
@@ -50,7 +22,6 @@ class TestMyDatabaseMethodsAndStuff(unittest.TestCase):
         from sqlalchemy import create_engine
 
         engine = create_engine('sqlite://')
-        from .models import Base
 
         Session.configure(bind=engine)
         Base.metadata.create_all(engine)
