@@ -168,6 +168,13 @@ class TestMyDatabaseMethodsAndStuff(unittest.TestCase):
         show = Show.GetShowByLabel('test')
         self.assertIsNone(show.GetTags())
 
+    def testGetSeasonnumbers(self):
+        show = Show.GetShowByLabel('game-of-thrones')
+        seasonNum = show.GetAllSeasonNumbers()
+        
+        self.assertEqual(seasonNum[0], 1)
+        self.assertEqual(seasonNum[1], 2)
+        
     #tests for user
     def testGetUserByApiKey(self):
         user = User.GetUserByApiKey('asdasd')

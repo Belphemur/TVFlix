@@ -137,7 +137,7 @@ class Show(Base):
         """
         Return all season numbers for the Show
         
-        :return: List of season numbers
+        :return: Array of season numbers
         """
         
         seasonNumbers = []
