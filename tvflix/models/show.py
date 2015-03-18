@@ -5,7 +5,8 @@ from sqlalchemy import (
     Text,
     ForeignKey,
     or_,
-    and_
+    and_,
+    asc
 )
 
 from ..models import Base, Session
@@ -78,7 +79,7 @@ class Show(Base):
                                     
         if shows:
             return shows       
-        return None
+        return None   
 
     def GetEpisodes(self):
         """
@@ -96,8 +97,8 @@ class Show(Base):
         :param season: season number
         :return: Array of Episode
         """
-                
-        epi = self.episodes_dynamic.filter(Episode.season == season).all()
+        #lets get all the episodes in order which they have been broadcast          
+        epi = self.episodes_dynamic.filter(Episode.season == season).order_by(Episode.bcast_date.asc()).all()
         if epi:
             return epi       
         return None
@@ -131,5 +132,19 @@ class Show(Base):
         if self.tags:
             return self.tags
         return None
+        
+    def GetAllSeasonNumbers(self):
+        """
+        Return all season numbers for the Show
+        
+        :return: List of season numbers
+        """
+        
+        seasonNumbers = []
+        for value in Session.query(Episode.season).filter(Episode.show_id == self.show_id).distinct():
+            #value is tuple
+            seasonNumbers.append(value[0])
+            
+        return seasonNumbers
 
     
