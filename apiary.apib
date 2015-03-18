@@ -74,7 +74,7 @@ A single show with all its informations
     + limit (int, `1`) ... The number of shows you want to get from the database. The maximum is 20)
 
 ### Get Shows [GET]  
-
+Return *limit* shows from the database.
 + Response 200 (application/hal+json)
 
         {  
@@ -112,7 +112,43 @@ A single show with all its informations
               ]
            }
         }
+        
+### Add Show [POST]
+Adding a new show to the database. Only an admin can add a new show. The label is generated automatically: lower-case name and replacing the space by hyphens.
+It return the newly created show or a status code 500 if the show already exists. If another user than an admin is doing the request, it return a 403.
+   
++ Request (application/json)
+ 
+        {
+           "title":"Game of Thrones",
+           "start_year":"2014",
+           "end_year":"None",
+           "summary":"Seven noble families fight for control of the mythical land of Westeros. Friction between the houses leads to full-scale war. All while a very ancient evil awakens in the farthest north. Amidst the war, a neglected military order of misfits, the Night's Watch, is all that stands between the realms of men and icy horrors beyond.",
+           "channel":"HBO",
+           "tags":[  
+              "drama",
+              "action"
+           ]
+        }
+ + Headers
+  
+            apikey: [client_api_key]
 
++ Response 200
+     [Show][]
+ 
++ Response 500 (application/json)
+
+        {
+            "error":"show already exists"
+        }
+ 
++ Response 401 (application/json)
+
+        {
+            "error":"Invalid api key"
+        }
+        
 # Group Season
 ## Profile
 ### Description
