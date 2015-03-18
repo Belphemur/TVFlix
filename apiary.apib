@@ -67,9 +67,122 @@ Get the information of the show like it's starting year, which channel, etc ...
 
     [Show][]
     
+### Modify Show **Not implemented** [PUT] 
+Modifying the show in database. Only an admin can modify a show. If invalid API key server return 401.
+It return the modifyed show or a status code 404 if the show doesn't exists.
 
 
++ Request (application/json)
+ 
+        {
+           "title":"Game of Thrones",
+           "start_year":"2014",
+           "end_year":"2017",
+           "summary":"Seven noble families fight for control of the mythical land of Westeros. Friction between the houses leads to full-scale war. All while a very ancient evil awakens in the farthest north. Amidst the war, a neglected military order of misfits, the Night's Watch, is all that stands between the realms of men and icy horrors beyond.",
+           "channel":"HBO",
+           "tags":[  
+              "drama",
+              "action"
+           ]
+        }
 
+ + Headers
+  
+            apikey: [client_api_key]
+
++ Response 200
+    [Show][]
+ 
++ Response 404 (application/json)
+
+ 
++ Response 401 (application/json)
+
+        {
+            "error":"Invalid api key"
+        }
+
+## Show Collections **Not Implemented** [/shows?limit={limit}]
+A single show with all its informations
++ Parameters
+    + limit (int, `1`) ... The number of shows you want to get from the database. The maximum is 20)
+
+### Get Shows [GET]  
+Return *limit* shows from the database.
++ Response 200 (application/hal+json)
+
+        {  
+           "_links":{  
+              "self":{  
+                 "href":"/tvflix/shows?limit=1"
+              }
+           },
+           "size":"1",
+           "_embedded":{  
+              "show":[  
+                      {  
+                       "_links":{  
+                          "self":{  
+                             "href":"/tvflix/shows/game-of-thrones"
+                          },
+                          "comments":{  
+                             "href":"/tvflix/shows/game-of-thrones/comments"
+                          },
+                          "seasons":{  
+                             "href":"/tvflix/shows/game-of-thrones/seasons"
+                          }
+                       },
+                       "label":"game-of-thrones",
+                       "title":"Game of Thrones",
+                       "start_year":"2014",
+                       "end_year":"None",
+                       "summary":"Seven noble families fight for control of the mythical land of Westeros. Friction between the houses leads to full-scale war. All while a very ancient evil awakens in the farthest north. Amidst the war, a neglected military order of misfits, the Night's Watch, is all that stands between the realms of men and icy horrors beyond.",
+                       "channel":"HBO",
+                       "tags":[  
+                          "drama",
+                          "action"
+                       ]
+                }
+              ]
+           }
+        }
+        
+### Add Show [POST]
+Adding a new show to the database. Only an admin can add a new show. The label is generated automatically: lower-case name and replacing the space by hyphens.
+It return the newly created show or a status code 500 if the show already exists. If another user than an admin is doing the request, it return a 403.
+   
++ Request (application/json)
+ 
+        {
+           "title":"Game of Thrones",
+           "start_year":"2014",
+           "end_year":"None",
+           "summary":"Seven noble families fight for control of the mythical land of Westeros. Friction between the houses leads to full-scale war. All while a very ancient evil awakens in the farthest north. Amidst the war, a neglected military order of misfits, the Night's Watch, is all that stands between the realms of men and icy horrors beyond.",
+           "channel":"HBO",
+           "tags":[  
+              "drama",
+              "action"
+           ]
+        }
+ + Headers
+  
+            apikey: [client_api_key]
+
++ Response 200
+     [Show][]
+ 
++ Response 500 (application/json)
+
+        {
+            "error":"show already exists"
+        }
+ 
++ Response 401 (application/json)
+
+        {
+            "error":"Invalid api key"
+        }
+        
 # Group Season
 ## Profile
 ### Description
@@ -298,7 +411,7 @@ Get all the information of the wanted episode.
     [Episode][]
 
 ### Update an Episode [PUT]
-Update an episode to the collection. If the episode doesn't the API return a 500 and if the api-key doesn't give you access to this, a 401.
+Update an episode to the collection. If the episode doesn't the API return a 404 and if the api-key doesn't give you access to this, a 401.
  + Request (application/json)
          {
               "number": "1",
@@ -321,20 +434,16 @@ Update an episode to the collection. If the episode doesn't the API return a 500
             "error":"Invalid api key"
         }
         
- + Response 500 (application/json)
+ + Response 404 (application/json)
 
-        {
-            "error":"Episode doesn't exists"
-        }
-        
 ### Delete an Episode [DELETE]
-Delete an episode. If the episode doesn't exist the API return a 500 and if the api-key doesn't give you access to this, a 401.
+Delete an episode. If the episode doesn't exist the API return a 404 and if the api-key doesn't give you access to this, a 401.
  + Request (application/json)
      
   + Headers
       
                 apikey: [client_api_key] 
- + Response 204
+ + Response 204 (application/json)
 
  + Response 401 (application/json)
 
@@ -342,11 +451,8 @@ Delete an episode. If the episode doesn't exist the API return a 500 and if the 
             "error":"Invalid api key"
         }
         
- + Response 500 (application/json)
+ + Response 404 (application/json)
 
-        {
-            "error":"Episode doesn't exists"
-        }
 
 # Group Comment
 
@@ -461,7 +567,7 @@ A user can only make one comment per show.
                  }
 
 ### Update a Comment [PUT]
-Update a comment to the collection. If the comment doesn't exists the API return a 500 and if the api-key doesn't give you access to this, a 401.
+Update a comment to the collection. If the comment doesn't exists the API return a 404 and if the api-key doesn't give you access to this, a 401.
  + Request (application/json)
          {
               "comment":"I like it"
@@ -480,11 +586,8 @@ Update a comment to the collection. If the comment doesn't exists the API return
             "error":"Invalid api key"
         }
         
- + Response 500 (application/json)
+ + Response 404 (application/json)
 
-        {
-            "error":"No comment to update"
-        }
                 
         
 ### Delete a Comment [DELETE]
@@ -494,7 +597,7 @@ Delete a Comment. If the comment doesn't exists the API return a 500 and if the 
   + Headers
       
                 apikey: [client_api_key] 
- + Response 204
+ + Response 204 (application/json)
 
  + Response 401 (application/json)
 
@@ -502,11 +605,7 @@ Delete a Comment. If the comment doesn't exists the API return a 500 and if the 
             "error":"Invalid api key"
         }
         
- + Response 500 (application/json)
-
-        {
-            "error":"comment doesn't exists"
-        }
+ + Response 404 (application/json)
         
 # Group Search 
 
@@ -526,7 +625,7 @@ None
 None
  
 
-## Shows [/search/shows/{keywords}]
+## Shows [/search/shows?query={keywords}]
 Gets all the shows where keyword is associating
 + Parameters
     + keywords (string, `action`) ... the keyword is random string
@@ -573,7 +672,7 @@ Search the database for shows matching the keywords.
            }
         }
 
-## Episodes [/search/episodes/{keywords}]
+## Episodes [/search/episodes?query={keywords}]
 Gets all the episodes where keyword is associating
 + Parameters
     + keywords (string, `action`) ... the keyword is random string
