@@ -377,7 +377,7 @@ Get all the information of the wanted episode.
     [Episode][]
 
 ### Update an Episode [PUT]
-Update an episode to the collection. If the episode doesn't the API return a 500 and if the api-key doesn't give you access to this, a 401.
+Update an episode to the collection. If the episode doesn't the API return a 404 and if the api-key doesn't give you access to this, a 401.
  + Request (application/json)
          {
               "number": "1",
@@ -400,14 +400,10 @@ Update an episode to the collection. If the episode doesn't the API return a 500
             "error":"Invalid api key"
         }
         
- + Response 500 (application/json)
+ + Response 404 (application/json)
 
-        {
-            "error":"Episode doesn't exists"
-        }
-        
 ### Delete an Episode [DELETE]
-Delete an episode. If the episode doesn't exist the API return a 500 and if the api-key doesn't give you access to this, a 401.
+Delete an episode. If the episode doesn't exist the API return a 404 and if the api-key doesn't give you access to this, a 401.
  + Request (application/json)
      
   + Headers
@@ -421,11 +417,8 @@ Delete an episode. If the episode doesn't exist the API return a 500 and if the 
             "error":"Invalid api key"
         }
         
- + Response 500 (application/json)
+ + Response 404 (application/json)
 
-        {
-            "error":"Episode doesn't exists"
-        }
 
 # Group Comment
 
@@ -540,7 +533,7 @@ A user can only make one comment per show.
                  }
 
 ### Update a Comment [PUT]
-Update a comment to the collection. If the comment doesn't exists the API return a 500 and if the api-key doesn't give you access to this, a 401.
+Update a comment to the collection. If the comment doesn't exists the API return a 404 and if the api-key doesn't give you access to this, a 401.
  + Request (application/json)
          {
               "comment":"I like it"
@@ -559,11 +552,8 @@ Update a comment to the collection. If the comment doesn't exists the API return
             "error":"Invalid api key"
         }
         
- + Response 500 (application/json)
+ + Response 404 (application/json)
 
-        {
-            "error":"No comment to update"
-        }
                 
         
 ### Delete a Comment [DELETE]
@@ -581,11 +571,7 @@ Delete a Comment. If the comment doesn't exists the API return a 500 and if the 
             "error":"Invalid api key"
         }
         
- + Response 500 (application/json)
-
-        {
-            "error":"comment doesn't exists"
-        }
+ + Response 404 (application/json)
         
 # Group Search 
 
