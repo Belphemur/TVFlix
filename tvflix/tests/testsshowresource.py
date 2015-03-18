@@ -1,6 +1,6 @@
 import unittest
 from pyramid import testing
-from pyramid.httpexceptions import HTTPNotFound
+from pyramid.httpexceptions import HTTPNotFound, HTTPNotImplemented
 
 from ..models import Session, Base
 
@@ -37,3 +37,10 @@ class TestMyShowView(unittest.TestCase):
         request.matchdict = {'label': 'dont-exists'}
         show  = ShowResource(request)
         self.assertRaises(HTTPNotFound, show.get)
+        
+    def test_failure_showResourcePutNotImplemented(self):
+        request = testing.DummyRequest()
+        #url is /tvflix/shows/{label}
+        request.matchdict = {'label': 'game-of-thrones'}
+        show  = ShowResource(request)
+        self.assertRaises(HTTPNotImplemented, show.put)

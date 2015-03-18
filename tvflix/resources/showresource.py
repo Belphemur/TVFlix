@@ -1,4 +1,4 @@
-from pyramid.httpexceptions import HTTPNotFound
+from pyramid.httpexceptions import HTTPNotFound, HTTPNotImplemented
 from pyramid.response import Response
 from pyramid.view import view_config
 
@@ -53,4 +53,7 @@ class ShowResource(object):
 
             return content
         raise HTTPNotFound
+        
+    def put(self):
+        raise HTTPNotImplemented
 
