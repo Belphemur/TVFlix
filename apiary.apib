@@ -67,6 +67,40 @@ Get the information of the show like it's starting year, which channel, etc ...
 
     [Show][]
     
+### Modify Show **Not implemented** [PUT] 
+Modifying the show in database. Only an admin can modify a show. If invalid API key server return 401.
+It return the modifyed show or a status code 404 if the show doesn't exists.
+
+
++ Request (application/json)
+ 
+        {
+           "title":"Game of Thrones",
+           "start_year":"2014",
+           "end_year":"2017",
+           "summary":"Seven noble families fight for control of the mythical land of Westeros. Friction between the houses leads to full-scale war. All while a very ancient evil awakens in the farthest north. Amidst the war, a neglected military order of misfits, the Night's Watch, is all that stands between the realms of men and icy horrors beyond.",
+           "channel":"HBO",
+           "tags":[  
+              "drama",
+              "action"
+           ]
+        }
+
+ + Headers
+  
+            apikey: [client_api_key]
+
++ Response 200
+    [Show][]
+ 
++ Response 404 (application/json)
+
+ 
++ Response 401 (application/json)
+
+        {
+            "error":"Invalid api key"
+        }
 
 ## Show Collections **Not Implemented** [/shows?limit={limit}]
 A single show with all its informations
