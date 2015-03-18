@@ -334,7 +334,7 @@ Delete an episode. If the episode doesn't exist the API return a 500 and if the 
   + Headers
       
                 apikey: [client_api_key] 
- + Response 204
+ + Response 204 (application/json)
 
  + Response 401 (application/json)
 
@@ -494,7 +494,7 @@ Delete a Comment. If the comment doesn't exists the API return a 500 and if the 
   + Headers
       
                 apikey: [client_api_key] 
- + Response 204
+ + Response 204 (application/json)
 
  + Response 401 (application/json)
 
@@ -526,7 +526,7 @@ None
 None
  
 
-## Shows [/search/shows/{keywords}]
+## Shows [/search/shows?query={keywords}]
 Gets all the shows where keyword is associating
 + Parameters
     + keywords (string, `action`) ... the keyword is random string
@@ -573,7 +573,7 @@ Search the database for shows matching the keywords.
            }
         }
 
-## Episodes [/search/episodes/{keywords}]
+## Episodes [/search/episodes?query={keywords}]
 Gets all the episodes where keyword is associating
 + Parameters
     + keywords (string, `action`) ... the keyword is random string
