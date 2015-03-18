@@ -12,7 +12,7 @@ class TestMyShowView(unittest.TestCase):
         Session.remove()
         testing.tearDown()
 
-    def test_passing_showView(self):
+    def test_passing_showResource(self):
         request = testing.DummyRequest()
         #url is /tvflix/shows/{label}, so this is how i define the label 
         request.matchdict = {'label': 'game-of-thrones'}
@@ -31,7 +31,7 @@ class TestMyShowView(unittest.TestCase):
         self.assertEqual(info['end_year'], None)
         self.assertEqual(info['tags'], None)
         
-    def test_failure_showView(self):
+    def test_failure_showResource(self):
         request = testing.DummyRequest()
         #url is /tvflix/shows/{label}
         request.matchdict = {'label': 'dont-exists'}
