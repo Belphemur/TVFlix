@@ -68,7 +68,50 @@ Get the information of the show like it's starting year, which channel, etc ...
     [Show][]
     
 
+## Show Collections **Not Implemented** [/shows?limit={limit}]
+A single show with all its informations
++ Parameters
+    + limit (int, `1`) ... The number of shows you want to get from the database. The maximum is 20)
 
+### Get Shows [GET]  
+
++ Response 200 (application/hal+json)
+
+        {  
+           "_links":{  
+              "self":{  
+                 "href":"/tvflix/shows?limit=1"
+              }
+           },
+           "size":"1",
+           "_embedded":{  
+              "show":[  
+                      {  
+                       "_links":{  
+                          "self":{  
+                             "href":"/tvflix/shows/game-of-thrones"
+                          },
+                          "comments":{  
+                             "href":"/tvflix/shows/game-of-thrones/comments"
+                          },
+                          "seasons":{  
+                             "href":"/tvflix/shows/game-of-thrones/seasons"
+                          }
+                       },
+                       "label":"game-of-thrones",
+                       "title":"Game of Thrones",
+                       "start_year":"2014",
+                       "end_year":"None",
+                       "summary":"Seven noble families fight for control of the mythical land of Westeros. Friction between the houses leads to full-scale war. All while a very ancient evil awakens in the farthest north. Amidst the war, a neglected military order of misfits, the Night's Watch, is all that stands between the realms of men and icy horrors beyond.",
+                       "channel":"HBO",
+                       "tags":[  
+                          "drama",
+                          "action"
+                       ]
+                }
+              ]
+           }
+        }
 
 # Group Season
 ## Profile
