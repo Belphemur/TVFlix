@@ -130,26 +130,27 @@ class EpisodesResource(object):
             #add more text later    
             if show.GetEpisodeBySeasonByNumber(int(season), int(epinumber)):
                 raise HTTPInternalServerError 
-                
+            
+            #adding episode to db
             with transaction.manager:
                 epi = Episode.AddEpisode(show=show, title=title, season=int(season),
                                      number=int(epinumber), bcast_date=bcast_date, summary=summary)
                 
-                if epi:
-                    _links = {"self": { "href": "/tvflix/shows/"+ label +"/seasons/"+ str(season) +"/episodes/" +str(epinumber) },
-                            "season": { "href": "/tvflix/shows/"+ label +"/seasons/"+ str(season)}
-                              }
-                              
-                    content = {"number": int(epinumber),
-                              "title": title,
-                              "bcast_date": str(bcast_date),
-                              "summary": summary,
-                              "season": int(season)
-                              }
-                              
-                    content['_links'] = _links
-                    
-                    return content
+            if epi:
+                _links = {"self": { "href": "/tvflix/shows/"+ label +"/seasons/"+ str(season) +"/episodes/" +str(epinumber) },
+                        "season": { "href": "/tvflix/shows/"+ label +"/seasons/"+ str(season)}
+                          }
+                          
+                content = {"number": int(epinumber),
+                          "title": title,
+                          "bcast_date": str(bcast_date),
+                          "summary": summary,
+                          "season": int(season)
+                          }
+                          
+                content['_links'] = _links
+                
+                return content
                     
         raise HTTPNotFound
         
