@@ -44,6 +44,15 @@ class TestMySeasonResource(unittest.TestCase):
         self.assertEqual(info['episodes'], 2)
         self.assertEqual(info['last_bcast_episode'], 2)
         
+    def test_passNormalSingleSeasonResourceWithStringNumber(self):
+        request = testing.DummyRequest()
+        #url '/tvflix/shows/{label}/seasons/{number}'
+        request.matchdict = {'label': 'game-of-thrones', 'number': '1'}
+        info = SingleSeasonResource.get(SingleSeasonResource(request))
+        
+        self.assertEqual(info['episodes'], 2)
+        self.assertEqual(info['last_bcast_episode'], 2)
+        
     def test_noFoundSingleSeasonResourceNoEpisodes(self):
         request = testing.DummyRequest()
         #url '/tvflix/shows/{label}/seasons/{number}'

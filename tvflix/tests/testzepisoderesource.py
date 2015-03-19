@@ -19,6 +19,16 @@ class TestMySeasonResource(unittest.TestCase):
         links = info['_links']
         self.assertEqual(links['self'], {'href': '/tvflix/shows/game-of-thrones/seasons/1/episodes'})
         
+    def test_passing_episodesResourceWithNumberAsString(self):
+        request = testing.DummyRequest()
+        #url '/tvflix/shows/{label}/seasons/{number}/episodes'
+        request.matchdict = {'label': 'game-of-thrones', 'number': '1'}
+        info = EpisodesResource.get(EpisodesResource(request))
+        
+        self.assertEqual(info['size'], 2)
+        links = info['_links']
+        self.assertEqual(links['self'], {'href': '/tvflix/shows/game-of-thrones/seasons/1/episodes'})
+        
     def test_failure_episodesResourceInvalidLabel(self):
         request = testing.DummyRequest()
         #url '/tvflix/shows/{label}/seasons/{number}/episodes'
