@@ -92,11 +92,6 @@ class EpisodesResource(object):
                 raise HTTPUnauthorized
             
             try:
-                self.request.json_body
-            except:
-                raise HTTPBadRequest
-            
-            try:
                 epinumber = self.request.json_body['number']
                 season = self.request.json_body['season']
                 bcast_date = self.request.json_body['bcast_date']
