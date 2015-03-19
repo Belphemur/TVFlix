@@ -93,13 +93,13 @@ class EpisodesResource(object):
             summary = self.request.json_body['summary'] #can be empty
             bcast_date = self.request.json_body['bcast_date']
             
-            #url episode number and given episode number must match
-            if not epinumber == str(number):
-                raise HTTPBadRequest
-                
-            if not str(season).isdigit():
+            if not str(epinumber).isdigit():
                 raise HTTPBadRequest 
             
+            #url episode number and given episode number must match
+            if not season == str(number):
+                raise HTTPBadRequest
+                
             #trying to transfer the date to parsable format 
             try:
                 bcast_date = bcast_date.replace("-","")
