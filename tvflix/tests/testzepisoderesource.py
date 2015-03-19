@@ -72,6 +72,25 @@ class TestMySeasonResource(unittest.TestCase):
         self.assertEqual(info['season'], 1)
         self.assertEqual(info['number'], 5)
         
+    def test_passing_PostEpisodesResourceEmptyTitleAndSummary(self):
+        request = testing.DummyRequest()
+        #url '/tvflix/shows/{label}/seasons/{number}/episodes/'
+        request.matchdict = {'label': 'test', 'number': 2}
+        request.headers = {'apikey': 'asd'}
+        request.json_body = {"title": None,
+                            "season": 2,
+                            "bcast_date": "2015-03-10",
+                            "number": 3,
+                            "summary": None
+                            }
+                            
+        info = EpisodesResource.post(EpisodesResource(request))
+        
+        self.assertEqual(info['title'], None)
+        self.assertEqual(info['summary'], None)
+        self.assertEqual(info['season'], 2)
+        self.assertEqual(info['number'], 3)    
+        
     def test_passing_PostEpisodesResourceIntAreStrings(self):
         request = testing.DummyRequest()
         #url '/tvflix/shows/{label}/seasons/{number}/episodes/'
