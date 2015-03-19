@@ -1,4 +1,4 @@
-from pyramid.httpexceptions import HTTPNotFound, HTTPBadRequest
+from pyramid.httpexceptions import HTTPNotFound, HTTPBadRequest, HTTPInternalServerError
 from pyramid.response import Response
 from pyramid.view import view_config
 
@@ -6,11 +6,15 @@ from sqlalchemy.exc import DBAPIError
 
 from ..models import Session
 from ..models.show import Show
+from ..models.episode import Episode
+import transaction
 
 from cornice import Service
 from cornice.resource import resource, view
 from webob import Response, exc
 import json
+
+from datetime import datetime, date, time
 
 @resource(path='/tvflix/shows/{label}/seasons/{number}/episodes')
 class EpisodesResource(object):
@@ -25,7 +29,7 @@ class EpisodesResource(object):
         number = self.request.matchdict['number']
         
         if not str(number).isdigit():
-            raise HTTPBadRequest
+            raise HTTPNotFound
         
         show = Show.GetShowByLabel(label)
         
@@ -63,3 +67,69 @@ class EpisodesResource(object):
                 return content
                 
         raise HTTPNotFound
+        
+        
+    @view(renderer='json')    
+    def post(self):       
+        label = self.request.matchdict['label']
+        number = self.request.matchdict['number']
+        
+        if not str(number).isdigit():
+            raise HTTPNotFound
+            
+        show = Show.GetShowByLabel(label)
+
+        if show:
+            print self.request.json_body
+            print self.request.json_body['season']
+            print self.request.headers['apikey']
+            
+            if not self.request.json_body:
+                raise HTTPBadRequest
+                
+            epinumber = self.request.json_body['number']
+            title = self.request.json_body['title'] #can be empty
+            season = self.request.json_body['season']
+            summary = self.request.json_body['summary'] #can be empty
+            bcast_date = self.request.json_body['bcast_date']
+            
+            #url episode number and given episode number must match
+            if not epinumber == str(number):
+                raise HTTPBadRequest
+                
+            if not str(season).isdigit():
+                raise HTTPBadRequest 
+            
+            #trying to transfer the date to parsable format 
+            try:
+                bcast_date = bcast_date.replace("-","")
+                bcast_date = datetime.strptime(bcast_date, "%Y%m%d").date() #make it a date object
+            except:
+                raise HTTPBadRequest
+                
+            #add more text later    
+            if show.GetEpisodeBySeasonByNumber(season, epinumber):
+                raise HTTPInternalServerError 
+                
+            with transaction.manager:
+                epi = Episode.AddEpisode(show=show, title=title, season=int(season),
+                                     number=int(epinumber), bcast_date=bcast_date, summary=summary)
+                
+                if epi:
+                    _links = {"self": { "href": "/tvflix/shows/"+ label +"/seasons/"+ str(season) +"/episodes/" +str(epinumber) },
+                            "season": { "href": "/tvflix/shows/"+ label +"/seasons/"+ str(season)}
+                              }
+                              
+                    content = {"number": int(epinumber),
+                              "title": title,
+                              "bcast_date": str(bcast_date),
+                              "summary": summary,
+                              "season": int(season)
+                              }
+                              
+                    content['_links'] = _links
+                    
+                    return content
+                    
+        return HTTPNotFound
+        

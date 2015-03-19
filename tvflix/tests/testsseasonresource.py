@@ -75,5 +75,5 @@ class TestMySeasonResource(unittest.TestCase):
         request.matchdict = {'label': 'game-of-thrones', 'number': 'bad'}
         season  = SingleSeasonResource(request)
         
-        self.assertRaises(HTTPBadRequest, season.get)
+        self.assertRaises(HTTPNotFound, season.get)
         

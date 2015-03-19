@@ -52,11 +52,10 @@ class Episode(Base):
         :param summary: string
         :return: True if added successfully else False
         """
-        if title and season and number and bcast_date and summary and show:
+        if season and number and bcast_date and show:
             try:
                 Session.add(Episode(show = show, title = title, season = season, number = number,
                         bcast_date = bcast_date, summary = summary))
-                Session.flush()
                 return True
             except:
                 raise

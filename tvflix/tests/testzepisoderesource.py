@@ -50,4 +50,4 @@ class TestMySeasonResource(unittest.TestCase):
         #no such season
         request.matchdict = {'label': 'game-of-thrones', 'number': 'asd'}
         episodes  = EpisodesResource(request)
-        self.assertRaises(HTTPBadRequest, episodes.get)
+        self.assertRaises(HTTPNotFound, episodes.get)

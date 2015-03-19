@@ -15,6 +15,8 @@ from ..models.tag import Tag
 from ..models.episode import Episode
 from sqlalchemy.orm import relationship
 
+from sqlalchemy.orm.exc import NoResultFound, MultipleResultsFound
+
 
 class Show(Base):
     __tablename__ = "Shows"
@@ -110,10 +112,14 @@ class Show(Base):
         :param epnumber: integer
         :return: episode
         """
-        epi = self.episodes_dynamic.filter(and_(Episode.season == season, Episode.number == epnumber)).one()
-        if epi:
+        try:
+            epi = self.episodes_dynamic.filter(and_(Episode.season == season, Episode.number == epnumber)).one()
             return epi
-        return None
+        except MultipleResultsFound, exc:
+            #something is really wrong is this happens
+            return exc
+        except NoResultFound:   
+            return None
 
     def GetComments(self):
         """
