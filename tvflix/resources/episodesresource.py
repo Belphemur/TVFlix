@@ -1,4 +1,4 @@
-from pyramid.httpexceptions import HTTPNotFound, HTTPBadRequest, HTTPInternalServerError
+from pyramid.httpexceptions import HTTPNotFound, HTTPBadRequest, HTTPInternalServerError, HTTPUnauthorized
 from pyramid.response import Response
 from pyramid.view import view_config
 
@@ -6,6 +6,7 @@ from sqlalchemy.exc import DBAPIError
 
 from ..models import Session
 from ..models.show import Show
+from ..models.user import User
 from ..models.episode import Episode
 import transaction
 
@@ -80,11 +81,19 @@ class EpisodesResource(object):
         show = Show.GetShowByLabel(label)
 
         if show:
-            print self.request.json_body
-            print self.request.json_body['season']
-            print self.request.headers['apikey']
+            try:
+                apikey = self.request.headers['apikey']
+            except:
+                raise HTTPUnauthorized
+                
+            user = User.GetUserByApiKey(apikey)
+               
+            if not user or user.admin == False:
+                raise HTTPUnauthorized
             
-            if not self.request.json_body:
+            try:
+                self.request.json_body
+            except:
                 raise HTTPBadRequest
                 
             epinumber = self.request.json_body['number']
@@ -97,7 +106,7 @@ class EpisodesResource(object):
                 raise HTTPBadRequest 
             
             #url episode number and given episode number must match
-            if not season == str(number):
+            if not str(season) == str(number):
                 raise HTTPBadRequest
                 
             #trying to transfer the date to parsable format 
@@ -108,7 +117,7 @@ class EpisodesResource(object):
                 raise HTTPBadRequest
                 
             #add more text later    
-            if show.GetEpisodeBySeasonByNumber(season, epinumber):
+            if show.GetEpisodeBySeasonByNumber(int(season), int(epinumber)):
                 raise HTTPInternalServerError 
                 
             with transaction.manager:
@@ -131,5 +140,5 @@ class EpisodesResource(object):
                     
                     return content
                     
-        return HTTPNotFound
+        raise HTTPNotFound
         
