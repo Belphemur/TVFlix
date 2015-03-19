@@ -219,6 +219,11 @@ class TestMyDatabaseMethodsAndStuff(unittest.TestCase):
         user = User.GetUserByApiKey('asd')
         show = Show.GetShowByLabel('noshow')
         self.assertFalse(Comment.AddComment('test comment!! wuhuu', show, user))
+        
+    def testAddCommentShowFailureEmptyMessage(self):
+        user = User.GetUserByApiKey('asd11')
+        show = Show.GetShowByLabel('test')
+        self.assertFalse(Comment.AddComment('', show, user))
 
     def testAddCommentSecondCommentFailure(self):
         user = User.GetUserByApiKey('asd')

@@ -46,12 +46,12 @@ class Comment(Base):
         :param message: string
         :return: True if modified else False
         """
-        try:
+        if message:
             self.comment = message
             self.updated = datetime.datetime.now()
             return True
-        except:
-            raise
+       
+        return False
     
     #i would rather use Session.delete(comment)
     def DeleteComment(self):
