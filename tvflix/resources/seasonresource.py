@@ -74,7 +74,7 @@ class SingleSeasonResource(object):
         label = self.request.matchdict['label']
         number = self.request.matchdict['number']
         
-        if not isinstance(number, int):
+        if not str(number).isdigit():
             raise HTTPBadRequest
         
         show = Show.GetShowByLabel(label)
