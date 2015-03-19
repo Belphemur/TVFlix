@@ -1,6 +1,6 @@
 import unittest
 from pyramid import testing
-from pyramid.httpexceptions import HTTPNotFound
+from pyramid.httpexceptions import HTTPNotFound, HTTPBadRequest
 
 from ..resources.seasonresource import SeasonResource, SingleSeasonResource
 
@@ -59,4 +59,12 @@ class TestMySeasonResource(unittest.TestCase):
         season  = SingleSeasonResource(request)
         
         self.assertRaises(HTTPNotFound, season.get)
+        
+    def test_badRequest_SingleSeasonResource(self):
+        request = testing.DummyRequest()
+        #url '/tvflix/shows/{label}/seasons/{number}'  
+        request.matchdict = {'label': 'game-of-thrones', 'number': 'bad'}
+        season  = SingleSeasonResource(request)
+        
+        self.assertRaises(HTTPBadRequest, season.get)
         

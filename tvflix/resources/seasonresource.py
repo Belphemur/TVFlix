@@ -1,4 +1,4 @@
-from pyramid.httpexceptions import HTTPNotFound
+from pyramid.httpexceptions import HTTPNotFound, HTTPBadRequest
 from pyramid.response import Response
 from pyramid.view import view_config
 
@@ -73,6 +73,9 @@ class SingleSeasonResource(object):
     def get(self):
         label = self.request.matchdict['label']
         number = self.request.matchdict['number']
+        
+        if not isinstance(number, int):
+            raise HTTPBadRequest
         
         show = Show.GetShowByLabel(label)
         
