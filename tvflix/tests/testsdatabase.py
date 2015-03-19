@@ -175,6 +175,12 @@ class TestMyDatabaseMethodsAndStuff(unittest.TestCase):
         self.assertEqual(seasonNum[0], 1)
         self.assertEqual(seasonNum[1], 2)
         
+    def testGetSeasonnumbersNoSeasons(self):
+        show = Show.GetShowByLabel('simpsons')
+        seasonNum = show.GetAllSeasonNumbers()
+        
+        self.assertEqual(seasonNum, [])
+        
     #tests for user
     def testGetUserByApiKey(self):
         user = User.GetUserByApiKey('asdasd')

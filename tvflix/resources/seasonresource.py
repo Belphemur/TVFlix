@@ -86,21 +86,13 @@ class SingleSeasonResource(object):
             if episodes:                
                 content = {"number": number,
                           "episodes": len(episodes),
-                          "last_bcast_episode": str(episodes[-1].number),
+                          "last_bcast_episode": int(episodes[-1].number),
                           "start_date": str(episodes[0].bcast_date)
                           }
                         
                 content['_links'] = _links
                 
-            else:
-                content= {'_links': _links,
-                          "number": number,
-                          "episodes": None,
-                          "last_bcast_episode": None,
-                          "start_date": None
-                         }
-                
-            return content
+                return content
             
         raise HTTPNotFound
     
