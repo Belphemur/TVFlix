@@ -89,7 +89,24 @@ class TestMySeasonResource(unittest.TestCase):
         self.assertEqual(info['title'], None)
         self.assertEqual(info['summary'], None)
         self.assertEqual(info['season'], 2)
-        self.assertEqual(info['number'], 3)    
+        self.assertEqual(info['number'], 3)  
+
+    def test_passing_PostEpisodesResourceNoTitleOrSummary(self):
+        request = testing.DummyRequest()
+        #url '/tvflix/shows/{label}/seasons/{number}/episodes/'
+        request.matchdict = {'label': 'test', 'number': 2}
+        request.headers = {'apikey': 'asd'}
+        request.json_body = {"season": 2,
+                            "bcast_date": "2015-03-10",
+                            "number": 4,
+                            }
+                            
+        info = EpisodesResource.post(EpisodesResource(request))
+        
+        self.assertEqual(info['title'], None)
+        self.assertEqual(info['summary'], None)
+        self.assertEqual(info['season'], 2)
+        self.assertEqual(info['number'], 4) 
         
     def test_passing_PostEpisodesResourceIntAreStrings(self):
         request = testing.DummyRequest()
@@ -108,6 +125,21 @@ class TestMySeasonResource(unittest.TestCase):
         self.assertEqual(info['title'], "Dragons")
         self.assertEqual(info['season'], 1)
         self.assertEqual(info['number'], 6)
+        
+    def test_failure_PostEpisodesResourceWronglyNamedVariables(self):
+        request = testing.DummyRequest()
+        #url '/tvflix/shows/{label}/seasons/{number}/episodes/'
+        request.matchdict = {'label': 'test', 'number': 1}
+        request.headers = {'apikey': 'asd'}
+        request.json_body = {"title": "Dragons",
+                            "season": '1',
+                            "bcast_date": "2015-03-10",
+                            "asdasnumber": '61',
+                            "summary": "great episode"
+                            }
+                            
+        episodes  = EpisodesResource(request)
+        self.assertRaises(HTTPBadRequest, episodes.post)
         
     def test_failure_PostEpisodesResourceWrongApikey(self):
         request = testing.DummyRequest()

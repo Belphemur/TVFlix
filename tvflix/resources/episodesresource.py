@@ -95,12 +95,23 @@ class EpisodesResource(object):
                 self.request.json_body
             except:
                 raise HTTPBadRequest
+            
+            try:
+                epinumber = self.request.json_body['number']
+                season = self.request.json_body['season']
+                bcast_date = self.request.json_body['bcast_date']
+            except:
+                raise HTTPBadRequest
+            
+            try:
+                title = self.request.json_body['title'] #can be empty
+            except:
+                title = None
                 
-            epinumber = self.request.json_body['number']
-            title = self.request.json_body['title'] #can be empty
-            season = self.request.json_body['season']
-            summary = self.request.json_body['summary'] #can be empty
-            bcast_date = self.request.json_body['bcast_date']
+            try:
+                summary = self.request.json_body['summary'] #can be empty
+            except:
+                summary = None
             
             if not str(epinumber).isdigit():
                 raise HTTPBadRequest 
