@@ -1,4 +1,4 @@
-from pyramid.httpexceptions import HTTPNotFound, HTTPBadRequest, HTTPInternalServerError, HTTPUnauthorized
+from pyramid.httpexceptions import HTTPNotFound, HTTPBadRequest, HTTPInternalServerError, HTTPUnauthorized, HTTPNoContent
 from pyramid.response import Response
 from pyramid.view import view_config
 
@@ -291,4 +291,36 @@ class SingleEpisodesResource(object):
     
     @view(renderer='json')
     def delete(self):
-        pass
+        label = self.request.matchdict['label']
+        number = self.request.matchdict['number']
+        ep = self.request.matchdict['ep']
+        
+        if not str(number).isdigit():
+            raise HTTPNotFound
+            
+        if not str(ep).isdigit():
+            raise HTTPNotFound
+            
+        show = Show.GetShowByLabel(label)
+
+        if show:  
+            #check if user exists and it has admin rights
+            if not 'apikey' in self.request.headers.keys():
+                raise HTTPUnauthorized
+                    
+            apikey = self.request.headers['apikey']   
+            user = User.GetUserByApiKey(apikey)
+               
+            if not user or user.admin == False:
+                raise HTTPUnauthorized
+                
+            episode = show.GetEpisodeBySeasonByNumber(int(number), int(ep))           
+            if episode:
+                #delete and commit changes using transaction
+                with transaction.manager:
+                    episode.DeleteEpisode()
+
+                raise HTTPNoContent
+                        
+        raise HTTPNotFound
+                    

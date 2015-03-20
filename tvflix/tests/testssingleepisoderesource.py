@@ -1,6 +1,6 @@
 import unittest
 from pyramid import testing
-from pyramid.httpexceptions import HTTPNotFound, HTTPBadRequest, HTTPUnauthorized, HTTPInternalServerError
+from pyramid.httpexceptions import HTTPNotFound, HTTPBadRequest, HTTPUnauthorized, HTTPInternalServerError, HTTPNoContent
 
 from ..resources.episodesresource import SingleEpisodesResource
 
@@ -253,6 +253,41 @@ class TestMySeasonResource(unittest.TestCase):
         episodes  = SingleEpisodesResource(request)
         self.assertRaises(HTTPNotFound, episodes.put)
        
+    #DELETE
+    def test_passing_DeleteSingleEpisodesResource(self):
+        request = testing.DummyRequest()
+        #url '/tvflix/shows/{label}/seasons/{number}/episodes/{ep}'
+        request.matchdict = {'label': 'family-guy', 'number': 0, 'ep': 1}
+        request.headers = {'apikey': 'asd'} #correct admin key
+                            
+        info  = SingleEpisodesResource(request)
+        self.assertRaises(HTTPNoContent, info.delete)
+        
+    def test_failure_DeleteSingleEpisodesResourceIncorrectApikey(self):
+        request = testing.DummyRequest()
+        #url '/tvflix/shows/{label}/seasons/{number}/episodes/{ep}'
+        request.matchdict = {'label': 'family-guy', 'number': '0', 'ep': '1'}
+        request.headers = {'apikey': 'asdasd'} #incorrect admin key
+                            
+        info  = SingleEpisodesResource(request)
+        self.assertRaises(HTTPUnauthorized, info.delete)
+        
+    def test_failure_DeleteSingleEpisodesResourceNoHeader(self):
+        request = testing.DummyRequest()
+        #url '/tvflix/shows/{label}/seasons/{number}/episodes/{ep}'
+        request.matchdict = {'label': 'family-guy', 'number': 0, 'ep': 1}
+                            
+        info  = SingleEpisodesResource(request)
+        self.assertRaises(HTTPUnauthorized, info.delete)
+        
+    def test_passing_DeleteSingleEpisodesResourceNoEpisode(self):
+        request = testing.DummyRequest()
+        #url '/tvflix/shows/{label}/seasons/{number}/episodes/{ep}'
+        request.matchdict = {'label': 'family-guy', 'number': 1, 'ep': 1}
+        request.headers = {'apikey': 'asd'} #correct admin key
+                            
+        info  = SingleEpisodesResource(request)
+        self.assertRaises(HTTPNotFound, info.delete)
         
     
         

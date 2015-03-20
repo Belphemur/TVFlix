@@ -43,10 +43,14 @@ class TestMyDatabaseMethodsAndStuff(unittest.TestCase):
                          
             show3 = Show(showlabel='simpsons', title=u'The simpsons',
                          start_year=2011, end_year=None, bcast_day=6, summary="Everybody disses", channel="MTV")
+                         
+            show4 = Show(showlabel='family-guy', title=u'Family Guy',
+                         start_year=2011, end_year=None, bcast_day=6, summary="randon jokes", channel="MTV")
 
             Session.add(show1)
             Session.add(show2)
             Session.add(show3)
+            Session.add(show4)
 
         #Episodes
         with transaction.manager:
@@ -59,10 +63,14 @@ class TestMyDatabaseMethodsAndStuff(unittest.TestCase):
 
             epi3 = Episode(show_id=1, title="Dragons", season=2, number=1,
                            bcast_date=date.today(), summary='Boobs and dragons')
+                           
+            epi4 = Episode(show_id=4, title="buhahaa", season=0, number=1,
+                           bcast_date=date.today(), summary='to be deleted')
 
             Session.add(epi1)
             Session.add(epi2)
             Session.add(epi3)
+            Session.add(epi4)
 
         #Comments
         with transaction.manager:
