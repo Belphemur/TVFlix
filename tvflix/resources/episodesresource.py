@@ -258,6 +258,9 @@ class SingleEpisodesResource(object):
             if not str(epinumber) == str(ep):
                 raise HTTPBadRequest
                 
+            if not str(number) == str(season):
+                raise HTTPBadRequest
+                
             episode = show.GetEpisodeBySeasonByNumber(int(number), int(ep))
             
             if episode:

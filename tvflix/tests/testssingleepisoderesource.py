@@ -89,3 +89,171 @@ class TestMySeasonResource(unittest.TestCase):
         self.assertEqual(info['number'], 2)
         self.assertEqual(info['bcast_date'], "2012-03-10")
         self.assertEqual(info['summary'], "new summary")
+        
+    def test_passing_PostSingleEpisodesResourceValuesAreStrings(self):
+        request = testing.DummyRequest()
+        #url '/tvflix/shows/{label}/seasons/{number}/episodes/{ep}'
+        request.matchdict = {'label': 'game-of-thrones', 'number': '1', 'ep': '2'}
+        request.headers = {'apikey': 'asd'} #correct admin key
+        request.json_body = {"title": "New title",
+                            "season": '1',
+                            "bcast_date": "2012-03-11",
+                            "number": '2',
+                            "summary": "new summaryyy"
+                            }
+                            
+        info = SingleEpisodesResource.put(SingleEpisodesResource(request))
+        
+        #self.assertEqual(info['title'], "New title")
+        self.assertEqual(info['season'], 1)
+        self.assertEqual(info['number'], 2)
+        self.assertEqual(info['bcast_date'], "2012-03-11")
+        self.assertEqual(info['summary'], "new summaryyy")
+        
+    def test_failure_PostSingleEpisodesResourceNoRealApiKey(self):
+        request = testing.DummyRequest()
+        #url '/tvflix/shows/{label}/seasons/{number}/episodes/{ep}'
+        request.matchdict = {'label': 'game-of-thrones', 'number': 1, 'ep': 2}
+        request.headers = {'apikey': 'asdaaaaaa'} #correct admin key
+        request.json_body = {"title": "New title",
+                            "season": 1,
+                            "bcast_date": "2012-03-10",
+                            "number": 2,
+                            "summary": "new summary"
+                            }
+                            
+        episodes  = SingleEpisodesResource(request)
+        self.assertRaises(HTTPUnauthorized, episodes.put)
+        
+    def test_failure_PostSingleEpisodesResourceNotAnAdmin(self):
+        request = testing.DummyRequest()
+        #url '/tvflix/shows/{label}/seasons/{number}/episodes/{ep}'
+        request.matchdict = {'label': 'game-of-thrones', 'number': 1, 'ep': 2}
+        request.headers = {'apikey': 'asdasd'}
+        request.json_body = {"title": "New title",
+                            "season": 1,
+                            "bcast_date": "2012-03-10",
+                            "number": 2,
+                            "summary": "new summary"
+                            }
+                            
+        episodes  = SingleEpisodesResource(request)
+        self.assertRaises(HTTPUnauthorized, episodes.put)    
+        
+    def test_failure_PostSingleEpisodesResourceNoHeader(self):
+        request = testing.DummyRequest()
+        #url '/tvflix/shows/{label}/seasons/{number}/episodes/{ep}'
+        request.matchdict = {'label': 'game-of-thrones', 'number': 1, 'ep': 2}
+        request.json_body = {"title": "New title",
+                            "season": 1,
+                            "bcast_date": "2012-03-10",
+                            "number": 2,
+                            "summary": "new summary"
+                            }
+                            
+        episodes  = SingleEpisodesResource(request)
+        self.assertRaises(HTTPUnauthorized, episodes.put)
+        
+    def test_failure_PostSingleEpisodesResourceEpisodeNumberMissMatch(self):
+        request = testing.DummyRequest()
+        #url '/tvflix/shows/{label}/seasons/{number}/episodes/{ep}'
+        request.matchdict = {'label': 'game-of-thrones', 'number': 1, 'ep': 3}
+        request.headers = {'apikey': 'asd'} #correct admin key
+        request.json_body = {"title": "New title",
+                            "season": 1,
+                            "bcast_date": "2012-03-10",
+                            "number": 2,
+                            "summary": "new summary"
+                            }
+                            
+        episodes  = SingleEpisodesResource(request)
+        self.assertRaises(HTTPBadRequest, episodes.put)
+        
+    def test_failure_PostSingleEpisodesResourceSeasonNumberMissMatch(self):
+        request = testing.DummyRequest()
+        #url '/tvflix/shows/{label}/seasons/{number}/episodes/{ep}'
+        request.matchdict = {'label': 'game-of-thrones', 'number': 12, 'ep': 2}
+        request.headers = {'apikey': 'asd'} #correct admin key
+        request.json_body = {"title": "New title",
+                            "season": 1,
+                            "bcast_date": "2012-03-10",
+                            "number": 2,
+                            "summary": "new summary"
+                            }
+                            
+        episodes  = SingleEpisodesResource(request)
+        self.assertRaises(HTTPBadRequest, episodes.put) 
+        
+    def test_failure_PostSingleEpisodesResourceValuesAreIncorrectlyNamed(self):
+        request = testing.DummyRequest()
+        #url '/tvflix/shows/{label}/seasons/{number}/episodes/{ep}'
+        request.matchdict = {'label': 'game-of-thrones', 'number': 12, 'ep': 2}
+        request.headers = {'apikey': 'asd'} #correct admin key
+        request.json_body = {"title": "New title",
+                            "asd": 1,
+                            "bcast_date": "2012-03-10",
+                            "number": 2,
+                            "summary": "new summary"
+                            }
+                            
+        episodes  = SingleEpisodesResource(request)
+        self.assertRaises(HTTPBadRequest, episodes.put)
+        
+    def test_failure_PostSingleEpisodesResourceNoJsonBody(self):
+        request = testing.DummyRequest()
+        #url '/tvflix/shows/{label}/seasons/{number}/episodes/{ep}'
+        request.matchdict = {'label': 'game-of-thrones', 'number': 12, 'ep': 2}
+        request.headers = {'apikey': 'asd'} #correct admin key
+                            
+        episodes  = SingleEpisodesResource(request)
+        self.assertRaises(HTTPBadRequest, episodes.put)
+        
+    def test_failure_PostSingleEpisodesResourceBadDateFormat(self):
+        request = testing.DummyRequest()
+        #url '/tvflix/shows/{label}/seasons/{number}/episodes/{ep}'
+        request.matchdict = {'label': 'game-of-thrones', 'number': 1, 'ep': 2}
+        request.headers = {'apikey': 'asd'} #correct admin key
+        request.json_body = {"title": "New title",
+                            "number": 1,
+                            "bcast_date": "2012703/10",
+                            "number": 2,
+                            "summary": "new summary"
+                            }
+                            
+        episodes  = SingleEpisodesResource(request)
+        self.assertRaises(HTTPBadRequest, episodes.put)
+        
+    def test_failure_PostSingleEpisodesResourceNoShow(self):
+        request = testing.DummyRequest()
+        #url '/tvflix/shows/{label}/seasons/{number}/episodes/{ep}'
+        request.matchdict = {'label': 'no-show', 'number': 1, 'ep': 2}
+        request.headers = {'apikey': 'asd'} #correct admin key
+        request.json_body = {"title": "New title",
+                            "asd": 1,
+                            "bcast_date": "2012-03-10",
+                            "number": 2,
+                            "summary": "new summary"
+                            }
+                            
+        episodes  = SingleEpisodesResource(request)
+        self.assertRaises(HTTPNotFound, episodes.put)
+        
+    def test_failure_PostSingleEpisodesResourceNumberInURLIsString(self):
+        request = testing.DummyRequest()
+        #url '/tvflix/shows/{label}/seasons/{number}/episodes/{ep}'
+        request.matchdict = {'label': 'no-show', 'number': 'asda', 'ep': 2}
+        request.headers = {'apikey': 'asd'} #correct admin key
+        request.json_body = {"title": "New title",
+                            "asd": 1,
+                            "bcast_date": "2012-03-10",
+                            "number": 2,
+                            "summary": "new summary"
+                            }
+                            
+        episodes  = SingleEpisodesResource(request)
+        self.assertRaises(HTTPNotFound, episodes.put)
+       
+        
+    
+        
+        
