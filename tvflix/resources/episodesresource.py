@@ -216,7 +216,7 @@ class SingleEpisodesResource(object):
         show = Show.GetShowByLabel(label)
 
         if show:  
-            '''#check if user exists and it has admin rights
+            #check if user exists and it has admin rights
             if not 'apikey' in self.request.headers.keys():
                 raise HTTPUnauthorized
                     
@@ -224,7 +224,7 @@ class SingleEpisodesResource(object):
             user = User.GetUserByApiKey(apikey)
                
             if not user or user.admin == False:
-                raise HTTPUnauthorized'''
+                raise HTTPUnauthorized
                 
             #check json_body and content 
             try:
