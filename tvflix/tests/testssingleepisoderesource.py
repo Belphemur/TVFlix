@@ -289,6 +289,24 @@ class TestMySeasonResource(unittest.TestCase):
         info  = SingleEpisodesResource(request)
         self.assertRaises(HTTPNotFound, info.delete)
         
+    def test_passing_DeleteSingleEpisodesResourceRandomStringsAsNumber(self):
+        request = testing.DummyRequest()
+        #url '/tvflix/shows/{label}/seasons/{number}/episodes/{ep}'
+        request.matchdict = {'label': 'family-guy', 'number': 'asdasd', 'ep': 1}
+        request.headers = {'apikey': 'asd'} #correct admin key
+                            
+        info  = SingleEpisodesResource(request)
+        self.assertRaises(HTTPNotFound, info.delete)
+        
+    def test_passing_DeleteSingleEpisodesResourceRandomStringsAsEp(self):
+        request = testing.DummyRequest()
+        #url '/tvflix/shows/{label}/seasons/{number}/episodes/{ep}'
+        request.matchdict = {'label': 'family-guy', 'number': 0, 'ep': 'asdasd'}
+        request.headers = {'apikey': 'asd'} #correct admin key
+                            
+        info  = SingleEpisodesResource(request)
+        self.assertRaises(HTTPNotFound, info.delete)
+        
     
         
         
