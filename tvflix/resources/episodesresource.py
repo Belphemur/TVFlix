@@ -157,3 +157,52 @@ class EpisodesResource(object):
                     
         raise HTTPNotFound
         
+      
+#single episode resource
+@resource(path='/tvflix/shows/{label}/seasons/{number}/episodes/{ep}')
+class SingleEpisodesResource(object):
+    def __init__(self, request):
+        self.request = request
+        #set content type to hal+json
+        request.response.content_type = 'application/hal+json'
+    
+    @view(renderer='json')
+    def get(self):
+        label = self.request.matchdict['label']
+        number = self.request.matchdict['number']
+        ep = self.request.matchdict['ep']
+        
+        if not str(number).isdigit():
+            raise HTTPNotFound
+            
+        if not str(ep).isdigit():
+            raise HTTPNotFound
+            
+        show = Show.GetShowByLabel(label)
+
+        if show:    
+            episode = show.GetEpisodeBySeasonByNumber(int(number), int(ep))
+            
+            if episode:
+                _links = {"self": {"href": "/tvflix/shows/"+ label +"/seasons/"+ str(number) +"/episodes/" +str(ep)},
+                        "season": {"href": "/tvflix/shows/"+ label +"/seasons/"+ str(number)}
+                        }
+                        
+                content = {"number": episode.number,
+                          "title": episode.title,
+                          "bcast_date": str(episode.bcast_date),
+                          "summary": episode.summary,
+                          "season": episode.season
+                          }
+                          
+                content['_links'] = _links
+                
+                return content
+         
+        raise HTTPNotFound
+        
+    def put(self):
+        pass
+        
+    def delete(self):
+        pass
