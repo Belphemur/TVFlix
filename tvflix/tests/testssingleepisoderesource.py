@@ -44,27 +44,27 @@ class TestMySeasonResource(unittest.TestCase):
     def test_failure_SingleEpisodesResourceNoSuchSeason(self):
         request = testing.DummyRequest()
         #url '/tvflix/shows/{label}/seasons/{number}/episodes/{ep}'
-        request.matchdict = {'label': 'no-show', 'number': 3, 'ep': 1}
+        request.matchdict = {'label': 'game-of-thrones', 'number': 3, 'ep': 1}
         episodes  = SingleEpisodesResource(request)
         self.assertRaises(HTTPNotFound, episodes.get)
         
     def test_failure_SingleEpisodesResourceNoSuchEpisode(self):
         request = testing.DummyRequest()
         #url '/tvflix/shows/{label}/seasons/{number}/episodes/{ep}'
-        request.matchdict = {'label': 'no-show', 'number': 1, 'ep': 11}
+        request.matchdict = {'label': 'game-of-thrones', 'number': 1, 'ep': 11}
         episodes  = SingleEpisodesResource(request)
         self.assertRaises(HTTPNotFound, episodes.get)
         
     def test_failure_SingleEpisodesResourceRandonStringAsSeason(self):
         request = testing.DummyRequest()
         #url '/tvflix/shows/{label}/seasons/{number}/episodes/{ep}'
-        request.matchdict = {'label': 'no-show', 'number': 'asd', 'ep': 1}
+        request.matchdict = {'label': 'game-of-thrones', 'number': 'asd', 'ep': 1}
         episodes  = SingleEpisodesResource(request)
         self.assertRaises(HTTPNotFound, episodes.get)
         
     def test_failure_SingleEpisodesResourceRandonStringAsEpisode(self):
         request = testing.DummyRequest()
         #url '/tvflix/shows/{label}/seasons/{number}/episodes/{ep}'
-        request.matchdict = {'label': 'no-show', 'number': 1, 'ep': 'asdads'}
+        request.matchdict = {'label': 'game-of-thrones', 'number': 1, 'ep': 'asdads'}
         episodes  = SingleEpisodesResource(request)
         self.assertRaises(HTTPNotFound, episodes.get)
