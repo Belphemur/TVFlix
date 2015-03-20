@@ -200,9 +200,92 @@ class SingleEpisodesResource(object):
                 return content
          
         raise HTTPNotFound
-        
+    
+    @view(renderer='json')
     def put(self):
-        pass
+        label = self.request.matchdict['label']
+        number = self.request.matchdict['number']
+        ep = self.request.matchdict['ep']
         
+        if not str(number).isdigit():
+            raise HTTPNotFound
+            
+        if not str(ep).isdigit():
+            raise HTTPNotFound
+            
+        show = Show.GetShowByLabel(label)
+
+        if show:  
+            '''#check if user exists and it has admin rights
+            if not 'apikey' in self.request.headers.keys():
+                raise HTTPUnauthorized
+                    
+            apikey = self.request.headers['apikey']   
+            user = User.GetUserByApiKey(apikey)
+               
+            if not user or user.admin == False:
+                raise HTTPUnauthorized'''
+                
+            #check json_body and content 
+            try:
+                self.request.json_body
+            except:
+                raise HTTPBadRequest
+            
+            if not 'bcast_date' in self.request.json_body.keys():
+                raise HTTPBadRequest
+            if not 'number' in self.request.json_body.keys():
+                raise HTTPBadRequest
+            if not 'season' in self.request.json_body.keys():
+                raise HTTPBadRequest
+            if not 'title' in self.request.json_body.keys():
+                raise HTTPBadRequest
+            if not  'summary' in self.request.json_body.keys():
+                raise HTTPBadRequest
+            
+            try:
+                bcast_date = self.request.json_body['bcast_date']  
+                bcast_date = bcast_date.replace("-","")
+                bcast_date = datetime.strptime(bcast_date, "%Y%m%d").date() #make it a date object
+            except:
+                raise HTTPBadRequest
+                    
+            epinumber = self.request.json_body['number']
+            season = self.request.json_body['season']
+            title = self.request.json_body['title']
+            summary = self.request.json_body['summary']
+            
+            if not str(epinumber) == str(ep):
+                raise HTTPBadRequest
+                
+            episode = show.GetEpisodeBySeasonByNumber(int(number), int(ep))
+            
+            if episode:
+                with transaction.manager:
+                    Session.query(Episode).filter(Episode.ep_id == episode.ep_id).update({"title": title, "season": season, "number": epinumber, "bcast_date": bcast_date, "summary":summary})
+                    
+                #get newly modified show
+                newShow = Show.GetShowByLabel(label)
+                episode = newShow.GetEpisodeBySeasonByNumber(int(number), int(ep))
+                
+                _links = {"self": {
+                          "href": "/tvflix/shows/"+ label +"/seasons/"+ str(number) +"/episodes/" + str(ep)},
+                        "season": {"href": "/tvflix/shows/"+ label +"/seasons/"+ str(number) }
+                        }
+                        
+                content = {"number": episode.number,
+                          "title": episode.title,
+                          "bcast_date": str(episode.bcast_date),
+                          "summary": episode.summary,
+                          "season": episode.season
+                          }
+                          
+                content['_links'] = _links
+                
+                return content
+                    
+        raise HTTPNotFound
+    
+    @view(renderer='json')
     def delete(self):
         pass

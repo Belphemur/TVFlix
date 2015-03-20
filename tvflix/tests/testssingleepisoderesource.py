@@ -68,3 +68,24 @@ class TestMySeasonResource(unittest.TestCase):
         request.matchdict = {'label': 'game-of-thrones', 'number': 1, 'ep': 'asdads'}
         episodes  = SingleEpisodesResource(request)
         self.assertRaises(HTTPNotFound, episodes.get)
+        
+    #PUT
+    def test_passing_PostSingleEpisodesResource(self):
+        request = testing.DummyRequest()
+        #url '/tvflix/shows/{label}/seasons/{number}/episodes/{ep}'
+        request.matchdict = {'label': 'game-of-thrones', 'number': 1, 'ep': 2}
+        request.headers = {'apikey': 'asd'} #correct admin key
+        request.json_body = {"title": "New title",
+                            "season": 1,
+                            "bcast_date": "2012-03-10",
+                            "number": 2,
+                            "summary": "new summary"
+                            }
+                            
+        info = SingleEpisodesResource.put(SingleEpisodesResource(request))
+        
+        #self.assertEqual(info['title'], "New title")
+        self.assertEqual(info['season'], 1)
+        self.assertEqual(info['number'], 2)
+        self.assertEqual(info['bcast_date'], "2012-03-10")
+        self.assertEqual(info['summary'], "new summary")
