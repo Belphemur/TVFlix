@@ -157,6 +157,20 @@ class TestMySeasonResource(unittest.TestCase):
 
         self.assertRaises(HTTPUnauthorized, episode.post)
         
+    def test_failure_PostEpisodesResourceNoHeaderaa(self):
+        request = testing.DummyRequest()
+        #url '/tvflix/shows/{label}/seasons/{number}/episodes/'
+        request.matchdict = {'label': 'test', 'number': 1}
+        request.json_body = {"title": "Dragons",
+                            "season": 1,
+                            "bcast_date": "2015-03-10",
+                            "number": 5,
+                            "summary": "great episode"
+                            }
+                            
+        episode  = EpisodesResource(request)
+        self.assertRaises(HTTPUnauthorized, episode.post)
+        
     def test_failure_PostEpisodesResourceNoApikey(self):
         request = testing.DummyRequest()
         #url '/tvflix/shows/{label}/seasons/{number}/episodes/'

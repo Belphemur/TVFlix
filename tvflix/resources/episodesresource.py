@@ -81,31 +81,39 @@ class EpisodesResource(object):
         show = Show.GetShowByLabel(label)
 
         if show:
-            try:
-                apikey = self.request.headers['apikey']
-            except:
+            if not 'apikey' in self.request.headers.keys():
                 raise HTTPUnauthorized
                 
+            apikey = self.request.headers['apikey']   
             user = User.GetUserByApiKey(apikey)
                
             if not user or user.admin == False:
                 raise HTTPUnauthorized
-            
-            try:
-                epinumber = self.request.json_body['number']
-                season = self.request.json_body['season']
-                bcast_date = self.request.json_body['bcast_date']
+                
+            try: #checks if json_body in request
+                self.request.json_body
             except:
                 raise HTTPBadRequest
             
-            try:
+            if not 'bcast_date' in self.request.json_body.keys():
+                raise HTTPBadRequest
+            if not 'number' in self.request.json_body.keys():
+                raise HTTPBadRequest
+            if not 'season' in self.request.json_body.keys():
+                raise HTTPBadRequest
+
+            epinumber = self.request.json_body['number']
+            season = self.request.json_body['season']
+            bcast_date = self.request.json_body['bcast_date']
+   
+            if 'title' in self.request.json_body.keys():
                 title = self.request.json_body['title'] #can be empty
-            except:
+            else:
                 title = None
                 
-            try:
+            if 'summary' in self.request.json_body.keys():
                 summary = self.request.json_body['summary'] #can be empty
-            except:
+            else:
                 summary = None
             
             if not str(epinumber).isdigit():
