@@ -24,6 +24,7 @@ pyramid, pyramid_tm, SQLAlchemy, transaction, zope.sqlalchemy, waitress, nose
 ###basic tests:
 - nosetests -v tvflix
 
-### coverage tests:
+### coverage tests: (optional testing method or just for fun)
+- pip install coverage
 - nosetests --cover-package=tvflix --cover-erase --with-coverage
 
