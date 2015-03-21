@@ -2,9 +2,11 @@ import unittest
 from pyramid import testing
 from pyramid.httpexceptions import HTTPNotFound
 
-from ..resources.searchresource import SearchShowResource, SearchEpisodeResource
+from ..resources.searchresource import SearchShowResource, SearchEpisodeResource, showParser, episodeParser
 
 from datetime import date
+
+from ..models.show import Show
 
 # default view test
 class TestMySeasonResource(unittest.TestCase):    
@@ -52,4 +54,33 @@ class TestMySeasonResource(unittest.TestCase):
         
         info  = SearchEpisodeResource(request)
         self.assertRaises(HTTPNotFound, info.get)
+        
+    #other methods
+    def test_TrueShowParser(self):
+        show = Show.GetShowByLabel('test')
+        
+        self.assertTrue(showParser([], show))
+        
+    def test_FalseShowParser(self):
+        show = Show.GetShowByLabel('test')
+        
+        self.assertFalse(showParser([show], show))
+        
+    def test_true_episodeParser(self):
+        #should only be 1 episode
+        show = Show.GetShowByLabel('family-guy')
+        epi = show.episodes
+        
+        self.assertTrue(episodeParser([], epi))
+        
+    def test_false_episodeParser(self):
+        #should only be 1 episode
+        show = Show.GetShowByLabel('family-guy')
+        epi = show.episodes #list
+        
+        self.assertFalse(episodeParser([epi[0]], epi[0]))
+        
+        
+        
+        
         

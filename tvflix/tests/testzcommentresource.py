@@ -68,6 +68,16 @@ class TestMySeasonResource(unittest.TestCase):
         
         self.assertRaises(HTTPUnauthorized, comment.post)
         
+    def test_failure_PostCommentResourceNoUser(self):
+        request = testing.DummyRequest()
+        #url '/tvflix/shows/{label}/comments'
+        request.matchdict = {'label': 'simpsons'}
+        request.headers = {'apikey': 'nokey'}
+        request.json_body = {'comment': "my comment"}
+        comment  = CommentsResource(request)
+        
+        self.assertRaises(HTTPUnauthorized, comment.post)
+        
     def test_failure_PostCommentResourceNoHeader(self):
         request = testing.DummyRequest()
         #url '/tvflix/shows/{label}/comments'
