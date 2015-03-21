@@ -1,6 +1,6 @@
 import unittest
 from pyramid import testing
-from pyramid.httpexceptions import HTTPNotFound, HTTPBadRequest, HTTPUnauthorized, HTTPInternalServerError
+from pyramid.httpexceptions import HTTPNotFound, HTTPBadRequest, HTTPUnauthorized, HTTPInternalServerError, HTTPNoContent
 
 from ..resources.commentresource import CommentsResource, SingleCommentsResource
 
@@ -202,4 +202,70 @@ class TestMySeasonResource(unittest.TestCase):
         info  = SingleCommentsResource(request)
         
         self.assertRaises(HTTPBadRequest, info.put)
+        
+    #DELETE
+    def test_passing_DeleteSingleCommentResource(self):
+        request = testing.DummyRequest()
+        #url '/tvflix/shows/{label}/comments/{username}'
+        #username like this can't exists in reality
+        request.matchdict = {'label': 'comment-show', 'username': 'test user 1'}
+        request.headers = {'apikey': 'asdasd'}
+        
+        info  = SingleCommentsResource(request)
+        
+        self.assertRaises(HTTPNoContent, info.delete)
+        
+    def test_failure_DeleteSingleCommentResourceNoapikey(self):
+        request = testing.DummyRequest()
+        #url '/tvflix/shows/{label}/comments/{username}'
+        #username like this can't exists in reality
+        request.matchdict = {'label': 'comment-show', 'username': 'test user 1'}
+        request.headers = {'apikeyasd': 'asdasd'}
+        
+        info  = SingleCommentsResource(request)
+        
+        self.assertRaises(HTTPUnauthorized, info.delete)
+        
+    def test_failure_DeleteSingleCommentResourceNoHeader(self):
+        request = testing.DummyRequest()
+        #url '/tvflix/shows/{label}/comments/{username}'
+        #username like this can't exists in reality
+        request.matchdict = {'label': 'comment-show', 'username': 'test user 1'}
+        
+        info  = SingleCommentsResource(request)
+        
+        self.assertRaises(HTTPUnauthorized, info.delete)
+        
+    def test_failure_DeleteSingleCommentResourceApikeuAndUsernameMissMatch(self):
+        request = testing.DummyRequest()
+        #url '/tvflix/shows/{label}/comments/{username}'
+        #username like this can't exists in reality
+        request.matchdict = {'label': 'comment-show', 'username': 'someone-else'}
+        request.headers = {'apikey': 'asdasd'}
+        
+        info  = SingleCommentsResource(request)
+        
+        self.assertRaises(HTTPUnauthorized, info.delete)
+        
+    def test_failure_DeleteSingleCommentResourceNoSuchShow(self):
+        request = testing.DummyRequest()
+        #url '/tvflix/shows/{label}/comments/{username}'
+        #username like this can't exists in reality
+        request.matchdict = {'label': 'no-show', 'username': 'test user 1'}
+        request.headers = {'apikey': 'asdasd'}
+        
+        info  = SingleCommentsResource(request)
+        
+        self.assertRaises(HTTPNotFound, info.delete)
+        
+    def test_failure_DeleteSingleCommentResourceNoComment(self):
+        request = testing.DummyRequest()
+        #url '/tvflix/shows/{label}/comments/{username}'
+        #username like this can't exists in reality
+        request.matchdict = {'label': 'family-guy', 'username': 'test user 1'}
+        request.headers = {'apikey': 'asdasd'}
+        
+        info  = SingleCommentsResource(request)
+        
+        self.assertRaises(HTTPNotFound, info.delete)
         

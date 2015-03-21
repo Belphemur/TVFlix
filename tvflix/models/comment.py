@@ -67,7 +67,7 @@ class Comment(Base):
      
     @classmethod
     def GetUserCommentForShow(cls, User, Show):
-        comment = Session.query(Comment).filter(Comment.user_id == User.user_id, Comment.show_id == Show.show_id).one()
+        comment = Session.query(Comment).filter(Comment.user_id == User.user_id, Comment.show_id == Show.show_id).first()
         if comment:
             return comment
         return None

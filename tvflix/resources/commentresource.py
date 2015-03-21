@@ -1,4 +1,4 @@
-from pyramid.httpexceptions import HTTPNotFound, HTTPBadRequest, HTTPUnauthorized, HTTPInternalServerError
+from pyramid.httpexceptions import HTTPNotFound, HTTPBadRequest, HTTPUnauthorized, HTTPInternalServerError, HTTPNoContent
 from pyramid.response import Response
 from pyramid.view import view_config
 
@@ -157,7 +157,8 @@ class SingleCommentsResource(object):
                 #update comment
                 with transaction.manager:
                     time = datetime.now()
-                    Session.query(Comment).filter(Comment.comment_id == com.comment_id).update({'comment': comment, 'updated': time})
+                    Session.query(Comment).filter(Comment.comment_id == com.comment_id)\
+                        .update({'comment': comment, 'updated': time})
                     
                 newCom = Comment.GetUserCommentForShow(user, show)
                 
@@ -180,7 +181,29 @@ class SingleCommentsResource(object):
 
     @view(renderer='json')
     def delete(self):
-        pass
+        label = self.request.matchdict['label']  
+        username = self.request.matchdict['username'] 
+        
+        show = Show.GetShowByLabel(label)
+        
+        if show:
+            if not 'apikey' in self.request.headers.keys():
+                raise HTTPUnauthorized
+                
+            apikey = self.request.headers['apikey']   
+            user = User.GetUserByApiKey(apikey)
+               
+            if not user or not str(username) == str(user.username):
+                raise HTTPUnauthorized
+                
+            com = Comment.GetUserCommentForShow(user, show)
+            if com:
+                with transaction.manager:
+                    Session.delete(com)
+                    
+                raise HTTPNoContent
+                    
+        raise HTTPNotFound
 
         
         

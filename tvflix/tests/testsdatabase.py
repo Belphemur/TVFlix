@@ -46,11 +46,15 @@ class TestMyDatabaseMethodsAndStuff(unittest.TestCase):
                          
             show4 = Show(showlabel='family-guy', title=u'Family Guy',
                          start_year=2011, end_year=None, bcast_day=6, summary="randon jokes", channel="MTV")
+                         
+            show5 = Show(showlabel='comment-show', title=u'to be deleted',
+                         start_year=2011, end_year=None, bcast_day=6, summary="randon jokes", channel="MTV")
 
             Session.add(show1)
             Session.add(show2)
             Session.add(show3)
             Session.add(show4)
+            Session.add(show5)
 
         #Episodes
         with transaction.manager:
@@ -66,6 +70,7 @@ class TestMyDatabaseMethodsAndStuff(unittest.TestCase):
                            
             epi4 = Episode(show_id=4, title="buhahaa", season=0, number=1,
                            bcast_date=date.today(), summary='to be deleted')
+                           
 
             Session.add(epi1)
             Session.add(epi2)
@@ -79,9 +84,13 @@ class TestMyDatabaseMethodsAndStuff(unittest.TestCase):
 
             com2 = Comment(user_id=1, show_id=1, comment="buhahaaa",
                            posted=datetime.now(), updated=None)
+                           
+            com3 = Comment(user_id=1, show_id=5, comment="to be deleted",
+                           posted=datetime.now(), updated=None)
 
             Session.add(com1)
             Session.add(com2)
+            Session.add(com3)
 
         with transaction.manager:
             tag1 = Tag(name='Drama')
