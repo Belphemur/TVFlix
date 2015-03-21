@@ -24,8 +24,9 @@ def showParser(shows, show):
     return True
     
 
+#?query=key&query=key searching works
 @resource(path='/tvflix/search/shows')
-class searchShowResource(object):
+class SearchShowResource(object):
     def __init__(self, request):
         self.request = request
         #set content type to hal+json
@@ -38,9 +39,8 @@ class searchShowResource(object):
 
         keywords = []
         for i in req:
-            if i[0] == u'query':
+            if i[0] == u'query' and not i[1] == '':
                 keywords.append(i[1])
-        print keywords
         
         shows = []
         for i in keywords:
