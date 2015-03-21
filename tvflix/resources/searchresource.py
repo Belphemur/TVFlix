@@ -1,17 +1,14 @@
 from pyramid.httpexceptions import HTTPNotFound
 from pyramid.response import Response
-from pyramid.view import view_config
 
 from sqlalchemy.exc import DBAPIError
 
-from ..models import Session
 from ..models.show import Show
 from ..models.episode import Episode
-import transaction
 
 from cornice import Service
 from cornice.resource import resource, view
-from webob import Response, exc
+from webob import Response
 import json
 
 def showParser(shows, show):

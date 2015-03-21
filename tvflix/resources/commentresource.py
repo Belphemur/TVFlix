@@ -1,6 +1,12 @@
-from pyramid.httpexceptions import HTTPNotFound, HTTPBadRequest, HTTPUnauthorized, HTTPInternalServerError, HTTPNoContent
+from pyramid.httpexceptions import (
+    HTTPNotFound, 
+    HTTPBadRequest, 
+    HTTPInternalServerError, 
+    HTTPUnauthorized, 
+    HTTPNoContent
+    )
+    
 from pyramid.response import Response
-from pyramid.view import view_config
 
 from sqlalchemy.exc import DBAPIError
 
@@ -12,7 +18,7 @@ import transaction
 
 from cornice import Service
 from cornice.resource import resource, view
-from webob import Response, exc
+from webob import Response
 import json
 
 from datetime import datetime, date, time
