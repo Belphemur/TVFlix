@@ -2,7 +2,9 @@ import unittest
 from pyramid import testing
 from pyramid.httpexceptions import HTTPNotFound, HTTPBadRequest, HTTPUnauthorized, HTTPInternalServerError
 
-from ..resources.commentresource import CommentsResource
+from ..resources.commentresource import CommentsResource, SingleCommentsResource
+
+from datetime import date
 
 # default view test
 class TestMySeasonResource(unittest.TestCase):    
@@ -104,5 +106,100 @@ class TestMySeasonResource(unittest.TestCase):
         
         self.assertRaises(HTTPInternalServerError, comment.post)
         
+    #PUT
+    def test_passing_PutSingleCommentResource(self):
+        request = testing.DummyRequest()
+        #url '/tvflix/shows/{label}/comments/{username}'
+        #username like this can't exists in reality
+        request.matchdict = {'label': 'game-of-thrones', 'username': 'test user 1'}
+        request.headers = {'apikey': 'asdasd'}
+        request.json_body = {'comment': "my comment"}
+        info = SingleCommentsResource.put(SingleCommentsResource(request))
         
+        self.assertEqual(info['username'], 'test user 1')
+        self.assertEqual(info['comment'], 'my comment') 
+        #checks if updated time has been set today, seconds we can't guess 
+        self.assertTrue(str(date.today()) in info['updated'])
+
+    def test_failure_PutSingleCommentResourceNoSuchShow(self):
+        request = testing.DummyRequest()
+        #url '/tvflix/shows/{label}/comments/{username}'
+        #username like this can't exists in reality
+        request.matchdict = {'label': 'no-show', 'username': 'test user 1'}
+        request.headers = {'apikey': 'asdasd'}
+        request.json_body = {'comment': "my comment"}
+        
+        info  = SingleCommentsResource(request)
+        
+        self.assertRaises(HTTPNotFound, info.put)
+        
+    def test_failure_PutSingleCommentResourceNoUser(self):
+        request = testing.DummyRequest()
+        #url '/tvflix/shows/{label}/comments/{username}'
+        #username like this can't exists in reality
+        request.matchdict = {'label': 'game-of-thrones', 'username': 'Nope'}
+        request.headers = {'apikey': 'asdasd'}
+        request.json_body = {'comment': "my comment"}
+        
+        info  = SingleCommentsResource(request)
+        
+        self.assertRaises(HTTPUnauthorized, info.put)
+        
+    def test_failure_PutSingleCommentResourceWrongApikey(self):
+        request = testing.DummyRequest()
+        #url '/tvflix/shows/{label}/comments/{username}'
+        #username like this can't exists in reality
+        request.matchdict = {'label': 'game-of-thrones', 'username': 'test user 1'}
+        request.headers = {'apikey': 'nope'}
+        request.json_body = {'comment': "my comment"}
+        
+        info  = SingleCommentsResource(request)
+        
+        self.assertRaises(HTTPUnauthorized, info.put)
+        
+    def test_failure_PutSingleCommentResourceNoHeader(self):
+        request = testing.DummyRequest()
+        #url '/tvflix/shows/{label}/comments/{username}'
+        #username like this can't exists in reality
+        request.matchdict = {'label': 'game-of-thrones', 'username': 'test user 1'}
+        request.json_body = {'comment': "my comment"}
+        
+        info  = SingleCommentsResource(request)
+        
+        self.assertRaises(HTTPUnauthorized, info.put)
+        
+    def test_failure_PutSingleCommentResourceNoJson(self):
+        request = testing.DummyRequest()
+        #url '/tvflix/shows/{label}/comments/{username}'
+        #username like this can't exists in reality
+        request.matchdict = {'label': 'game-of-thrones', 'username': 'test user 1'}
+        request.headers = {'apikey': 'asdasd'}
+        
+        info  = SingleCommentsResource(request)
+        
+        self.assertRaises(HTTPBadRequest, info.put)
+        
+    def test_failure_PutSingleCommentResourceWrongVariableInJson(self):
+        request = testing.DummyRequest()
+        #url '/tvflix/shows/{label}/comments/{username}'
+        #username like this can't exists in reality
+        request.matchdict = {'label': 'game-of-thrones', 'username': 'test user 1'}
+        request.headers = {'apikey': 'asdasd'}
+        request.json_body = {'asd': "my comment"}
+        
+        info  = SingleCommentsResource(request)
+        
+        self.assertRaises(HTTPBadRequest, info.put)
+        
+    def test_failure_PutSingleCommentResourceEmptyComment(self):
+        request = testing.DummyRequest()
+        #url '/tvflix/shows/{label}/comments/{username}'
+        #username like this can't exists in reality
+        request.matchdict = {'label': 'game-of-thrones', 'username': 'test user 1'}
+        request.headers = {'apikey': 'asdasd'}
+        request.json_body = {'comment': ""}
+        
+        info  = SingleCommentsResource(request)
+        
+        self.assertRaises(HTTPBadRequest, info.put)
         

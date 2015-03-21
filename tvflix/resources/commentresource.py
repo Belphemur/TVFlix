@@ -116,6 +116,73 @@ class CommentsResource(object):
                
         raise HTTPNotFound
         
+@resource(path='/tvflix/shows/{label}/comments/{username}')
+class SingleCommentsResource(object):
+    def __init__(self, request):
+        self.request = request
+        #set content type to hal+json
+        request.response.content_type = 'application/hal+json'
+
+    @view(renderer='json')
+    def put(self):
+        label = self.request.matchdict['label']  
+        username = self.request.matchdict['username'] 
+        
+        show = Show.GetShowByLabel(label)
+        
+        if show:
+            if not 'apikey' in self.request.headers.keys():
+                raise HTTPUnauthorized
+                
+            apikey = self.request.headers['apikey']   
+            user = User.GetUserByApiKey(apikey)
+               
+            if not user or not str(username) == str(user.username):
+                raise HTTPUnauthorized
+                
+            try: #checks if json_body in request
+                self.request.json_body
+            except:
+                raise HTTPBadRequest
+               
+            if not 'comment' in self.request.json_body.keys():
+                raise HTTPBadRequest
+            else:
+                comment = self.request.json_body['comment']
+                if comment == '' or comment is None:
+                    raise HTTPBadRequest
+                
+            com = Comment.GetUserCommentForShow(user, show)
+            if com:
+                #update comment
+                with transaction.manager:
+                    time = datetime.now()
+                    Session.query(Comment).filter(Comment.comment_id == com.comment_id).update({'comment': comment, 'updated': time})
+                    
+                newCom = Comment.GetUserCommentForShow(user, show)
+                
+                _links = {"self": {"href": "/tvflix/shows/"+ label +"/comments/" +user.username},
+                        "show": {"href": "/tvflix/shows/"+ label}
+                        }
+                        
+                content = {"username": user.username,
+                          "comment": newCom.comment,
+                          "posted": str(newCom.posted),
+                          "updated": str(newCom.updated)
+                          }
+                          
+                content['_links'] = _links
+                
+                return content
+                
+        raise HTTPNotFound
+                
+
+    @view(renderer='json')
+    def delete(self):
+        pass
+
+        
         
         
         

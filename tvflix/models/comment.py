@@ -64,3 +64,10 @@ class Comment(Base):
             return True
         except:
             raise
+     
+    @classmethod
+    def GetUserCommentForShow(cls, User, Show):
+        comment = Session.query(Comment).filter(Comment.user_id == User.user_id, Comment.show_id == Show.show_id).one()
+        if comment:
+            return comment
+        return None
