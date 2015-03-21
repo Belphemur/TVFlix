@@ -21,5 +21,9 @@ pyramid, pyramid_tm, SQLAlchemy, transaction, zope.sqlalchemy, waitress, nose
 
 - cd <directory containing this file>
 
-- $VENV/bin/nosetests -v tvflix
+###basic tests:
+- nosetests -v tvflix
+
+### coverage tests:
+- nosetests --cover-package=tvflix --cover-erase --with-coverage
 
