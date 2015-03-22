@@ -56,7 +56,7 @@ class EpisodesResource(object):
                             
                     epiContent = {"number": int(epi.number),
                                 "title": epi.title,
-                                "bcast_date": str(epi.bcast_date),
+                                "bcast_date": epi.bcast_date.isoformat(),
                                 "summary": epi.summary,
                                 "season": int(epi.season)
                                 }

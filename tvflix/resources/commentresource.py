@@ -46,10 +46,11 @@ class CommentsResource(object):
                 
                 comment = []
                 for com in comments:
+                    updated = 'None' if com.updated is None else com.updated.isoformat()
                     embedComment = {"username": com.user.username,
                                     "comment": com.comment,
-                                    "posted": str(com.posted),
-                                    "updated": str(com.updated)
+                                    "posted": com.posted.isoformat(),
+                                    "updated": updated
                                     }
                                     
                     embedComment['_links'] = _links
