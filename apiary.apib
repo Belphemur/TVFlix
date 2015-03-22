@@ -275,7 +275,7 @@ Get the information of the season
             "_links": { 
                 "self": { "href": "/tvflix/shows/game-of-thrones/seasons/1" },
                 "show": { "href": "/tvflix/shows/game-of-thrones" },
-                "episode": {"href":/tvflix/shows/game-of-thrones/seasons/1/episodes"}
+                "episode": {"href": "/tvflix/shows/game-of-thrones/seasons/1/episodes"}
             },
             "number": "1",
             "episodes": "12",
@@ -339,7 +339,7 @@ Return all the episodes that are registered in the wanted season.
                     },
                     "number":"1",
                     "title":"Dragons",
-                    "bcast_date":"2013-03-10T12:45:01+00:00",
+                    "bcast_date":"2013-03-10",
                     "summary":"great episode",
                     "season":"1"
                  }
@@ -355,7 +355,7 @@ Add an episode to the collection. If the episode already exist the API return a 
               "title": "Dragons",
               "season": "1",
               "summary": "great episode",
-              "bcast_date": "2015-03-10T12:45:01+00:00"
+              "bcast_date": "2015-03-10"
         }
 
   + Headers
@@ -400,7 +400,7 @@ Add an episode to the collection. If the episode already exist the API return a 
                 },
                 "number":"1",
                 "title":"Dragons",
-                "bcast_date":"2013-03-10T12:45:01+00:00",
+                "bcast_date":"2013-03-10",
                 "summary":"great episode",
                 "season":"1"
             }
@@ -418,7 +418,7 @@ Update an episode to the collection. If the episode doesn't the API return a 404
               "title": "Dragons",
               "season": "1",
               "summary": "great episode",
-              "bcast_date": "2015-03-10T12:45:01+00:00"
+              "bcast_date": "2015-03-10"
         }
 
    + Headers
@@ -491,7 +491,7 @@ Return all the comments of the wanted show.
            "_links":{  
               "self":{  
                  "href":"/tvflix/shows/game-of-thrones/comments"
-              }
+              },
               "show":{  
                  "href":"/tvflix/shows/game-of-thrones"
               }
@@ -503,7 +503,7 @@ Return all the comments of the wanted show.
                     "_links":{  
                         "self":{  
                              "href":"/tvflix/shows/game-of-thrones/comments"
-                      }
+                      },
                         "show":{  
                              "href":"/tvflix/shows/game-of-thrones"
                       }
@@ -555,7 +555,7 @@ A user can only make one comment per show.
                     "_links":{  
                         "self":{  
                              "href":"/tvflix/shows/game-of-thrones/comments/pekka"
-                      }
+                      },
                         "show":{  
                              "href":"/tvflix/shows/game-of-thrones"
                       }
@@ -639,7 +639,7 @@ Search the database for shows matching the keywords.
          {  
            "_links":{  
               "self":{  
-                 "href":"/tvflix/search/shows/action"
+                 "href":"/tvflix/search/shows?query=action"
               }
            },
            "size":"1",
@@ -686,7 +686,7 @@ Search the database for episodes matching the keywords.
          {  
            "_links":{  
               "self":{  
-                 "href":"/tvflix/search/episodes/action"
+                 "href":"/tvflix/search/episodes?query=action"
               }
            },
            "size":"1",
@@ -703,7 +703,7 @@ Search the database for episodes matching the keywords.
                     },
                     "number":"1",
                     "title":"Dragons",
-                    "bcast_date":"2013-03-10T12:45:01+00:00",
+                    "bcast_date":"2013-03-10",
                     "summary":"great episode",
                     "season":"1"
                  }
