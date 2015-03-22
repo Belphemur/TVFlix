@@ -117,7 +117,7 @@ class Show(Base):
             return epi
         except MultipleResultsFound, exc:
             #something is really wrong is this happens
-            return exc
+            raise exc
         except NoResultFound:   
             return None
 
