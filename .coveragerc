@@ -2,3 +2,6 @@
 omit =
     */python?.?/*
     */site-packages/nose/*
+    */db/*
+    */scripts/*
+    __init__.py
