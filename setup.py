@@ -17,7 +17,8 @@ requires = [
     'zope.sqlalchemy',
     'waitress',
     'nose', #for running tests
-    'cornice'
+    'cornice',
+    'coverage'
     ]
 
 setup(name='tvflix',
