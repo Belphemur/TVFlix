@@ -1,6 +1,7 @@
 import unittest
 from pyramid import testing
 from pyramid.httpexceptions import HTTPNotFound
+from webob.multidict import MultiDict
 
 from ..resources.searchresource import SearchShowResource, SearchEpisodeResource, showParser, episodeParser
 
@@ -15,12 +16,21 @@ class TestMySeasonResource(unittest.TestCase):
         
     #GET show:   
     def test_passing_GetShowSearchResource(self):
-        request = testing.DummyRequest(params={'query': 'game'})
+        request = testing.DummyRequest(params={'query': 'game'}) 
         info = SearchShowResource.get(SearchShowResource(request))
         
         self.assertEqual(info['size'], 1)
         links = info['_links']
         self.assertEqual(links['self'], {'href': '/tvflix/search/shows?query=game&'})
+        
+    def test_passing_GetShowSearchResourceMultipleQueries(self):
+        request = testing.DummyRequest()
+        request.GET = MultiDict([('query', 'game'), ('query', 'simpsons'), ('query', 'baz')])  
+        info = SearchShowResource.get(SearchShowResource(request))
+        
+        self.assertEqual(info['size'], 2)
+        links = info['_links']
+        self.assertEqual(links['self'], {'href': '/tvflix/search/shows?query=game&query=simpsons&query=baz&'})
         
     def test_failure_GetShowSearchResourceNoResults(self):
         request = testing.DummyRequest(params={'query': 'nothing to get here'})
@@ -42,6 +52,15 @@ class TestMySeasonResource(unittest.TestCase):
         self.assertEqual(info['size'], 1)
         links = info['_links']
         self.assertEqual(links['self'], {'href': '/tvflix/search/episodes?query=tits&'})
+        
+    def test_passing_GetEpisodeSearchResourceMultipleQueries(self):
+        request = testing.DummyRequest()
+        request.GET = MultiDict([('query', 'tits'), ('query', 'dragons'), ('query', 'baz')])
+        info = SearchEpisodeResource.get(SearchEpisodeResource(request))
+        
+        self.assertEqual(info['size'], 2)
+        links = info['_links']
+        self.assertEqual(links['self'], {'href': '/tvflix/search/episodes?query=tits&query=dragons&query=baz&'})
         
     def test_failure_GetEpisodeSearchResourceNoResults(self):
         request = testing.DummyRequest(params={'query': 'nothing to get here'})
