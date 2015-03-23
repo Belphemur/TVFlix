@@ -16,7 +16,9 @@ class TestMySeasonResource(unittest.TestCase):
         
     #GET show:   
     def test_passing_GetShowSearchResource(self):
-        request = testing.DummyRequest(params={'query': 'game'}) 
+        #request = testing.DummyRequest(params={'query': 'game'})
+        request = testing.DummyRequest()
+        request.GET = MultiDict([('query', 'game')])
         info = SearchShowResource.get(SearchShowResource(request))
         
         self.assertEqual(info['size'], 1)
@@ -33,20 +35,24 @@ class TestMySeasonResource(unittest.TestCase):
         self.assertEqual(links['self'], {'href': '/tvflix/search/shows?query=game&query=simpsons&query=baz&'})
         
     def test_failure_GetShowSearchResourceNoResults(self):
-        request = testing.DummyRequest(params={'query': 'nothing to get here'})
+        #request = testing.DummyRequest(params={'query': 'nothing to get here'})
+        request = testing.DummyRequest()
+        request.GET = MultiDict([('query', 'nothing here')])
         
         info  = SearchShowResource(request)
         self.assertRaises(HTTPNotFound, info.get)
         
     def test_failure_GetShowSearchResourceMissingQuery(self):
         request = testing.DummyRequest()
+        request.GET = MultiDict([])
         
         info  = SearchShowResource(request)
         self.assertRaises(HTTPNotFound, info.get)
      
     #GET episode
     def test_passing_GetEpisodeSearchResource(self):
-        request = testing.DummyRequest(params={'query': 'tits'})
+        request = testing.DummyRequest()
+        request.GET = MultiDict([('query', 'tits')])
         info = SearchEpisodeResource.get(SearchEpisodeResource(request))
         
         self.assertEqual(info['size'], 1)
@@ -63,13 +69,15 @@ class TestMySeasonResource(unittest.TestCase):
         self.assertEqual(links['self'], {'href': '/tvflix/search/episodes?query=tits&query=dragons&query=baz&'})
         
     def test_failure_GetEpisodeSearchResourceNoResults(self):
-        request = testing.DummyRequest(params={'query': 'nothing to get here'})
+        request = testing.DummyRequest()
+        request.GET = MultiDict([('query', 'nothing to get here')])
         
         info  = SearchEpisodeResource(request)
         self.assertRaises(HTTPNotFound, info.get)
         
     def test_failure_GetEpisodeSearchResourceNoQuery(self):
         request = testing.DummyRequest()
+        request.GET = MultiDict([])
         
         info  = SearchEpisodeResource(request)
         self.assertRaises(HTTPNotFound, info.get)

@@ -37,13 +37,8 @@ class SearchShowResource(object):
 
     @view(renderer='json')
     def get(self):
-        #get query string, it's a tuple
-        req = self.request.GET.items()
-
-        keywords = []
-        for i in req:
-            if i[0] == u'query' and not i[1] == '':
-                keywords.append(i[1])
+        #get 'query' values from query string
+        keywords = self.request.GET.getall('query')
         
         shows = []
         for i in keywords:
@@ -103,13 +98,8 @@ class SearchEpisodeResource(object):
 
     @view(renderer='json')
     def get(self):
-        #get query string, it's a tuple
-        req = self.request.GET.items()
-
-        keywords = []
-        for i in req:
-            if i[0] == u'query' and not i[1] == '':
-                keywords.append(i[1])
+        #get 'query' values from query string
+        keywords = self.request.GET.getall('query')
                 
         episodes = []        
         if keywords:
