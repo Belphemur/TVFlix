@@ -83,10 +83,10 @@ class CommentsResource(object):
             show = Show.GetShowByLabel(label)
 
             if show:
-                if not 'apikey' in self.request.headers.keys():
+                apikey = self.request.headers.get("apikey")
+                if not apikey:
                     raise HTTPUnauthorized
 
-                apikey = self.request.headers['apikey']
                 user = User.GetUserByApiKey(apikey)
 
                 if not user:
@@ -129,10 +129,10 @@ class SingleCommentsResource(object):
             show = Show.GetShowByLabel(label)
 
             if show:
-                if not 'apikey' in self.request.headers.keys():
+                apikey = self.request.headers.get("apikey")
+                if not apikey:
                     raise HTTPUnauthorized
 
-                apikey = self.request.headers['apikey']
                 user = User.GetUserByApiKey(apikey)
 
                 if not user or not str(username) == str(user.username):
@@ -169,10 +169,10 @@ class SingleCommentsResource(object):
             show = Show.GetShowByLabel(label)
 
             if show:
-                if not 'apikey' in self.request.headers.keys():
+                apikey = self.request.headers.get("apikey")
+                if not apikey:
                     raise HTTPUnauthorized
 
-                apikey = self.request.headers['apikey']
                 user = User.GetUserByApiKey(apikey)
 
                 if not user or not str(username) == str(user.username):
