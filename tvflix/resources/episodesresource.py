@@ -88,7 +88,7 @@ class EpisodesResource(object):
             show = Show.GetShowByLabel(label)
 
             if show:
-                if not 'Apikey' and not 'apikey' in self.request.headers.keys():
+                if not 'apikey' in self.request.headers.keys():
                     raise HTTPUnauthorized
 
                 apikey = self.request.headers['apikey']
