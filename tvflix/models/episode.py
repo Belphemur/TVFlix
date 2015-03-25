@@ -81,7 +81,7 @@ class Episode(Base):
             if bcast_date:
                 self.bcast_date = bcast_date
             if summary:
-                self.summary
+                self.summary = summary
             return True
         except:
             raise
