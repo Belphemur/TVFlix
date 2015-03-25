@@ -68,13 +68,17 @@ def main(argv=sys.argv):
     with transaction.manager:
         user1 = User(username = 'test user', password = 'password', api_key = apikey_generator(), admin=False)
         user2 = User(username = 'Antoine', password = 'password', api_key =  apikey_generator(), admin=True)
+        user3 = User(username = 'Admin', password = 'password', api_key =  "admin", admin=True)
+        user4 = User(username = 'User', password = 'password', api_key =  "user", admin=False)
         Session.add(user1)
         Session.add(user2)
+        Session.add(user3)
+        Session.add(user4)
       
     #Shows
     with transaction.manager:
         show1 = Show(showlabel='game-of-thrones', title='Game of Thrones',
-                    start_year= 2009, end_year= 2016, bcast_day=6, summary="Everybody dies", channel="HBO")
+                    start_year= 2009, end_year= 2016, bcast_day=6, summary="Everybody dies and nudity", channel="HBO")
                     
         show2 = Show(showlabel='two-and-half-men', title='Two and half men',
                     start_year= 2004, end_year=None, bcast_day=0, 
@@ -130,9 +134,4 @@ def main(argv=sys.argv):
             {'show_id': 2, 'tag_id': 1}])
 
         conn.close()
-        
-        
-        
-        
-    
 
