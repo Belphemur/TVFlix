@@ -67,6 +67,12 @@ class Comment(Base):
      
     @classmethod
     def GetUserCommentForShow(cls, User, Show):
+        """
+
+        :param User:
+        :param Show:
+        :return: Comment
+        """
         comment = Session.query(Comment).filter(Comment.user_id == User.user_id, Comment.show_id == Show.show_id).first()
         if comment:
             return comment
