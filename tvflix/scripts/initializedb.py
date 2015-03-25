@@ -68,8 +68,12 @@ def main(argv=sys.argv):
     with transaction.manager:
         user1 = User(username = 'test user', password = 'password', api_key = apikey_generator(), admin=False)
         user2 = User(username = 'Antoine', password = 'password', api_key =  apikey_generator(), admin=True)
+        user2 = User(username = 'Admin', password = 'password', api_key = 'admin', admin=True)
+        user4 = User(username = 'user', password = 'password', api_key = 'user', admin=False)
         Session.add(user1)
         Session.add(user2)
+        Session.add(user3)
+        Session.add(user4)
       
     #Shows
     with transaction.manager:
@@ -130,9 +134,3 @@ def main(argv=sys.argv):
             {'show_id': 2, 'tag_id': 1}])
 
         conn.close()
-        
-        
-        
-        
-    
-
