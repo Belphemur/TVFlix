@@ -4,7 +4,7 @@
 SQLAchemy, Pyramid and Cornice
 
 ##Dependencies
-pyramid, pyramid_tm, SQLAlchemy, transaction, zope.sqlalchemy, waitress, nose
+pyramid, pyramid_tm, SQLAlchemy, cornice, transaction, zope.sqlalchemy, waitress, nose, coverage
 
 ##Getting Started
 --for windows you don't need to use '$VENV/bin/'
@@ -20,6 +20,10 @@ pyramid, pyramid_tm, SQLAlchemy, transaction, zope.sqlalchemy, waitress, nose
 
 ##URL
 - http://127.0.0.1:8081/tvflix/
+
+##test users
+-admin: username == admin, apikey == admin
+-normal user: username == user, apikey == user
 
 ##Run tests
 - start enviroment
