@@ -77,7 +77,7 @@ class SearchShowResource(object):
                                 "end_year": show.end_year,
                                 "summary": show.summary,
                                 "channel": show.channel,
-                                "tags": str(tags)}
+                                "tags": tags}
                         
                 embedContent['_links'] = _links        
                 listOfShows.append(embedContent)
