@@ -18,12 +18,13 @@ pyramid, pyramid_tm, SQLAlchemy, cornice, transaction, zope.sqlalchemy, waitress
 
 - more information in: http://docs.pylonsproject.org/docs/pyramid/en/latest/tutorials/wiki2/installation.html
 
-##URL
+###URL
 - http://127.0.0.1:8081/tvflix/
 
-##test users
--admin: username == admin, apikey == admin
--normal user: username == user, apikey == user
+###Test Users
+- admin: username == admin, apikey == admin
+
+- normal user: username == user, apikey == user
 
 ##Run tests
 - start enviroment
