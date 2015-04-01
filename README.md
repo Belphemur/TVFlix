@@ -7,16 +7,22 @@ SQLAchemy, Pyramid and Cornice
 pyramid, pyramid_tm, SQLAlchemy, cornice, transaction, zope.sqlalchemy, waitress, nose, coverage
 
 ##Getting Started
---for windows you don't need to use '$VENV/bin/'
-- cd <directory containing this file>
 
-- $VENV/bin/python setup.py develop
+###Virtual Environment
+First you need to install/create a virtual environment: [How to](http://docs.python-guide.org/en/latest/dev/virtualenvs/)
 
-- $VENV/bin/initialize_tvflix_db development.ini
+Once you've activited it follow the next steps.
 
-- $VENV/bin/pserve development.ini
+###Install the application
+- cd ``directory containing this file``
 
-- more information in: http://docs.pylonsproject.org/docs/pyramid/en/latest/tutorials/wiki2/installation.html
+- python setup.py develop
+
+- initialize_tvflix_db development.ini
+
+- pserve development.ini
+
+- more information in: [Pyramid Installation Guide](http://docs.pylonsproject.org/docs/pyramid/en/latest/tutorials/wiki2/installation.html)
 
 ###URL
 - http://127.0.0.1:8081/tvflix/
@@ -29,7 +35,7 @@ pyramid, pyramid_tm, SQLAlchemy, cornice, transaction, zope.sqlalchemy, waitress
 ##Run tests
 - start enviroment
 
-- cd <directory containing this file>
+- cd ``directory containing this file``
 
 ###basic tests:
 - nosetests -v tvflix
