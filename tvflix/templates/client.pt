@@ -87,6 +87,15 @@
                         <label for="apikey" class="control-label">APIKey:</label>
                         <input type="text" class="form-control" id="apikey">
                     </div>
+                    <div class="checkbox">
+                        <label for="adminCheck">
+                            <input id="adminCheck" type="checkbox"> Admin
+                            <a href="#" class="icon-question-sign"
+                               title="Check this to activate the admin UI.
+                                                             Keep in mind it doesn't mean you gain admin power."
+                               data-placement="right" data-toggle="tooltip"></a>
+                        </label>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">

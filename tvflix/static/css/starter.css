@@ -1,3 +1,5 @@
+@import url("//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css");
+
 body {
   padding-top: 50px;
 }
@@ -5,3 +7,13 @@ body {
   padding: 40px 15px;
   text-align: center;
 }
+
+  a[data-toggle='tooltip']{
+    color:#f1c40f;
+  }
+
+  a[class*='icon-']:hover {
+    text-decoration:none !important;
+    border:none;
+    outline:none;
+  }

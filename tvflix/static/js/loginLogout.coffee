@@ -1,6 +1,13 @@
+"use strict"
 username = localStorage.getItem("username")
 apikey = localStorage.getItem ("apikey")
+admin = localStorage.getItem ("admin")
 (($) ->
+  ###
+    Activate tooltips on links
+  ###
+  $("a[data-toggle='tooltip']").tooltip()
+
   ###
     FUNCTION BLOCK
   ###
@@ -12,6 +19,7 @@ apikey = localStorage.getItem ("apikey")
   getUserInfo = ->
     username = $("#username").val()
     apikey = $("#apikey").val()
+    admin = $("#adminCheck").is(":checked")
 
     if !username || !apikey
       $("#emptyAlert").fadeIn()
@@ -22,6 +30,7 @@ apikey = localStorage.getItem ("apikey")
     #Save in local storage
     localStorage.setItem("username", username)
     localStorage.setItem('apikey', apikey)
+    localStorage.setItem('admin', admin)
     return true
   ###
     Remove data from the localstorage and logout the user
@@ -31,6 +40,7 @@ apikey = localStorage.getItem ("apikey")
     apikey = null
     localStorage.removeItem("username")
     localStorage.removeItem("apikey")
+    localStorage.removeItem("admin")
     $(this).html("Login").removeAttr('data-logout')
   ###
     check if already logged in with LocalStorage
@@ -38,6 +48,8 @@ apikey = localStorage.getItem ("apikey")
   if username && apikey
     $("#username").val(username)
     $("#apikey").val(apikey)
+    if admin
+      $("#adminCheck").prop('checked', true)
     setLogout()
 
   ###
