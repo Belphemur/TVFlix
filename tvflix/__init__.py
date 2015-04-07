@@ -5,9 +5,9 @@ from .models import Base, Session
 from tvflix.models import initialize_sql
 from pyramid.view import view_config
 
-@view_config(route_name='client', renderer='templates/mytemplate.pt')
+@view_config(route_name='client', renderer='templates/client.pt')
 def client_view(request):
-    return dict(project='TvFlix')
+    return dict()
 
 
 
