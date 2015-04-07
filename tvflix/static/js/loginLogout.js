@@ -48,6 +48,8 @@
       check if already logged in with LocalStorage
      */
     if (username && apikey) {
+      $("#username").val(username);
+      $("#apikey").val(apikey);
       setLogout();
     }
 
@@ -73,4 +75,4 @@
 
 }).call(this);
 
-//# sourceMappingURL=client.js.map
+//# sourceMappingURL=loginLogout.js.map

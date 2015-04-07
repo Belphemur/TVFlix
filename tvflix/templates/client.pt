@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="pyramid web application">
     <meta name="author" content="Pylons Project">
-    <link rel="shortcut icon" href="${request.static_url('tvflix:static/logo.jpg')}">
+    <link rel="shortcut icon" href="${request.static_url('tvflix:static/image/logo.jpg')}">
 
     <title>Alchemy Scaffold for The Pyramid Web Framework</title>
 
@@ -15,7 +15,7 @@
     <link href="//code.jquery.com/ui/1.11.4/themes/black-tie/jquery-ui.css" rel="stylesheet">
 
     <!-- Custom styles for this scaffold -->
-    <link href="${request.static_url('tvflix:static/starter.css')}" rel="stylesheet">
+    <link href="${request.static_url('tvflix:static/css/starter.css')}" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -107,6 +107,6 @@
 <script src="//code.jquery.com/jquery-2.1.3.min.js"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
-<script src="${request.static_url('tvflix:static/client.js')}"></script>
+<script src="${request.static_url('tvflix:static/js/loginLogout.js')}"></script>
 </body>
 </html>

@@ -36,6 +36,8 @@ apikey = localStorage.getItem ("apikey")
     check if already logged in with LocalStorage
   ###
   if username && apikey
+    $("#username").val(username)
+    $("#apikey").val(apikey)
     setLogout()
 
   ###
