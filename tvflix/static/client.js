@@ -7,10 +7,18 @@
   apikey = localStorage.getItem("apikey");
 
   (function($) {
+
+    /*
+      FUNCTION BLOCK
+     */
     var getUserInfo, handleLogout, setLogout;
     setLogout = function() {
       return $('#userLoginButton').html("Logout").attr('data-logout', true);
     };
+
+    /*
+      Retrieve the user info
+     */
     getUserInfo = function() {
       username = $("#username").val();
       apikey = $("#apikey").val();
@@ -24,6 +32,10 @@
       localStorage.setItem('apikey', apikey);
       return true;
     };
+
+    /*
+      Remove data from the localstorage and logout the user
+     */
     handleLogout = function() {
       username = null;
       apikey = null;
@@ -31,9 +43,17 @@
       localStorage.removeItem("apikey");
       return $(this).html("Login").removeAttr('data-logout');
     };
+
+    /*
+      check if already logged in with LocalStorage
+     */
     if (username && apikey) {
       setLogout();
     }
+
+    /*
+      BUTTON MANAGEMENT
+     */
     $("#loginButton").click(function(e) {
       e.preventDefault();
       if (getUserInfo()) {
