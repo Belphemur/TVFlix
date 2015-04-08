@@ -15,7 +15,7 @@ class TestMySeasonResource(unittest.TestCase):
         request.matchdict = {'label': 'game-of-thrones'}
         info = SeasonResource.get(SeasonResource(request))
         
-        self.assertEqual(info['size'], 4)
+        self.assertEqual(info['size'], 2)
         links = info['_links']
         self.assertEqual(links['self'], {'href': '/tvflix/shows/game-of-thrones/seasons'})
         
