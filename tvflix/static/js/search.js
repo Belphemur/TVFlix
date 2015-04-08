@@ -6,7 +6,7 @@
     /*
       Loading Screen function
      */
-    var $body, getImage, handleSearchRequest, handleSelectionShow, setShowInformation, toggleLoadingScreen;
+    var $body, getImage, handleSearchRequest, handleSeasonInformation, handleSelectionShow, setSeasonInformation, setShowInformation, toggleLoadingScreen;
     $body = $('body');
     toggleLoadingScreen = function() {
       if ($body.hasClass('loading')) {
@@ -86,12 +86,50 @@
         return callback();
       });
     };
+
+    /*
+      Set the HTML with the sessions information
+     */
+    handleSeasonInformation = function(seasons) {
+      var seasonList;
+      seasonList = $("#showSeasons ul");
+      return seasons.forEach(function(season) {
+        var li, link;
+        link = $('<a>', {
+          "class": 'season',
+          href: '#',
+          'data-episodes': season._links.episode.href
+        }).text('Season ' + season.number);
+        li = $('<li>').html(link);
+        return seasonList.append(li);
+      });
+    };
+
+    /*
+      Do the request to get season information
+     */
+    setSeasonInformation = function(item, callback) {
+      var seasonList;
+      seasonList = $("#showSeasons ul");
+      seasonList.html('');
+      return $.ajax({
+        url: item._links.seasons.href,
+        type: 'GET',
+        dataType: 'json'
+      }).success(function(data) {
+        return handleSeasonInformation(data._embedded.season);
+      }).complete(function() {
+        return callback();
+      });
+    };
     handleSelectionShow = function(event, ui) {
       toggleLoadingScreen();
       $('#placeholder').hide();
       return setShowInformation(ui.item, function() {
-        $('#showContainer').fadeIn();
-        return setTimeout(toggleLoadingScreen, 500);
+        return setSeasonInformation(ui.item, function() {
+          $('#showContainer').fadeIn();
+          return setTimeout(toggleLoadingScreen, 500);
+        });
       });
     };
     $("input[data-toggle='tooltip'][type='search']").tooltip();

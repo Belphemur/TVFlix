@@ -68,14 +68,45 @@
       $('#showImage img').attr('src', imgUrl)
       callback()
     )
+  ###
+    Set the HTML with the sessions information
+  ###
+  handleSeasonInformation = (seasons) ->
+    seasonList = $("#showSeasons ul")
+    seasons.forEach((season) ->
+      link = $('<a>',
+        class: 'season'
+        href: '#'
+        'data-episodes': season._links.episode.href
+      ).text('Season ' + season.number)
+      li = $('<li>').html(link)
+      seasonList.append(li)
+    )
+  ###
+    Do the request to get season information
+  ###
+  setSeasonInformation = (item, callback) ->
+    seasonList = $("#showSeasons ul")
+    seasonList.html('')
+    $.ajax(
+      url: item._links.seasons.href
+      type: 'GET'
+      dataType: 'json'
+    ).success((data)->
+      handleSeasonInformation(data._embedded.season)
+    ).complete(() ->
+      callback()
+    )
 
 
   handleSelectionShow = (event, ui) ->
     toggleLoadingScreen()
     $('#placeholder').hide()
-    setShowInformation(ui.item, ()->
-      $('#showContainer').fadeIn()
-      setTimeout(toggleLoadingScreen, 500)
+    setShowInformation(ui.item, () ->
+      setSeasonInformation(ui.item, () ->
+        $('#showContainer').fadeIn()
+        setTimeout(toggleLoadingScreen, 500)
+      )
     )
 
   $("input[data-toggle='tooltip'][type='search']").tooltip()
