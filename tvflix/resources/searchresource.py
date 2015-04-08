@@ -113,9 +113,7 @@ class SearchEpisodeResource(object):
                             episodes.append(j)
                             
         if episodes:
-            query = ''
-            for i in keywords:
-                query = query + 'query=' +i +'&'
+            query = 'query=' + '&query='.join(keywords)
                 
             links = {"self": {"href": "/tvflix/search/episodes?" +query}}
             

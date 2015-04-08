@@ -23,7 +23,7 @@ class TestMySeasonResource(unittest.TestCase):
         
         self.assertEqual(info['size'], 1)
         links = info['_links']
-        self.assertEqual(links['self'], {'href': '/tvflix/search/shows?query=game&'})
+        self.assertEqual(links['self'], {'href': '/tvflix/search/shows?query=game'})
         
     def test_passing_GetShowSearchResourceMultipleQueries(self):
         request = testing.DummyRequest()
@@ -32,7 +32,7 @@ class TestMySeasonResource(unittest.TestCase):
         
         self.assertEqual(info['size'], 2)
         links = info['_links']
-        self.assertEqual(links['self'], {'href': '/tvflix/search/shows?query=game&query=simpsons&query=baz&'})
+        self.assertEqual(links['self'], {'href': '/tvflix/search/shows?query=game&query=simpsons&query=baz'})
         
     def test_failure_GetShowSearchResourceNoResults(self):
         #request = testing.DummyRequest(params={'query': 'nothing to get here'})
@@ -57,7 +57,7 @@ class TestMySeasonResource(unittest.TestCase):
         
         self.assertEqual(info['size'], 1)
         links = info['_links']
-        self.assertEqual(links['self'], {'href': '/tvflix/search/episodes?query=tits&'})
+        self.assertEqual(links['self'], {'href': '/tvflix/search/episodes?query=tits'})
         
     def test_passing_GetEpisodeSearchResourceMultipleQueries(self):
         request = testing.DummyRequest()
@@ -66,7 +66,7 @@ class TestMySeasonResource(unittest.TestCase):
         
         self.assertEqual(info['size'], 2)
         links = info['_links']
-        self.assertEqual(links['self'], {'href': '/tvflix/search/episodes?query=tits&query=dragons&query=baz&'})
+        self.assertEqual(links['self'], {'href': '/tvflix/search/episodes?query=tits&query=dragons&query=baz'})
         
     def test_failure_GetEpisodeSearchResourceNoResults(self):
         request = testing.DummyRequest()
