@@ -28,6 +28,7 @@ def episodeParser(episodes, ep):
     return True
 
 #?query=key&query=key searching works
+#also query[]=key&query[]=key
 @resource(path='/tvflix/search/shows')
 class SearchShowResource(object):
     def __init__(self, request):
@@ -39,6 +40,8 @@ class SearchShowResource(object):
     def get(self):
         #get 'query' values from query string
         keywords = self.request.GET.getall('query')
+        if not keywords:
+            keywords = self.request.GET.getall('query[]')
         
         shows = []
         for i in keywords:
