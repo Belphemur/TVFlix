@@ -1,8 +1,9 @@
 "use strict"
-username = localStorage.getItem("username")
-apikey = localStorage.getItem ("apikey")
-admin = localStorage.getItem ("admin")
+###
+  Handle the Login using Username and ApiKey
+###
 (($) ->
+  currentUser = User.getCurrentUser()
   ###
     Activate tooltips on links
   ###
@@ -28,27 +29,21 @@ admin = localStorage.getItem ("admin")
       $("#emptyAlert").fadeOut();
 
     #Save in local storage
-    localStorage.setItem("username", username)
-    localStorage.setItem('apikey', apikey)
-    localStorage.setItem('admin', admin)
+    currentUser.setInfo(username,apikey,admin)
     return true
   ###
     Remove data from the localstorage and logout the user
   ###
   handleLogout = ->
-    username = null
-    apikey = null
-    localStorage.removeItem("username")
-    localStorage.removeItem("apikey")
-    localStorage.removeItem("admin")
+    currentUser.clearInfo()
     $(this).html("Login").removeAttr('data-logout')
   ###
     check if already logged in with LocalStorage
   ###
-  if username && apikey
-    $("#username").val(username)
-    $("#apikey").val(apikey)
-    if admin
+  if currentUser.isValid()
+    $("#username").val(currentUser.name)
+    $("#apikey").val(currentUser.apikey)
+    if currentUser.admin
       $("#adminCheck").prop('checked', true)
     setLogout()
 
@@ -67,4 +62,5 @@ admin = localStorage.getItem ("admin")
     if $(this).attr("data-logout")
       handleLogout.call(this)
     else
-      $("#loginModal").modal("show")) jQuery
+      $("#loginModal").modal("show")
+) jQuery
