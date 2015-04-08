@@ -64,6 +64,7 @@
 
         <p class="lead">Use the search to find a show. This message will be then replaced by the informations of the
             show.</p>
+        <p>Available shows : Game of Thrones and The Simpsons</p>
     </div>
     <div class="starter-template" id="showContainer">
         <div id="showComments">COMMENTS</div>
@@ -71,7 +72,7 @@
             <h1 id="showTitle">TITLE</h1>
 
             <div id="showImage"><img
-                    src="//d1ayzv28eu3kt6.cloudfront.net/wp-content/uploads/2015/03/17231820/Lorem-Ipsum.jpg">
+                    src="/static/image/no-image.png">
             </div>
             <div id="showDescription" class="clearfix">
                 <ul class="additionalInfo">
