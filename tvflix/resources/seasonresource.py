@@ -41,11 +41,10 @@ class SeasonResource(object):
                 seasonContent = {"number": str(num),
                                 "episodes": len(episodes),
                                 "last_bcast_episode": episodes[-1].number, #TODO better
-                                "start_date": str(episodes[0].bcast_date) #episodes are ordered by a date
+                                "start_date": str(episodes[0].bcast_date), #episodes are ordered by a date
+                                "_links": _links
                                 }
-                                
-                embedContent = {'_links': _links}
-                season.append(embedContent)
+
                 season.append(seasonContent)
                 
             _embedded = {'season': season}

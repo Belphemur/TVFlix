@@ -58,11 +58,10 @@ class EpisodesResource(object):
                                 "title": epi.title,
                                 "bcast_date": epi.bcast_date.isoformat(),
                                 "summary": epi.summary,
-                                "season": int(epi.season)
+                                "season": int(epi.season),
+                                "_links": _links
                                 }
-                                
-                    embedContent = {'_links': _links}
-                    episode.append(embedContent)
+
                     episode.append(epiContent)
                     
                 _embedded = {'episode': episode}
