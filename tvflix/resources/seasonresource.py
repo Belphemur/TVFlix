@@ -51,7 +51,7 @@ class SeasonResource(object):
             _embedded = {'season': season}
             content = {}    
             content['_links'] = links
-            content['size'] = len(seasons)
+            content['size'] = len(season)
             content['_embedded'] = _embedded
             
             return content
