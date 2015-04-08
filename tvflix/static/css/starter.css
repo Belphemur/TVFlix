@@ -1,19 +1,132 @@
 @import url("//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css");
 
 body {
-  padding-top: 50px;
+    padding-top: 50px;
 }
+
 .starter-template {
-  padding: 40px 15px;
-  text-align: center;
+    padding: 40px 15px;
+    text-align: center;
 }
 
-  a[data-toggle='tooltip']{
-    color:#f1c40f;
-  }
+a[data-toggle='tooltip'] {
+    color: #f1c40f;
+}
 
-  a[class*='icon-']:hover {
-    text-decoration:none !important;
-    border:none;
-    outline:none;
-  }
+a[class*='icon-']:hover {
+    text-decoration: none !important;
+    border: none;
+    outline: none;
+}
+
+.clearfix:after {
+    content: "\00A0";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
+}
+
+html[xmlns] .clearfix {
+    display: block;
+}
+
+* html .clearfix {
+    height: 1%;
+}
+
+.clearfix {
+    display: block
+}
+
+#showContainer {
+    display: none;
+}
+
+#showImage {
+    float: left;
+    width: 30%;
+    margin: 15px 15px 15px 15px;
+}
+
+#showImage img {
+    width: 100%;
+}
+
+#showComments {
+    float: right;
+    width: 20%;
+}
+
+#show {
+    width: 70%;
+}
+
+span.showInfo {
+    text-transform: uppercase;
+    color: #bbb;
+    font-family: "Proxima Nova Semibold";
+    margin-right: 5px;
+}
+
+ul.additionalInfo, #showSeasons ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    margin-bottom: 10px;
+    height: 30px;
+}
+
+li.info, #showSeasons ul li {
+    float: left;
+    font-size: 14px;
+    margin: 0 20px 5px 0;
+    white-space: nowrap;
+}
+
+#summary {
+    text-align: left;
+}
+
+#showSeasons {
+    background-color: #fafafa;
+    border: solid 1px #e1e1e1;
+    padding: 20px;
+    margin-top: 20px;
+    height: 60px;
+    text-align: center;
+}
+
+
+/* Start by setting display:none to make this hidden.
+   Then we position it in relation to the viewport window
+   with position:fixed. Width, height, top and left speak
+   speak for themselves. Background we set to 80% white with
+   our animation centered, and no-repeating */
+.loader {
+    display:    none;
+    position:   fixed;
+    z-index:    1000;
+    top:        0;
+    left:       0;
+    height:     100%;
+    width:      100%;
+    background: black
+                url('../image/giphy.gif')
+                50% 50%
+                no-repeat;
+    opacity: 0.8;
+}
+
+/* When the body has the loading class, we turn
+   the scrollbar off with overflow:hidden */
+body.loading {
+    overflow: hidden;
+}
+
+/* Anytime the body has the loading class, our
+   modal element will be visible */
+body.loading .loader {
+    display: block;
+}

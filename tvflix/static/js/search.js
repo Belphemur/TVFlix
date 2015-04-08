@@ -2,7 +2,15 @@
 (function() {
   "use strict";
   (function($) {
-    var handleSearchRequest, handleSelectionShow;
+    var $body, handleSearchRequest, handleSelectionShow, setShowInformations, toggleLoading;
+    $body = $('body');
+    toggleLoading = function() {
+      if ($body.hasClass('loading')) {
+        return $body.removeClass('loading');
+      } else {
+        return $body.addClass('loading');
+      }
+    };
     handleSearchRequest = function(request, responseCallback) {
       var query;
       query = request.term;
@@ -12,7 +20,8 @@
           query: query
         },
         url: "/tvflix/search/shows",
-        dataType: "json"
+        dataType: "json",
+        global: false
       }).success(function(json) {
         var responseArray;
         responseArray = [];
@@ -33,8 +42,19 @@
         }
       });
     };
+    setShowInformations = function(item) {
+      $('#startYear').text(item.start_year);
+      $('#showTitle').text(item.title);
+      $('#endYear').text(item.end_year);
+      $('#channel').text(item.channel);
+      return $('#summary').text(item.summary);
+    };
     handleSelectionShow = function(event, ui) {
-      return console.log(ui.item);
+      toggleLoading();
+      $('#placeholder').hide();
+      setShowInformations(ui.item);
+      $('#showContainer').fadeIn();
+      return setTimeout(toggleLoading, 500);
     };
     $("input[data-toggle='tooltip'][type='search']").tooltip();
     return $('#searchShows').autocomplete({

@@ -59,11 +59,47 @@
 
 <div class="container">
 
-    <div class="starter-template">
+    <div class="starter-template" id="placeholder">
         <h1>TvFlix</h1>
 
         <p class="lead">Use the search to find a show. This message will be then replaced by the informations of the
             show.</p>
+    </div>
+    <div class="starter-template" id="showContainer">
+        <div id="showComments">COMMENTS</div>
+        <div id="show" class="clearfix">
+            <h1 id="showTitle">TITLE</h1>
+
+            <div id="showImage"><img
+                    src="//d1ayzv28eu3kt6.cloudfront.net/wp-content/uploads/2015/03/17231820/Lorem-Ipsum.jpg">
+            </div>
+            <div id="showDescription" class="clearfix">
+                <ul class="additionalInfo">
+                    <li class="info"><span class="showInfo">Start Year:</span><span id="startYear">2015</span></li>
+                    <li class="info"><span class="showInfo">End Year:</span><span id="endYear">2016</span></li>
+                    <li class="info"><span class="showInfo">Channel:</span><span id="channel">NBC</span></li>
+                </ul>
+                <div id="summary">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean faucibus a odio in
+                    convallis. Nullam sollicitudin elementum leo vel tempor. Cum sociis natoque penatibus et magnis dis
+                    parturient montes, nascetur ridiculus mus. Morbi consectetur, libero in vulputate luctus, lectus dui
+                    interdum neque, a molestie risus est euismod velit. Suspendisse hendrerit lectus a pharetra
+                    porttitor. Sed ultrices porta elit, non dapibus augue cursus a. Phasellus sed dolor vitae augue
+                    sollicitudin varius eget vitae libero. Fusce justo odio, mollis sed placerat eu, dictum sed ex.
+                    Quisque iaculis urna vitae felis facilisis, lacinia porttitor est hendrerit. Integer semper nulla
+                    blandit dui vestibulum, sit amet pretium velit bibendum. Aenean at augue ornare, feugiat dolor eget,
+                    dictum velit. Aliquam congue quis risus id luctus. Suspendisse vitae cursus dolor. Nam feugiat felis
+                    mollis metus fringilla feugiat.
+                </div>
+
+            </div>
+            <div id="showSeasons">
+                <ul>
+                    <li>Season 1</li>
+                    <li>Season 2</li>
+                </ul>
+            </div>
+        </div>
+
     </div>
 
 </div>
@@ -123,5 +159,8 @@
 <script src="${request.static_url('tvflix:static/js/User.js')}"></script>
 <script src="${request.static_url('tvflix:static/js/loginLogout.js')}"></script>
 <script src="${request.static_url('tvflix:static/js/search.js')}"></script>
+
+
+<div class="loader"><!-- Place at bottom of page --></div>
 </body>
 </html>

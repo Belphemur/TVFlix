@@ -1,5 +1,12 @@
 "use strict"
 (($) ->
+  $body = $('body')
+  toggleLoading = () ->
+    if $body.hasClass('loading')
+      $body.removeClass('loading')
+    else
+      $body.addClass('loading')
+
   handleSearchRequest = (request, responseCallback) ->
     query = request.term
     $.ajax(
@@ -7,6 +14,7 @@
       data: {query:query}
       url: "/tvflix/search/shows",
       dataType: "json"
+      global: false
     ).success( (json) ->
       responseArray = []
       json._embedded.forEach((show) ->
@@ -24,12 +32,24 @@
         console.error(jqXHR)
     )
 
+  setShowInformations = (item) ->
+    $('#startYear').text(item.start_year)
+    $('#showTitle').text(item.title)
+    $('#endYear').text(item.end_year)
+    $('#channel').text(item.channel)
+    $('#summary').text(item.summary)
+
   handleSelectionShow = (event, ui) ->
-    console.log(ui.item)
+    toggleLoading()
+    $('#placeholder').hide()
+    setShowInformations(ui.item)
+    $('#showContainer').fadeIn()
+    setTimeout(toggleLoading, 500)
 
   $("input[data-toggle='tooltip'][type='search']").tooltip()
   $('#searchShows').autocomplete(
     source: handleSearchRequest
     minLength: 2
     select: handleSelectionShow
+
   )) jQuery
