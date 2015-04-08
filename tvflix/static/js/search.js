@@ -2,15 +2,24 @@
 (function() {
   "use strict";
   (function($) {
-    var $body, getImage, handleSearchRequest, handleSelectionShow, setShowInformations, toggleLoading;
+
+    /*
+      Loading Screen function
+     */
+    var $body, getImage, handleSearchRequest, handleSelectionShow, setShowInformation, toggleLoadingScreen;
     $body = $('body');
-    toggleLoading = function() {
+    toggleLoadingScreen = function() {
       if ($body.hasClass('loading')) {
         return $body.removeClass('loading');
       } else {
         return $body.addClass('loading');
       }
     };
+
+    /*
+      Do the API Call on the search and process the results.
+      AutoComplete need to have an object with value and label set
+     */
     handleSearchRequest = function(request, responseCallback) {
       var query;
       query = request.term;
@@ -42,35 +51,47 @@
         }
       });
     };
+
+    /*
+      Retrieve an image from Google
+     */
     getImage = function(title, callback) {
       return $.ajax({
-        url: 'https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=' + title + '+poster&start=4',
+        url: 'https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=' + title + '+poster&start=1',
         type: 'GET',
         dataType: 'jsonp'
       }).success(function(data) {
-        return callback(data.responseData.results[1].url);
+        return callback(null, data.responseData.results[0].url);
       }).fail(function(XHR) {
-        callback();
-        return console.error(XHR);
+        return callback(XHR);
       });
     };
-    setShowInformations = function(item, callback) {
+
+    /*
+      Set the Show information (HTML)
+     */
+    setShowInformation = function(item, callback) {
       $('#startYear').text(item.start_year);
       $('#showTitle').text(item.title);
       $('#endYear').text(item.end_year);
       $('#channel').text(item.channel);
       $('#summary').text(item.summary);
-      return getImage(item.title, function(imgUrl) {
+      return getImage(item.title, function(error, imgUrl) {
+        if (error) {
+          console.log(error);
+          $('#showImage img').attr('src', '/static/image/no-image.png');
+          return callback();
+        }
         $('#showImage img').attr('src', imgUrl);
         return callback();
       });
     };
     handleSelectionShow = function(event, ui) {
-      toggleLoading();
+      toggleLoadingScreen();
       $('#placeholder').hide();
-      return setShowInformations(ui.item, function() {
+      return setShowInformation(ui.item, function() {
         $('#showContainer').fadeIn();
-        return setTimeout(toggleLoading, 500);
+        return setTimeout(toggleLoadingScreen, 500);
       });
     };
     $("input[data-toggle='tooltip'][type='search']").tooltip();

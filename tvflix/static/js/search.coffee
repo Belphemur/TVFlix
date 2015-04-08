@@ -1,12 +1,18 @@
 "use strict"
 (($) ->
+  ###
+    Loading Screen function
+  ###
   $body = $('body')
-  toggleLoading = () ->
+  toggleLoadingScreen = () ->
     if $body.hasClass('loading')
       $body.removeClass('loading')
     else
       $body.addClass('loading')
-
+  ###
+    Do the API Call on the search and process the results.
+    AutoComplete need to have an object with value and label set
+  ###
   handleSearchRequest = (request, responseCallback) ->
     query = request.term
     $.ajax(
@@ -31,36 +37,45 @@
       if jqXHR.status != 404
         console.error(jqXHR)
     )
-
+  ###
+    Retrieve an image from Google
+  ###
   getImage = (title, callback) ->
     $.ajax(
-      url: 'https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q='+title+'+poster&start=4'
+      url: 'https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=' + title + '+poster&start=1'
       type: 'GET'
       dataType: 'jsonp'
     ).success((data)->
-      callback(data.responseData.results[1].url)
+      callback(null, data.responseData.results[0].url)
     ).fail((XHR)->
-      callback()
-      console.error(XHR)
+      callback(XHR)
     )
-  setShowInformations = (item, callback) ->
+  ###
+    Set the Show information (HTML)
+  ###
+  setShowInformation = (item, callback) ->
     $('#startYear').text(item.start_year)
     $('#showTitle').text(item.title)
     $('#endYear').text(item.end_year)
     $('#channel').text(item.channel)
     $('#summary').text(item.summary)
-    getImage(item.title, (imgUrl) ->
+    getImage(item.title, (error, imgUrl) ->
+      if(error)
+        console.log(error)
+        $('#showImage img').attr('src', '/static/image/no-image.png')
+        return callback()
+
       $('#showImage img').attr('src', imgUrl)
       callback()
     )
 
 
   handleSelectionShow = (event, ui) ->
-    toggleLoading()
+    toggleLoadingScreen()
     $('#placeholder').hide()
-    setShowInformations(ui.item, ()->
+    setShowInformation(ui.item, ()->
       $('#showContainer').fadeIn()
-      setTimeout(toggleLoading, 500)
+      setTimeout(toggleLoadingScreen, 500)
     )
 
   $("input[data-toggle='tooltip'][type='search']").tooltip()
