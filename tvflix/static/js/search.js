@@ -2,7 +2,7 @@
 (function() {
   "use strict";
   (function($) {
-    var $body, handleSearchRequest, handleSelectionShow, setShowInformations, toggleLoading;
+    var $body, getImage, handleSearchRequest, handleSelectionShow, setShowInformations, toggleLoading;
     $body = $('body');
     toggleLoading = function() {
       if ($body.hasClass('loading')) {
@@ -31,7 +31,7 @@
           $.extend(toAdd, show, {
             showLabel: show.label,
             label: show.title,
-            value: show.label
+            value: show.title
           });
           return responseArray.push(toAdd);
         });
@@ -42,19 +42,36 @@
         }
       });
     };
-    setShowInformations = function(item) {
+    getImage = function(title, callback) {
+      return $.ajax({
+        url: 'https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=' + title + '+poster&start=4',
+        type: 'GET',
+        dataType: 'jsonp'
+      }).success(function(data) {
+        return callback(data.responseData.results[1].url);
+      }).fail(function(XHR) {
+        callback();
+        return console.error(XHR);
+      });
+    };
+    setShowInformations = function(item, callback) {
       $('#startYear').text(item.start_year);
       $('#showTitle').text(item.title);
       $('#endYear').text(item.end_year);
       $('#channel').text(item.channel);
-      return $('#summary').text(item.summary);
+      $('#summary').text(item.summary);
+      return getImage(item.title, function(imgUrl) {
+        $('#showImage img').attr('src', imgUrl);
+        return callback();
+      });
     };
     handleSelectionShow = function(event, ui) {
       toggleLoading();
       $('#placeholder').hide();
-      setShowInformations(ui.item);
-      $('#showContainer').fadeIn();
-      return setTimeout(toggleLoading, 500);
+      return setShowInformations(ui.item, function() {
+        $('#showContainer').fadeIn();
+        return setTimeout(toggleLoading, 500);
+      });
     };
     $("input[data-toggle='tooltip'][type='search']").tooltip();
     return $('#searchShows').autocomplete({
