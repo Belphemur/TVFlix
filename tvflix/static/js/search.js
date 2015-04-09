@@ -7,7 +7,7 @@
       Do the API Call on the search and process the results.
       AutoComplete need to have an object with value and label set
      */
-    var getImage, handleSearchRequest, handleSeasonInformation, handleSelectionShow, setSeasonInformation, setShowInformation;
+    var handleSearchRequest, handleSelectionShow;
     handleSearchRequest = function(request, responseCallback) {
       var query;
       query = request.term;
@@ -37,73 +37,6 @@
         if (jqXHR.status !== 404) {
           return console.error(jqXHR);
         }
-      });
-    };
-
-    /*
-      Retrieve an image from Trakt
-     */
-    getImage = function(label, callback) {
-      return traktRequest('/shows/' + label + '?extended=images').success(function(data) {
-        return callback(null, data.images.thumb.full);
-      }).fail(function(XHR) {
-        return callback(XHR);
-      });
-    };
-
-    /*
-      Set the Show information (HTML)
-     */
-    setShowInformation = function(item, callback) {
-      $('#startYear').text(item.start_year);
-      $('#showTitle').text(item.title);
-      $('#endYear').text(item.end_year);
-      $('#channel').text(item.channel);
-      $('#summary').text(item.summary);
-      return getImage(item.showLabel, function(error, imgUrl) {
-        if (error) {
-          console.log(error);
-          $('#showImage img').attr('src', '/static/image/no-image.png');
-          return callback();
-        }
-        $('#showImage img').attr('src', imgUrl);
-        return callback();
-      });
-    };
-
-    /*
-      Set the HTML with the sessions information
-     */
-    handleSeasonInformation = function(seasons) {
-      var seasonList;
-      seasonList = $("#showSeasons ul");
-      return seasons.forEach(function(season) {
-        var li, link;
-        link = $('<a>', {
-          "class": 'season',
-          href: '#',
-          'data-episodes': season._links.episode.href
-        }).text('Season ' + season.number);
-        li = $('<li>').html(link);
-        return seasonList.append(li);
-      });
-    };
-
-    /*
-      Do the request to get season information
-     */
-    setSeasonInformation = function(item, callback) {
-      var seasonList;
-      seasonList = $("#showSeasons ul");
-      seasonList.html('');
-      return $.ajax({
-        url: item._links.seasons.href,
-        type: 'GET',
-        dataType: 'json'
-      }).success(function(data) {
-        return handleSeasonInformation(data._embedded.season);
-      }).complete(function() {
-        return callback();
       });
     };
     handleSelectionShow = function(event, ui) {
