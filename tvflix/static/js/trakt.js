@@ -12,9 +12,8 @@
     /*
       Make request to the trakt API
      */
-    var traktRequest;
-    return traktRequest = function(endpoint, type) {
-      var root;
+    var root, traktRequest;
+    traktRequest = function(endpoint, type) {
       type = type != null ? type : 'GET';
       return $.ajax({
         url: traktApiRoot + endpoint,
@@ -25,9 +24,9 @@
           'trakt-api-version': 2
         }
       });
-      root = typeof window !== "undefined" && window !== null ? window : this;
-      return root.traktRequest = traktRequest;
     };
+    root = typeof window !== "undefined" && window !== null ? window : this;
+    return root.traktRequest = traktRequest;
   })(jQuery);
 
 }).call(this);

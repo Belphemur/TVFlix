@@ -16,6 +16,7 @@ traktApiRoot = 'http://api.staging.trakt.tv'
         'trakt-api-key': traktClientId
         'trakt-api-version': 2
     )
-    root = window ? this
-    root.traktRequest = traktRequest
+    
+  root = window ? this
+  root.traktRequest = traktRequest
 ) jQuery
