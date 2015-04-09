@@ -68,12 +68,15 @@
         <p>Available shows : Game of Thrones and The Simpsons</p>
     </div>
     <div class="starter-template" id="showContainer">
-        <div id="showComments">COMMENTS</div>
+        <div id="showCommentsContainer">
+            <h2>Comments</h2>
+            <div id="showComments">COMMENTS</div>
+        </div>
         <div id="show" class="clearfix">
             <h1 id="showTitle">TITLE</h1>
 
             <div id="showImage"><img
-                    src="${request.static_url('tvflix:static/image/no-image.png')}">
+                    src="/static/image/no-image.png">
             </div>
             <div id="showDescription" class="clearfix">
                 <ul class="additionalInfo">
@@ -100,7 +103,7 @@
                     <li>Season 2</li>
                 </ul>
             </div>
-            <div id="showEpisodes"></div>
+            <div id="showEpisodes" class="clearfix"></div>
         </div>
 
     </div>
@@ -152,7 +155,7 @@
 <!-- /.modal -->
 
 <div id="episodeTemplate" class="invisible episode">
-    <div class="episodeImage"><img src="${request.static_url('tvflix:static/image/no-image.png')}"></div>
+    <div class="thumb"><img src="/static/image/no-image.png"></div>
     <div class="episodeInfo">
         <h2>Episode Title</h2>
 
@@ -175,6 +178,18 @@
         </div>
     </div>
 </div>
+
+<div id="commentTemplate" class="invisible comment">
+    <div class="avatar"><img src="//robohash.org/TVFlix?set=set3&size=60x60"></div>
+    <h3>Username</h3>
+
+    <p>Comment</p>
+</div>
+<footer class="footer">
+      <div class="container">
+        <p class="text-muted">Robots lovingly delivered by <a href="https://robohash.org" target="_blank">Robohash.org</a></p>
+      </div>
+    </footer>
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->

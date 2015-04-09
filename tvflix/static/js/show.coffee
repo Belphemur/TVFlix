@@ -17,7 +17,7 @@
   ###
     Set the Show information (HTML)
   ###
-  setShowInformation = (item, callback) ->
+  loadShow = (item, callback) ->
     $('#startYear').text(item.start_year)
     $('#showTitle').text(item.title)
     $('#endYear').text(item.end_year)
@@ -35,7 +35,7 @@
   ###
     Set the HTML with the sessions information
   ###
-  handleSeasonInformation = (seasons) ->
+  displaySeasons = (seasons) ->
     seasonList = $("#showSeasons ul")
     seasons.forEach((season) ->
       link = $('<a>',
@@ -49,15 +49,15 @@
   ###
     Do the request to get season information
   ###
-  setSeasonInformation = (item, callback) ->
+  loadSeasons = (show, callback) ->
     seasonList = $("#showSeasons ul")
     seasonList.html('')
     $.ajax(
-      url: item._links.seasons.href
+      url: show._links.seasons.href
       type: 'GET'
       dataType: 'json'
     ).success((data)->
-      handleSeasonInformation(data._embedded.season)
+      displaySeasons(data._embedded.season)
     ).complete(() ->
       callback()
     )
@@ -83,24 +83,51 @@
   displayEpisodes = (episodes, traktInfo) ->
     $template = $("#episodeTemplate")
     $episodes = $("#showEpisodes").html('')
-    generatedEp = []
     episodes.forEach((episode) ->
       $newEp = $template.clone()
 
       if(traktInfo)
         imageUrl = getEpImage(traktInfo, episode.number)
         if(imageUrl)
-          $newEp.find("div.episodeImage img").attr('src', imageUrl)
+          $newEp.find("div.thumb img").attr('src', imageUrl)
 
       $newEp.attr('id', 'ep-' + episode.number)
       $newEp.find("h2").text(episode.title)
       $newEp.find("div.summary").text(episode.summary)
       $newEp.find("span.epBcast").text(episode.bcast_date)
       $newEp.find("span.epNumber").text(episode.number)
+      $episodes.append($newEp)
       $newEp.removeClass('invisible')
-      generatedEp.push($newEp)
     )
-    $episodes.append(generatedEp)
+
+
+
+  displayComments = (comments) ->
+    $template = $("#commentTemplate")
+    $comments = $("#showComments").html('')
+    comments.forEach((comment) ->
+      $newComment = $template.clone()
+      $newComment.attr('id', 'com-' + comment.username)
+      $newComment.find("h3").text(comment.username)
+      $newComment.find("div.avatar img").attr('src', '//robohash.org/' + comment.username + '?set=set3&size=60x60')
+      $newComment.find("p").text(comment.comment)
+      $comments.append($newComment)
+      $newComment.removeClass('invisible')
+    )
+
+  ###
+    Load the comments for the show
+  ###
+  loadComments = (show, callback) ->
+    $.ajax(
+      url: show._links.comments.href
+      type: 'GET'
+      dataType: 'json'
+    ).success((data)->
+      displayComments(data._embedded.comment)
+    ).complete(() ->
+      callback()
+    )
 
   ###
     LINK BLOCK
@@ -127,7 +154,7 @@
   )
   root = window ? this
   $.extend(root,
-    setShowInformation: setShowInformation
-    handleSeasonInformation: handleSeasonInformation
-    setSeasonInformation: setSeasonInformation
+    loadShow: loadShow
+    loadSeasons: loadSeasons
+    loadComments: loadComments
   )) jQuery

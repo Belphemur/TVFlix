@@ -42,10 +42,12 @@
     handleSelectionShow = function(event, ui) {
       toggleLoadingScreen();
       $('#placeholder').hide();
-      return setShowInformation(ui.item, function() {
-        return setSeasonInformation(ui.item, function() {
-          $('#showContainer').fadeIn();
-          return setTimeout(toggleLoadingScreen, 500);
+      return loadShow(ui.item, function() {
+        return loadSeasons(ui.item, function() {
+          return loadComments(ui.item, function() {
+            $('#showContainer').fadeIn();
+            return setTimeout(toggleLoadingScreen, 500);
+          });
         });
       });
     };

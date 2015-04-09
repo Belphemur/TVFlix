@@ -10,7 +10,7 @@
     /*
         Retrieve an image from Trakt
      */
-    var displayEpisodes, getEpImage, getShowImage, handleSeasonInformation, root, setSeasonInformation, setShowInformation;
+    var displayComments, displayEpisodes, displaySeasons, getEpImage, getShowImage, loadComments, loadSeasons, loadShow, root;
     getShowImage = function(label, callback) {
       return traktRequest('/shows/' + label + '?extended=images').success(function(data) {
         return callback(null, data.images.thumb.full);
@@ -22,7 +22,7 @@
     /*
       Set the Show information (HTML)
      */
-    setShowInformation = function(item, callback) {
+    loadShow = function(item, callback) {
       $('#startYear').text(item.start_year);
       $('#showTitle').text(item.title);
       $('#endYear').text(item.end_year);
@@ -42,7 +42,7 @@
     /*
       Set the HTML with the sessions information
      */
-    handleSeasonInformation = function(seasons) {
+    displaySeasons = function(seasons) {
       var seasonList;
       seasonList = $("#showSeasons ul");
       return seasons.forEach(function(season) {
@@ -60,16 +60,16 @@
     /*
       Do the request to get season information
      */
-    setSeasonInformation = function(item, callback) {
+    loadSeasons = function(show, callback) {
       var seasonList;
       seasonList = $("#showSeasons ul");
       seasonList.html('');
       return $.ajax({
-        url: item._links.seasons.href,
+        url: show._links.seasons.href,
         type: 'GET',
         dataType: 'json'
       }).success(function(data) {
-        return handleSeasonInformation(data._embedded.season);
+        return displaySeasons(data._embedded.season);
       }).complete(function() {
         return callback();
       });
@@ -96,17 +96,16 @@
       the HTML code (#episodeTemplate)
      */
     displayEpisodes = function(episodes, traktInfo) {
-      var $episodes, $template, generatedEp;
+      var $episodes, $template;
       $template = $("#episodeTemplate");
       $episodes = $("#showEpisodes").html('');
-      generatedEp = [];
-      episodes.forEach(function(episode) {
+      return episodes.forEach(function(episode) {
         var $newEp, imageUrl;
         $newEp = $template.clone();
         if (traktInfo) {
           imageUrl = getEpImage(traktInfo, episode.number);
           if (imageUrl) {
-            $newEp.find("div.episodeImage img").attr('src', imageUrl);
+            $newEp.find("div.thumb img").attr('src', imageUrl);
           }
         }
         $newEp.attr('id', 'ep-' + episode.number);
@@ -114,10 +113,39 @@
         $newEp.find("div.summary").text(episode.summary);
         $newEp.find("span.epBcast").text(episode.bcast_date);
         $newEp.find("span.epNumber").text(episode.number);
-        $newEp.removeClass('invisible');
-        return generatedEp.push($newEp);
+        $episodes.append($newEp);
+        return $newEp.removeClass('invisible');
       });
-      return $episodes.append(generatedEp);
+    };
+    displayComments = function(comments) {
+      var $comments, $template;
+      $template = $("#commentTemplate");
+      $comments = $("#showComments").html('');
+      return comments.forEach(function(comment) {
+        var $newComment;
+        $newComment = $template.clone();
+        $newComment.attr('id', 'com-' + comment.username);
+        $newComment.find("h3").text(comment.username);
+        $newComment.find("div.avatar img").attr('src', '//robohash.org/' + comment.username + '?set=set3&size=60x60');
+        $newComment.find("p").text(comment.comment);
+        $comments.append($newComment);
+        return $newComment.removeClass('invisible');
+      });
+    };
+
+    /*
+      Load the comments for the show
+     */
+    loadComments = function(show, callback) {
+      return $.ajax({
+        url: show._links.comments.href,
+        type: 'GET',
+        dataType: 'json'
+      }).success(function(data) {
+        return displayComments(data._embedded.comment);
+      }).complete(function() {
+        return callback();
+      });
     };
 
     /*
@@ -146,9 +174,9 @@
     });
     root = typeof window !== "undefined" && window !== null ? window : this;
     return $.extend(root, {
-      setShowInformation: setShowInformation,
-      handleSeasonInformation: handleSeasonInformation,
-      setSeasonInformation: setSeasonInformation
+      loadShow: loadShow,
+      loadSeasons: loadSeasons,
+      loadComments: loadComments
     });
   })(jQuery);
 

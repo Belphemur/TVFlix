@@ -34,10 +34,12 @@
   handleSelectionShow = (event, ui) ->
     toggleLoadingScreen()
     $('#placeholder').hide()
-    setShowInformation(ui.item, () ->
-      setSeasonInformation(ui.item, () ->
-        $('#showContainer').fadeIn()
-        setTimeout(toggleLoadingScreen, 500)
+    loadShow(ui.item, () ->
+      loadSeasons(ui.item, () ->
+        loadComments(ui.item, () ->
+          $('#showContainer').fadeIn()
+          setTimeout(toggleLoadingScreen, 500)
+        )
       )
     )
 
