@@ -2,12 +2,30 @@
 (function() {
   "use strict";
   (function($) {
+    var $body, getImage, handleSearchRequest, handleSeasonInformation, handleSelectionShow, setSeasonInformation, setShowInformation, toggleLoadingScreen, traktApiRoot, traktClientId, traktRequest;
+    $body = $('body');
+    traktClientId = "2d40da7a6e42cd29c4b9bbef14e7acc208fc9c27c90a8242718f45effc4c73f6";
+    traktApiRoot = 'http://api.staging.trakt.tv';
+
+    /*
+      Make request to the trakt API
+     */
+    traktRequest = function(endpoint, type) {
+      type = type != null ? type : 'GET';
+      return $.ajax({
+        url: traktApiRoot + endpoint,
+        type: type,
+        dataType: 'json',
+        headers: {
+          'trakt-api-key': traktClientId,
+          'trakt-api-version': 2
+        }
+      });
+    };
 
     /*
       Loading Screen function
      */
-    var $body, getImage, handleSearchRequest, handleSeasonInformation, handleSelectionShow, setSeasonInformation, setShowInformation, toggleLoadingScreen;
-    $body = $('body');
     toggleLoadingScreen = function() {
       if ($body.hasClass('loading')) {
         return $body.removeClass('loading');
@@ -53,15 +71,11 @@
     };
 
     /*
-      Retrieve an image from Google
+      Retrieve an image from Trakt
      */
-    getImage = function(title, callback) {
-      return $.ajax({
-        url: 'https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=' + title + '+poster&start=1',
-        type: 'GET',
-        dataType: 'jsonp'
-      }).success(function(data) {
-        return callback(null, data.responseData.results[0].url);
+    getImage = function(label, callback) {
+      return traktRequest('/shows/' + label + '?extended=images').success(function(data) {
+        return callback(null, data.images.thumb.full);
       }).fail(function(XHR) {
         return callback(XHR);
       });
@@ -76,7 +90,7 @@
       $('#endYear').text(item.end_year);
       $('#channel').text(item.channel);
       $('#summary').text(item.summary);
-      return getImage(item.title, function(error, imgUrl) {
+      return getImage(item.showLabel, function(error, imgUrl) {
         if (error) {
           console.log(error);
           $('#showImage img').attr('src', '/static/image/no-image.png');

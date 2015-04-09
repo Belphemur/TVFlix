@@ -1,9 +1,24 @@
 "use strict"
 (($) ->
+  $body = $('body')
+  traktClientId = "2d40da7a6e42cd29c4b9bbef14e7acc208fc9c27c90a8242718f45effc4c73f6"
+  traktApiRoot = 'http://api.staging.trakt.tv'
+  ###
+    Make request to the trakt API
+  ###
+  traktRequest = (endpoint, type) ->
+    type = type ? 'GET'
+    return $.ajax(
+      url: traktApiRoot + endpoint
+      type: type
+      dataType: 'json'
+      headers:
+        'trakt-api-key': traktClientId
+        'trakt-api-version': 2
+    )
   ###
     Loading Screen function
   ###
-  $body = $('body')
   toggleLoadingScreen = () ->
     if $body.hasClass('loading')
       $body.removeClass('loading')
@@ -38,16 +53,14 @@
         console.error(jqXHR)
     )
   ###
-    Retrieve an image from Google
+    Retrieve an image from Trakt
   ###
-  getImage = (title, callback) ->
-    $.ajax(
-      url: 'https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=' + title + '+poster&start=1'
-      type: 'GET'
-      dataType: 'jsonp'
-    ).success((data)->
-      callback(null, data.responseData.results[0].url)
-    ).fail((XHR)->
+  getImage = (label, callback) ->
+    traktRequest('/shows/' + label + '?extended=images')
+    .success((data)->
+      callback(null, data.images.thumb.full)
+    )
+    .fail((XHR)->
       callback(XHR)
     )
   ###
@@ -59,7 +72,7 @@
     $('#endYear').text(item.end_year)
     $('#channel').text(item.channel)
     $('#summary').text(item.summary)
-    getImage(item.title, (error, imgUrl) ->
+    getImage(item.showLabel, (error, imgUrl) ->
       if(error)
         console.log(error)
         $('#showImage img').attr('src', '/static/image/no-image.png')
