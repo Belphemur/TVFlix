@@ -64,6 +64,7 @@
 
         <p class="lead">Use the search to find a show. This message will be then replaced by the informations of the
             show.</p>
+
         <p>Available shows : Game of Thrones and The Simpsons</p>
     </div>
     <div class="starter-template" id="showContainer">
@@ -72,13 +73,13 @@
             <h1 id="showTitle">TITLE</h1>
 
             <div id="showImage"><img
-                    src="/static/image/no-image.png">
+                    src="${request.static_url('tvflix:static/image/no-image.png')}">
             </div>
             <div id="showDescription" class="clearfix">
                 <ul class="additionalInfo">
-                    <li class="info"><span class="showInfo">Start Year:</span><span id="startYear">2015</span></li>
-                    <li class="info"><span class="showInfo">End Year:</span><span id="endYear">2016</span></li>
-                    <li class="info"><span class="showInfo">Channel:</span><span id="channel">NBC</span></li>
+                    <li class="info"><span class="showInfo">Start Year</span><span id="startYear">2015</span></li>
+                    <li class="info"><span class="showInfo">End Year</span><span id="endYear">2016</span></li>
+                    <li class="info"><span class="showInfo">Channel</span><span id="channel">NBC</span></li>
                 </ul>
                 <div id="summary">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean faucibus a odio in
                     convallis. Nullam sollicitudin elementum leo vel tempor. Cum sociis natoque penatibus et magnis dis
@@ -93,12 +94,13 @@
                 </div>
 
             </div>
-            <div id="showSeasons">
+            <div id="showSeasons" class="clearfix">
                 <ul>
                     <li>Season 1</li>
                     <li>Season 2</li>
                 </ul>
             </div>
+            <div id="showEpisodes"></div>
         </div>
 
     </div>
@@ -149,14 +151,36 @@
 </div>
 <!-- /.modal -->
 
+<div id="episodeTemplate" class="invisible episode">
+    <div class="episodeImage"><img src="${request.static_url('tvflix:static/image/no-image.png')}"></div>
+    <div class="episodeInfo">
+        <h2>Episode Title</h2>
 
+        <div id="showDescription" class="clearfix">
+            <ul class="additionalInfo">
+                <li class="info"><span class="showInfo">Aired</span><span class="epBcast">2015</span></li>
+                <li class="info"><span class="showInfo">Number</span><span class="epNumber">1</span></li>
+            </ul>
+            <div class="summary">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean faucibus a odio in
+                convallis. Nullam sollicitudin elementum leo vel tempor. Cum sociis natoque penatibus et magnis dis
+                parturient montes, nascetur ridiculus mus. Morbi consectetur, libero in vulputate luctus, lectus dui
+                interdum neque, a molestie risus est euismod velit. Suspendisse hendrerit lectus a pharetra
+                porttitor. Sed ultrices porta elit, non dapibus augue cursus a. Phasellus sed dolor vitae augue
+                sollicitudin varius eget vitae libero. Fusce justo odio, mollis sed placerat eu, dictum sed ex.
+                Quisque iaculis urna vitae felis facilisis, lacinia porttitor est hendrerit. Integer semper nulla
+                blandit dui vestibulum, sit amet pretium velit bibendum. Aenean at augue ornare, feugiat dolor eget,
+                dictum velit. Aliquam congue quis risus id luctus. Suspendisse vitae cursus dolor. Nam feugiat felis
+                mollis metus fringilla feugiat.
+            </div>
+        </div>
+    </div>
+</div>
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="//code.jquery.com/jquery-2.1.3.min.js"></script>
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery.isotope/2.1.1/isotope.pkgd.min.js"></script>
 
 <script src="${request.static_url('tvflix:static/js/User.js')}"></script>
 <script src="${request.static_url('tvflix:static/js/loginLogout.js')}"></script>

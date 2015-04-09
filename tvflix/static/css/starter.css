@@ -44,23 +44,23 @@ html[xmlns] .clearfix {
     display: none;
 }
 
-#showImage {
+#showImage, .episodeImage {
     float: left;
     width: 30%;
     margin: 15px 15px 15px 15px;
 }
 
-#showImage img {
+#showImage img, .episodeImage img {
     width: 100%;
 }
 
 #showComments {
     float: right;
-    width: 20%;
+    width: 18%;
 }
 
 #show {
-    width: 70%;
+    width: 80%;
 }
 
 span.showInfo {
@@ -85,7 +85,7 @@ li.info, #showSeasons ul li {
     white-space: nowrap;
 }
 
-#summary {
+#summary, .summary {
     text-align: left;
 }
 
@@ -98,24 +98,20 @@ li.info, #showSeasons ul li {
     text-align: center;
 }
 
-
 /* Start by setting display:none to make this hidden.
    Then we position it in relation to the viewport window
    with position:fixed. Width, height, top and left speak
    speak for themselves. Background we set to 80% white with
    our animation centered, and no-repeating */
 .loader {
-    display:    none;
-    position:   fixed;
-    z-index:    1000;
-    top:        0;
-    left:       0;
-    height:     100%;
-    width:      100%;
-    background: black
-                url('../image/giphy.gif')
-                50% 50%
-                no-repeat;
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: black url('../image/giphy.gif') 50% 50% no-repeat;
     opacity: 0.8;
 }
 
@@ -129,4 +125,16 @@ body.loading {
    modal element will be visible */
 body.loading .loader {
     display: block;
+}
+
+.invisible {
+    display: none;
+}
+
+.episode {
+    width: 50%;
+    float: left;
+    border: 1px solid cadetblue;
+    /*margin: 5px 5px 5px 5px;*/
+    padding: 5px 5px 5px 5px;
 }

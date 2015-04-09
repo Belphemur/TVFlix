@@ -4,9 +4,13 @@
   (function($) {
 
     /*
+      FUNCTION BLOCK
+     */
+
+    /*
         Retrieve an image from Trakt
      */
-    var getImage, handleSeasonInformation, root, setSeasonInformation, setShowInformation;
+    var displayEpisodes, getEpImage, getImage, handleSeasonInformation, root, setSeasonInformation, setShowInformation;
     getImage = function(label, callback) {
       return traktRequest('/shows/' + label + '?extended=images').success(function(data) {
         return callback(null, data.images.thumb.full);
@@ -70,6 +74,76 @@
         return callback();
       });
     };
+
+    /*
+      Get Image URL from the trakt data
+     */
+    getEpImage = function(traktInfo, episodeNumber) {
+      var imgUrl;
+      imgUrl = null;
+      traktInfo.every(function(episode) {
+        if (episode.number === episodeNumber) {
+          imgUrl = episode.images.screenshot.thumb;
+          return false;
+        }
+        return true;
+      });
+      return imgUrl;
+    };
+
+    /*
+      Create the DOM element for an episode using the template given in
+      the HTML code (#episodeTemplate)
+     */
+    displayEpisodes = function(episodes, traktInfo) {
+      var $episodes, $template, generatedEp;
+      $template = $("#episodeTemplate");
+      $episodes = $("#showEpisodes").html('');
+      generatedEp = [];
+      episodes.forEach(function(episode) {
+        var $newEp, imageUrl;
+        $newEp = $template.clone();
+        if (traktInfo) {
+          imageUrl = getEpImage(traktInfo, episode.number);
+          if (imageUrl) {
+            $newEp.find("div.episodeImage img").attr('src', imageUrl);
+          }
+        }
+        $newEp.attr('id', 'ep-' + episode.number);
+        $newEp.find("h2").text(episode.title);
+        $newEp.find("div.summary").text(episode.summary);
+        $newEp.find("span.epBcast").text(episode.bcast_date);
+        $newEp.find("span.epNumber").text(episode.number);
+        $newEp.removeClass('invisible');
+        return generatedEp.push($newEp);
+      });
+      return $episodes.append(generatedEp);
+    };
+
+    /*
+      LINK BLOCK
+     */
+    $('#showSeasons').on('click', 'a.season', function(e) {
+      var $link, traktUrl, url;
+      e.preventDefault();
+      toggleLoadingScreen();
+      $link = $(e.target);
+      url = $link.attr('data-episodes');
+      traktUrl = url.replace('/tvflix', '') + '?extended=images';
+      return $.ajax({
+        url: url,
+        type: 'GET',
+        dataType: 'json'
+      }).success(function(data) {
+        return traktRequest(traktUrl).success(function(traktData) {
+          displayEpisodes(data._embedded.episode, traktData);
+          return toggleLoadingScreen();
+        }).fail(function() {
+          displayEpisodes(data._embedded.episode);
+          return toggleLoadingScreen();
+        });
+      }).fail(toggleLoadingScreen);
+    });
     root = typeof window !== "undefined" && window !== null ? window : this;
     return $.extend(root, {
       setShowInformation: setShowInformation,

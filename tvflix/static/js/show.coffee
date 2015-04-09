@@ -1,6 +1,8 @@
 "use strict"
 (($)->
-
+  ###
+    FUNCTION BLOCK
+  ###
   ###
       Retrieve an image from Trakt
   ###
@@ -60,6 +62,69 @@
       callback()
     )
 
+  ###
+    Get Image URL from the trakt data
+  ###
+  getEpImage = (traktInfo, episodeNumber) ->
+    imgUrl = null
+    traktInfo.every((episode) ->
+      if(episode.number == episodeNumber)
+        imgUrl = episode.images.screenshot.thumb;
+        return false
+
+      return true
+    )
+    return imgUrl
+
+  ###
+    Create the DOM element for an episode using the template given in
+    the HTML code (#episodeTemplate)
+  ###
+  displayEpisodes = (episodes, traktInfo) ->
+    $template = $("#episodeTemplate")
+    $episodes = $("#showEpisodes").html('')
+    generatedEp = []
+    episodes.forEach((episode) ->
+      $newEp = $template.clone()
+
+      if(traktInfo)
+        imageUrl = getEpImage(traktInfo, episode.number)
+        if(imageUrl)
+          $newEp.find("div.episodeImage img").attr('src', imageUrl)
+
+      $newEp.attr('id', 'ep-' + episode.number)
+      $newEp.find("h2").text(episode.title)
+      $newEp.find("div.summary").text(episode.summary)
+      $newEp.find("span.epBcast").text(episode.bcast_date)
+      $newEp.find("span.epNumber").text(episode.number)
+      $newEp.removeClass('invisible')
+      generatedEp.push($newEp)
+    )
+    $episodes.append(generatedEp)
+
+  ###
+    LINK BLOCK
+  ###
+  $('#showSeasons').on('click','a.season', (e) ->
+    e.preventDefault()
+    toggleLoadingScreen()
+    $link = $(e.target)
+    url = $link.attr('data-episodes')
+    traktUrl = url.replace('/tvflix', '') + '?extended=images'
+    $.ajax(
+      url: url
+      type: 'GET',
+      dataType: 'json'
+    ).success((data) ->
+      traktRequest(traktUrl).success((traktData) ->
+        displayEpisodes(data._embedded.episode, traktData)
+        toggleLoadingScreen()
+      ).fail(() ->
+        displayEpisodes(data._embedded.episode)
+        toggleLoadingScreen()
+      )
+    ).fail(toggleLoadingScreen)
+  )
   root = window ? this
   $.extend(root,
     setShowInformation: setShowInformation
