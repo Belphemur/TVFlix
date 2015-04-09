@@ -2,26 +2,8 @@
 (function() {
   "use strict";
   (function($) {
-    var $body, getImage, handleSearchRequest, handleSeasonInformation, handleSelectionShow, setSeasonInformation, setShowInformation, toggleLoadingScreen, traktApiRoot, traktClientId, traktRequest;
+    var $body, getImage, handleSearchRequest, handleSeasonInformation, handleSelectionShow, setSeasonInformation, setShowInformation, toggleLoadingScreen;
     $body = $('body');
-    traktClientId = "2d40da7a6e42cd29c4b9bbef14e7acc208fc9c27c90a8242718f45effc4c73f6";
-    traktApiRoot = 'http://api.staging.trakt.tv';
-
-    /*
-      Make request to the trakt API
-     */
-    traktRequest = function(endpoint, type) {
-      type = type != null ? type : 'GET';
-      return $.ajax({
-        url: traktApiRoot + endpoint,
-        type: type,
-        dataType: 'json',
-        headers: {
-          'trakt-api-key': traktClientId,
-          'trakt-api-version': 2
-        }
-      });
-    };
 
     /*
       Loading Screen function

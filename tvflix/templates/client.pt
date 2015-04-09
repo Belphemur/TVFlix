@@ -160,6 +160,7 @@
 
 <script src="${request.static_url('tvflix:static/js/User.js')}"></script>
 <script src="${request.static_url('tvflix:static/js/loginLogout.js')}"></script>
+<script src="${request.static_url('tvflix:static/js/trakt.js')}"></script>
 <script src="${request.static_url('tvflix:static/js/search.js')}"></script>
 
 
