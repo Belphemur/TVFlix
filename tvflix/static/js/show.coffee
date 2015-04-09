@@ -6,7 +6,7 @@
   ###
       Retrieve an image from Trakt
   ###
-  getImage = (label, callback) ->
+  getShowImage = (label, callback) ->
     traktRequest('/shows/' + label + '?extended=images')
     .success((data)->
       callback(null, data.images.thumb.full)
@@ -23,7 +23,7 @@
     $('#endYear').text(item.end_year)
     $('#channel').text(item.channel)
     $('#summary').text(item.summary)
-    getImage(item.showLabel, (error, imgUrl) ->
+    getShowImage(item.showLabel, (error, imgUrl) ->
       if(error)
         console.log(error)
         $('#showImage img').attr('src', '/static/image/no-image.png')

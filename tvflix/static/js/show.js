@@ -10,8 +10,8 @@
     /*
         Retrieve an image from Trakt
      */
-    var displayEpisodes, getEpImage, getImage, handleSeasonInformation, root, setSeasonInformation, setShowInformation;
-    getImage = function(label, callback) {
+    var displayEpisodes, getEpImage, getShowImage, handleSeasonInformation, root, setSeasonInformation, setShowInformation;
+    getShowImage = function(label, callback) {
       return traktRequest('/shows/' + label + '?extended=images').success(function(data) {
         return callback(null, data.images.thumb.full);
       }).fail(function(XHR) {
@@ -28,7 +28,7 @@
       $('#endYear').text(item.end_year);
       $('#channel').text(item.channel);
       $('#summary').text(item.summary);
-      return getImage(item.showLabel, function(error, imgUrl) {
+      return getShowImage(item.showLabel, function(error, imgUrl) {
         if (error) {
           console.log(error);
           $('#showImage img').attr('src', '/static/image/no-image.png');
