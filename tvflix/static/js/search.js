@@ -2,24 +2,12 @@
 (function() {
   "use strict";
   (function($) {
-    var $body, getImage, handleSearchRequest, handleSeasonInformation, handleSelectionShow, setSeasonInformation, setShowInformation, toggleLoadingScreen;
-    $body = $('body');
-
-    /*
-      Loading Screen function
-     */
-    toggleLoadingScreen = function() {
-      if ($body.hasClass('loading')) {
-        return $body.removeClass('loading');
-      } else {
-        return $body.addClass('loading');
-      }
-    };
 
     /*
       Do the API Call on the search and process the results.
       AutoComplete need to have an object with value and label set
      */
+    var getImage, handleSearchRequest, handleSeasonInformation, handleSelectionShow, setSeasonInformation, setShowInformation;
     handleSearchRequest = function(request, responseCallback) {
       var query;
       query = request.term;

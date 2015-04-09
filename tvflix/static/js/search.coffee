@@ -1,14 +1,5 @@
 "use strict"
 (($) ->
-  $body = $('body')
-  ###
-    Loading Screen function
-  ###
-  toggleLoadingScreen = () ->
-    if $body.hasClass('loading')
-      $body.removeClass('loading')
-    else
-      $body.addClass('loading')
   ###
     Do the API Call on the search and process the results.
     AutoComplete need to have an object with value and label set
