@@ -57,7 +57,7 @@ class CommentsResource(object):
                           "show":{  "href":"/tvflix/shows/"+ label}
                           }
                 
-                comment = []
+                commentArray = []
                 for com in comments:
                     updated = None if com.updated is None else com.updated.isoformat()
                     embedComment = {"username": com.user.username,
@@ -67,10 +67,10 @@ class CommentsResource(object):
                                     }
                                     
                     embedComment['_links'] = _links
-                    comment.append(embedComment)
+                    commentArray.append(embedComment)
                     
                 size = len(comments)
-                content = {'_links': _links, 'size': size, '_embedded': comment}
+                content = {'_links': _links, 'size': size, '_embedded': {'comment': commentArray}}
                 
                 return content                   
         
