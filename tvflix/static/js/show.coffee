@@ -105,7 +105,7 @@
   ###
     LINK BLOCK
   ###
-  $('#showSeasons').on('click','a.season', (e) ->
+  $('#showSeasons').on('click', 'a.season', (e) ->
     e.preventDefault()
     toggleLoadingScreen()
     $link = $(e.target)
@@ -118,10 +118,10 @@
     ).success((data) ->
       traktRequest(traktUrl).success((traktData) ->
         displayEpisodes(data._embedded.episode, traktData)
-        toggleLoadingScreen()
+        setTimeout(toggleLoadingScreen, 500)
       ).fail(() ->
         displayEpisodes(data._embedded.episode)
-        toggleLoadingScreen()
+        setTimeout(toggleLoadingScreen, 500)
       )
     ).fail(toggleLoadingScreen)
   )

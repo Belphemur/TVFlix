@@ -137,10 +137,10 @@
       }).success(function(data) {
         return traktRequest(traktUrl).success(function(traktData) {
           displayEpisodes(data._embedded.episode, traktData);
-          return toggleLoadingScreen();
+          return setTimeout(toggleLoadingScreen, 500);
         }).fail(function() {
           displayEpisodes(data._embedded.episode);
-          return toggleLoadingScreen();
+          return setTimeout(toggleLoadingScreen, 500);
         });
       }).fail(toggleLoadingScreen);
     });

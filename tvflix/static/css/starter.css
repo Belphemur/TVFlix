@@ -138,3 +138,7 @@ body.loading .loader {
     /*margin: 5px 5px 5px 5px;*/
     padding: 5px 5px 5px 5px;
 }
+
+.ui-menu-item {
+    z-index: 1000;
+}
