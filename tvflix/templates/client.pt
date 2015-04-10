@@ -70,7 +70,7 @@
     <div id="showContainer" class="row">
         <div class="col-xs-3">
             <div id="showCommentsContainer" class="hidden-xs" data-spy="affix" data-offset-top="195">
-                <h2>Comments</h2>
+                <div class="row"><h2 class="col-lg-6">Comments</h2><div class="col-lg-6 button-add"><button class="btn btn-default add"><span class="glyphicon glyphicon-plus"></span></button></div></div>
 
                 <div id="showComments">COMMENTS</div>
             </div>

@@ -63,13 +63,14 @@ html[xmlns] .clearfix {
     padding-right: 5px;
     border-radius: 4px;
 }
-#showCommentsContainer.affix{
+
+#showCommentsContainer.affix {
     top: 30px; /* Set the top position of pinned element */
     width: 12%;
 }
 
 #show {
-    background-color:  rgba(255,255,255,0.5);
+    background-color: rgba(255, 255, 255, 0.5);
 }
 
 span.showInfo {
@@ -195,5 +196,9 @@ footer.container {
 
 #showEpisodes {
     margin-bottom: 60px;
+}
+
+#showCommentsContainer .button-add {
+    padding-top: 20px;
 }
 
