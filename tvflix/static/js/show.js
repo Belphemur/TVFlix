@@ -23,6 +23,8 @@
       Set the Show information (HTML)
      */
     loadShow = function(item, callback) {
+      $("#show").attr('data-url', item._links.self.href);
+      $("#showComments").attr('data-url', item._links.comments.href);
       $('#startYear').text(item.start_year);
       $('#showTitle').text(item.title);
       $('#endYear').text(item.end_year);
