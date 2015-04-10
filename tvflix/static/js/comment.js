@@ -2,7 +2,7 @@
 (function() {
   "use strict";
   (function($) {
-    var $commentManager, $comments, $template, createComment, deleteComment, handleAddedComment, handleUserLogin, handleUserLogout, root, user;
+    var $commentManager, $comments, $template, createComment, deleteComment, editComment, handleAddedComment, handleUserLogin, handleUserLogout, root, user;
     $comments = $("#showComments");
     $template = $("#commentTemplate");
     user = User.getCurrentUser();
@@ -67,17 +67,18 @@
       }).fail(function(jQXHR) {
         if (jQXHR.status === 401) {
           $.notify({
-            message: "You can't delete this comment. You're logged out."
+            message: "You can't delete this comment. Invalid APIKey. Please log again."
           }, {
             type: 'danger'
           });
           return user.clearInfo();
         } else {
-          return $.notify({
+          $.notify({
             message: "A problem happen, can't delete the comment"
           }, {
             type: 'danger'
           });
+          return console.error(jQXHR);
         }
       });
     };
@@ -89,6 +90,56 @@
       return bootbox.confirm("Delete the comment ?", function(result) {
         if (result) {
           return deleteComment(url, $comment);
+        }
+      });
+    });
+    editComment = function(url, $comment) {
+      var newComment;
+      newComment = $("#editedComment").val();
+      return user.sendUserRequest(url, 'PUT', {
+        comment: newComment
+      }).success(function() {
+        $.notify({
+          message: 'Comment successfully edited'
+        }, {
+          type: 'info'
+        });
+        return $comment.find('p').text(newComment);
+      }).fail(function(jQXHR) {
+        if (jQXHR.status === 401) {
+          $.notify({
+            message: "You can't edit this comment. Invalid APIKey. Please log again."
+          }, {
+            type: 'danger'
+          });
+          return user.clearInfo();
+        } else {
+          $.notify({
+            message: "A problem happen, can't delete the comment"
+          }, {
+            type: 'danger'
+          });
+          return console.error(jQXHR);
+        }
+      });
+    };
+    $comments.on('click', 'button.edit', function(event) {
+      var $comment, commentText, url;
+      event.preventDefault();
+      $comment = $(this).parent().parent();
+      url = $comment.attr('data-url');
+      commentText = $comment.find('p').text();
+      return bootbox.dialog({
+        title: 'Edit Comment',
+        message: '<div class="row"><div class="col-lg-12"><textarea id="editedComment" style="width: 100%;">' + commentText + '</textarea></div></div>',
+        buttons: {
+          success: {
+            label: '<span class="glyphicon glyphicon-edit">Edit</span>',
+            className: 'btn-success',
+            callback: function() {
+              return editComment(url, $comment);
+            }
+          }
         }
       });
     });

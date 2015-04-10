@@ -57,7 +57,7 @@
     ).fail((jQXHR)->
       if(jQXHR.status == 401)
         $.notify(
-          {message: "You can't delete this comment. You're logged out."},
+          {message: "You can't delete this comment. Invalid APIKey. Please log again."},
           type: 'danger'
         )
         user.clearInfo()
@@ -66,6 +66,7 @@
           {message: "A problem happen, can't delete the comment"},
           type: 'danger'
         )
+        console.error(jQXHR)
     )
   $comments.on('click', 'button.delete', (event) ->
     event.preventDefault()
@@ -74,6 +75,49 @@
     bootbox.confirm("Delete the comment ?", (result) ->
       if(result)
         deleteComment(url, $comment)
+    )
+  )
+
+  editComment = (url, $comment) ->
+    newComment = $("#editedComment").val()
+    user.sendUserRequest(url, 'PUT',
+      comment:
+        newComment
+    ).success(() ->
+      $.notify(
+        {message: 'Comment successfully edited'},
+        type: 'info'
+      )
+      $comment.find('p').text(newComment)
+    ).fail((jQXHR)->
+      if(jQXHR.status == 401)
+        $.notify(
+          {message: "You can't edit this comment. Invalid APIKey. Please log again."},
+          type: 'danger'
+        )
+        user.clearInfo()
+      else
+        $.notify(
+          {message: "A problem happen, can't delete the comment"},
+          type: 'danger'
+        )
+        console.error(jQXHR)
+    )
+
+  $comments.on('click', 'button.edit', (event) ->
+    event.preventDefault()
+    $comment = $(this).parent().parent()
+    url = $comment.attr('data-url')
+    commentText = $comment.find('p').text()
+    bootbox.dialog(
+      title: 'Edit Comment'
+      message: '<div class="row"><div class="col-lg-12"><textarea id="editedComment" style="width: 100%;">' + commentText + '</textarea></div></div>'
+      buttons:
+        success:
+          label: '<span class="glyphicon glyphicon-edit">Edit</span>'
+          className: 'btn-success'
+          callback: () ->
+            editComment(url, $comment)
     )
   )
 
