@@ -34,9 +34,7 @@ defaultSummary = u'''Default summary. Having agreed to become the King’s Hand,
 while Catelyn stays behind in Winterfell. Jon Snow heads north to join the brotherhood of the Night’s Watch.
 Tyrion decides to forego the trip south with his family, instead joining Jon in the entourage heading to the Wall.
 Viserys bides his time in hopes of winning back the throne, while Daenerys focuses her attention on learning how 
-to please her new husband, Drogo.'''.replace("\n", "")
-            
-#defaultSummary = defaultSummary.replace("\n", "")
+to please her new husband, Drogo.'''.replace("\n", "")        
             
 episodeList = ["Lord Snow", "Cripples, Bastards, and Broken Things", "The Wolf and the Lion", "A Golden Crown",
             "You Win or You Die", "The Pointy End", "Baelor", "Fire and Blood"]
