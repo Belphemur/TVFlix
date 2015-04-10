@@ -2,6 +2,7 @@
 
 body {
     padding-top: 50px;
+    background: url(../image/confectionary.png) repeat fixed;
 }
 
 .starter-template {
@@ -55,18 +56,20 @@ html[xmlns] .clearfix {
 }
 
 #showCommentsContainer {
-    float: right;
-    width: 18%;
     background-color: #fafafa;
     border: solid 1px #e1e1e1;
     text-align: center;
     padding-left: 5px;
     padding-right: 5px;
-
+    border-radius: 4px;
+}
+#showCommentsContainer.affix{
+    top: 30px; /* Set the top position of pinned element */
+    width: 12%;
 }
 
 #show {
-    width: 80%;
+    background-color:  rgba(255,255,255,0.5);
 }
 
 span.showInfo {
@@ -139,9 +142,7 @@ body.loading .loader {
 }
 
 .episode {
-    width: 50%;
-    float: left;
-    border: 1px solid cadetblue;
+    border-bottom: 1px solid cadetblue;
     /*margin: 5px 5px 5px 5px;*/
     padding: 5px 5px 5px 5px;
 }

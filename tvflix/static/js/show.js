@@ -98,9 +98,14 @@
       the HTML code (#episodeTemplate)
      */
     displayEpisodes = function(episodes, traktInfo) {
-      var $episodes, $template;
+      var $episodes, $row, $rowTemplate, $template, nb, totalAdded, totalEpisode;
       $template = $("#episodeTemplate");
       $episodes = $("#showEpisodes").html('');
+      nb = 0;
+      totalAdded = 0;
+      totalEpisode = episodes.length;
+      $rowTemplate = $('<div class="row"></div>');
+      $row = $rowTemplate.clone();
       return episodes.forEach(function(episode) {
         var $newEp, imageUrl;
         $newEp = $template.clone();
@@ -115,8 +120,13 @@
         $newEp.find("div.summary").text(episode.summary);
         $newEp.find("span.epBcast").text(episode.bcast_date);
         $newEp.find("span.epNumber").text(episode.number);
-        $episodes.append($newEp);
-        return $newEp.removeClass('invisible');
+        $newEp.addClass('col-md-6');
+        $newEp.removeClass('invisible');
+        $row.append($newEp);
+        if (++nb % 2 || ++totalAdded === totalEpisode) {
+          $episodes.append($row);
+          return $row = $rowTemplate.clone();
+        }
       });
     };
     displayComments = function(comments) {

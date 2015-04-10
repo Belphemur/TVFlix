@@ -67,12 +67,15 @@
 
         <p>Available shows : Game of Thrones and The Simpsons</p>
     </div>
-    <div class="starter-template" id="showContainer">
-        <div id="showCommentsContainer">
-            <h2>Comments</h2>
-            <div id="showComments">COMMENTS</div>
+    <div id="showContainer" class="row">
+        <div class="col-xs-3">
+            <div id="showCommentsContainer" class="hidden-xs" data-spy="affix" data-offset-top="195">
+                <h2>Comments</h2>
+
+                <div id="showComments">COMMENTS</div>
+            </div>
         </div>
-        <div id="show" class="clearfix">
+        <div id="show" class="col-xs-9">
             <h1 id="showTitle">TITLE</h1>
 
             <div id="showImage"><img
@@ -186,10 +189,11 @@
     <p>Comment</p>
 </div>
 <footer class="footer">
-      <div class="container">
-        <p class="text-muted">Robots lovingly delivered by <a href="https://robohash.org" target="_blank">Robohash.org</a></p>
-      </div>
-    </footer>
+    <div class="container">
+        <p class="text-muted">Robots lovingly delivered by <a href="https://robohash.org"
+                                                              target="_blank">Robohash.org</a></p>
+    </div>
+</footer>
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
@@ -204,7 +208,6 @@
 <script src="${request.static_url('tvflix:static/js/comment.js')}"></script>
 <script src="${request.static_url('tvflix:static/js/show.js')}"></script>
 <script src="${request.static_url('tvflix:static/js/search.js')}"></script>
-
 
 
 <div class="loader"><!-- Place at bottom of page --></div>

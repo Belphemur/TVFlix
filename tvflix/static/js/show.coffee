@@ -85,6 +85,11 @@
   displayEpisodes = (episodes, traktInfo) ->
     $template = $("#episodeTemplate")
     $episodes = $("#showEpisodes").html('')
+    nb = 0
+    totalAdded = 0
+    totalEpisode = episodes.length
+    $rowTemplate = $('<div class="row"></div>')
+    $row = $rowTemplate.clone()
     episodes.forEach((episode) ->
       $newEp = $template.clone()
 
@@ -98,8 +103,12 @@
       $newEp.find("div.summary").text(episode.summary)
       $newEp.find("span.epBcast").text(episode.bcast_date)
       $newEp.find("span.epNumber").text(episode.number)
-      $episodes.append($newEp)
+      $newEp.addClass('col-md-6')
       $newEp.removeClass('invisible')
+      $row.append($newEp)
+      if(++nb %2 || ++totalAdded == totalEpisode)
+        $episodes.append($row)
+        $row = $rowTemplate.clone()
     )
 
 
