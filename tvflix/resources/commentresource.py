@@ -23,15 +23,16 @@ import json
 
 from datetime import datetime, date, time
 
-def generateCommentEnvelop(label, newComment, user):
+def generateCommentEnvelop(label, comment):
     # not designed /comment/{username} !!
-    _links = {"self": {"href": "/tvflix/shows/" + label + "/comments/" + user.username},
+    _links = {"self": {"href": "/tvflix/shows/" + label + "/comments/" + comment.user.username},
               "show": {"href": "/tvflix/shows/" + label}
               }
-    content = {"username": newComment.user.username,
-               "comment": newComment.comment,
-               "posted": str(newComment.posted),
-               "updated": str(newComment.updated)
+    updated = None if comment.updated is None else comment.updated.isoformat()
+    content = {"username": comment.user.username,
+               "comment": comment.comment,
+               "posted": comment.posted.isoformat(),
+               "updated": updated
                }
     content['_links'] = _links
     return content
@@ -59,15 +60,7 @@ class CommentsResource(object):
                 
                 commentArray = []
                 for com in comments:
-                    updated = None if com.updated is None else com.updated.isoformat()
-                    embedComment = {"username": com.user.username,
-                                    "comment": com.comment,
-                                    "posted": com.posted.isoformat(),
-                                    "updated": updated
-                                    }
-                                    
-                    embedComment['_links'] = _links
-                    commentArray.append(embedComment)
+                    commentArray.append(generateCommentEnvelop(label, com))
                     
                 size = len(comments)
                 content = {'_links': _links, 'size': size, '_embedded': {'comment': commentArray}}
@@ -109,7 +102,7 @@ class CommentsResource(object):
                 #get new comment from user
                 newComment = user.GetCommentForShow(show)
 
-                return generateCommentEnvelop(label, newComment, user)
+                return generateCommentEnvelop(label, newComment)
 
             raise HTTPNotFound
         
@@ -153,7 +146,7 @@ class SingleCommentsResource(object):
                 com = Comment.GetUserCommentForShow(user, show)
                 if com:
                     if com.ModifyComment(comment):
-                        return generateCommentEnvelop(label, com, user)
+                        return generateCommentEnvelop(label, com)
                     else:
                         raise HTTPInternalServerError
 
