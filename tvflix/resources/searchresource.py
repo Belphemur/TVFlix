@@ -11,13 +11,14 @@ from cornice.resource import resource, view
 from webob import Response
 import json
 
-def showParser(shows, show):
-    if shows:
-        for i in shows:
-            if i.showlabel == show.showlabel:
-                return False
-            
-    return True
+    
+def showParser(shows1, shows2):
+    showList = []
+    for show in shows1:
+        if show in shows2:
+            showList.append(show)
+    
+    return showList
     
 def episodeParser(episodes, ep):
     if episodes:
@@ -48,12 +49,16 @@ class SearchShowResource(object):
             #search shows
             show = Show.SearchShowsByKeywords(i)
             
-            #check if show exist in a shows list
             if show:
-                for j in show:
-                    if showParser(shows, j):
-                        #if all good, add show to shows list
-                        shows.append(j)
+                shows.append(show)
+        
+        #parsing queries in AND fashion 
+        if shows:
+            listOfShows = shows[0]
+            for show in shows:
+                listOfShows = showParser(listOfShows, show)
+                
+            shows = listOfShows
    
         if shows:
             query = 'query=' + '&query='.join(keywords)

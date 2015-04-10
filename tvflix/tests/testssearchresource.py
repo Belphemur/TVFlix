@@ -27,15 +27,31 @@ class TestMySeasonResource(unittest.TestCase):
         
     def test_passing_GetShowSearchResourceMultipleQueries(self):
         request = testing.DummyRequest()
-        request.GET = MultiDict([('query', 'game'), ('query', 'simpsons'), ('query', 'baz')])  
+        request.GET = MultiDict([('query', 'game'), ('query', 'of'), ('query', '2009')])  
         info = SearchShowResource.get(SearchShowResource(request))
         
-        self.assertEqual(info['size'], 2)
+        self.assertEqual(info['size'], 1)
         links = info['_links']
-        self.assertEqual(links['self'], {'href': '/tvflix/search/shows?query=game&query=simpsons&query=baz'})
+        self.assertEqual(links['self'], {'href': '/tvflix/search/shows?query=game&query=of&query=2009'})
+        
+    def test_passing_GetShowSearchResourceMultipleQueriesMultipleResults(self):
+        request = testing.DummyRequest()
+        # '%' is like SQLinjection, but doesn't do anything harmful, nor real SQLinjections aren't possible
+        request.GET = MultiDict([('query', 'a'), ('query', '%')])  
+        info = SearchShowResource.get(SearchShowResource(request))
+        
+        self.assertEqual(info['size'], 3)
+        links = info['_links']
+        self.assertEqual(links['self'], {'href': '/tvflix/search/shows?query=a&query=%'})
+        
+    def test_NotFoundFailure_GetShowSearchResourceMultipleQueries(self):
+        request = testing.DummyRequest()
+        request.GET = MultiDict([('query', 'game'), ('query', 'simpsons')])  
+ 
+        info  = SearchShowResource(request)
+        self.assertRaises(HTTPNotFound, info.get)
         
     def test_failure_GetShowSearchResourceNoResults(self):
-        #request = testing.DummyRequest(params={'query': 'nothing to get here'})
         request = testing.DummyRequest()
         request.GET = MultiDict([('query', 'nothing here')])
         
@@ -85,13 +101,16 @@ class TestMySeasonResource(unittest.TestCase):
     #other methods
     def test_TrueShowParser(self):
         show = Show.GetShowByLabel('test')
+        #both have to be a lists
+        showList = showParser([show], [show])
         
-        self.assertTrue(showParser([], show))
+        self.assertEqual(showList, [show])
         
-    def test_FalseShowParser(self):
+    def test_emptyListShowParser(self):
         show = Show.GetShowByLabel('test')
+        result = showParser([], [show])
         
-        self.assertFalse(showParser([show], show))
+        self.assertEqual([], result)
         
     def test_true_episodeParser(self):
         #should only be 1 episode
