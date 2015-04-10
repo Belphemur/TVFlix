@@ -9,6 +9,7 @@
       localStorage.setItem('User', JSON.stringify(this))
     setInfo: (@name, @apikey, @admin) ->
       this.saveLocalStorage()
+      $(this).trigger('user.login');
     isValid: () ->
       return this.name && this.apikey && this.admin
     clearInfo: () ->
@@ -16,6 +17,7 @@
       delete this.name
       delete this.admin
       localStorage.removeItem('User')
+      $(this).trigger('user.logout');
     @fromLocalStorage: () ->
       localUser = localStorage.getItem('User')
       if localUser

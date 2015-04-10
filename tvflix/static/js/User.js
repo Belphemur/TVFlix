@@ -22,7 +22,8 @@
         this.name = name;
         this.apikey = apikey;
         this.admin = admin;
-        return this.saveLocalStorage();
+        this.saveLocalStorage();
+        return $(this).trigger('user.login');
       };
 
       User.prototype.isValid = function() {
@@ -33,7 +34,8 @@
         delete this.apikey;
         delete this.name;
         delete this.admin;
-        return localStorage.removeItem('User');
+        localStorage.removeItem('User');
+        return $(this).trigger('user.logout');
       };
 
       User.fromLocalStorage = function() {
