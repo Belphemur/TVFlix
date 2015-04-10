@@ -2,7 +2,7 @@
 (function() {
   "use strict";
   (function($) {
-    var $commentManager, $comments, $template, createComment, handleAddedComment, handleUserLogin, handleUserLogout, root, user;
+    var $commentManager, $comments, $template, createComment, deleteComment, handleAddedComment, handleUserLogin, handleUserLogout, root, user;
     $comments = $("#showComments");
     $template = $("#commentTemplate");
     user = User.getCurrentUser();
@@ -56,6 +56,42 @@
     $comments.on('comment.added', handleAddedComment);
     $(user).on('user.logout', handleUserLogout);
     $(user).on('user.login', handleUserLogin);
+    deleteComment = function(url, $comment) {
+      return user.sendUserRequest(url, 'DELETE').success(function() {
+        $.notify({
+          message: 'Comment successfully deleted'
+        }, {
+          type: 'info'
+        });
+        return $comment.fadeOut();
+      }).fail(function(jQXHR) {
+        if (jQXHR.status === 401) {
+          $.notify({
+            message: "You can't delete this comment. You're logged out."
+          }, {
+            type: 'danger'
+          });
+          return user.clearInfo();
+        } else {
+          return $.notify({
+            message: "A problem happen, can't delete the comment"
+          }, {
+            type: 'danger'
+          });
+        }
+      });
+    };
+    $comments.on('click', 'button.delete', function(event) {
+      var $comment, url;
+      event.preventDefault();
+      $comment = $(this).parent().parent();
+      url = $comment.attr('data-url');
+      return bootbox.confirm("Delete the comment ?", function(result) {
+        if (result) {
+          return deleteComment(url, $comment);
+        }
+      });
+    });
     root = typeof window !== "undefined" && window !== null ? window : this;
     return root.createComment = createComment;
   })(jQuery);
