@@ -118,18 +118,13 @@
       });
     };
     displayComments = function(comments) {
-      var $comments, $template;
-      $template = $("#commentTemplate");
+      var $comments;
       $comments = $("#showComments").html('');
       return comments.forEach(function(comment) {
         var $newComment;
-        $newComment = $template.clone();
-        $newComment.attr('id', 'com-' + comment.username);
-        $newComment.find("h3").text(comment.username);
-        $newComment.find("div.avatar img").attr('src', '//robohash.org/' + comment.username + '?set=set3&size=60x60');
-        $newComment.find("p").text(comment.comment);
+        $newComment = createComment(comment);
         $comments.append($newComment);
-        return $newComment.removeClass('invisible');
+        return $comments.trigger('comment.added', [$newComment]);
       });
     };
 
