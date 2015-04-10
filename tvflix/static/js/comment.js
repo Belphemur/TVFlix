@@ -45,7 +45,9 @@
       $newComment.find("h3").text(comment.username);
       $newComment.find("div.avatar img").attr('src', '//robohash.org/' + comment.username + '?set=set3&size=60x60');
       $newComment.find("p").text(comment.comment);
-      return $newComment.removeClass('invisible');
+      $newComment.removeClass('invisible');
+      $newComment.attr('data-url', comment._links.self.href);
+      return $newComment;
     };
 
     /*
