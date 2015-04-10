@@ -40,7 +40,7 @@
           url: url,
           dataType: 'json',
           type: method,
-          data: data,
+          data: data ? JSON.stringify(data) : void 0,
           headers: {
             'Content-Type': 'application/json',
             'apikey': this.apikey

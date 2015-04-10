@@ -22,7 +22,7 @@
         url: url
         dataType: 'json'
         type: method
-        data: data
+        data: if data then JSON.stringify(data)
         headers:
           'Content-Type': 'application/json'
           'apikey': this.apikey
