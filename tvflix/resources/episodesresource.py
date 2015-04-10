@@ -322,7 +322,8 @@ class SingleEpisodesResource(object):
                 with transaction.manager:
                     episode.DeleteEpisode()
 
-                raise HTTPNoContent
+                self.request.response.status = 204
+                return {}
                         
         raise HTTPNotFound
                     

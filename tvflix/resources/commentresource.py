@@ -174,9 +174,10 @@ class SingleCommentsResource(object):
                 com = Comment.GetUserCommentForShow(user, show)
                 if com:
                     if com.DeleteComment():
-                        raise HTTPNoContent
+                        self.request.response.status = 204
+                        return {}
                     else:
-                        raise HTTPInternalServerError
+                        raise HTTPNotFound
 
             raise HTTPNotFound
 

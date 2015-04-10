@@ -344,7 +344,8 @@ class TestMySeasonResource(unittest.TestCase):
         request.headers = {'apikey': 'asd'} #correct admin key
                             
         info  = SingleEpisodesResource(request)
-        self.assertRaises(HTTPNoContent, info.delete)
+        info.delete()
+        self.assertEqual("204 No Content", request.response.status)
         
     def test_failure_DeleteSingleEpisodesResourceIncorrectApikey(self):
         request = testing.DummyRequest()
