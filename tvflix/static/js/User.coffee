@@ -4,18 +4,17 @@
 ###
 (($) ->
   class User
-    constructor: (@name, @apikey, @admin) ->
+    constructor: (@name, @apikey) ->
     saveLocalStorage: () ->
       localStorage.setItem('User', JSON.stringify(this))
-    setInfo: (@name, @apikey, @admin) ->
+    setInfo: (@name, @apikey) ->
       this.saveLocalStorage()
       $(this).trigger('user.login');
     isValid: () ->
-      return this.name && this.apikey && this.admin
+      return this.name != null && this.apikey != null
     clearInfo: () ->
       delete this.apikey
       delete this.name
-      delete this.admin
       localStorage.removeItem('User')
       $(this).trigger('user.logout');
     @fromLocalStorage: () ->

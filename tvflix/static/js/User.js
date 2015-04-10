@@ -8,32 +8,29 @@
   (function($) {
     var User, root;
     User = (function() {
-      function User(name, apikey, admin) {
+      function User(name, apikey) {
         this.name = name;
         this.apikey = apikey;
-        this.admin = admin;
       }
 
       User.prototype.saveLocalStorage = function() {
         return localStorage.setItem('User', JSON.stringify(this));
       };
 
-      User.prototype.setInfo = function(name, apikey, admin) {
+      User.prototype.setInfo = function(name, apikey) {
         this.name = name;
         this.apikey = apikey;
-        this.admin = admin;
         this.saveLocalStorage();
         return $(this).trigger('user.login');
       };
 
       User.prototype.isValid = function() {
-        return this.name && this.apikey && this.admin;
+        return this.name !== null && this.apikey !== null;
       };
 
       User.prototype.clearInfo = function() {
         delete this.apikey;
         delete this.name;
-        delete this.admin;
         localStorage.removeItem('User');
         return $(this).trigger('user.logout');
       };

@@ -27,17 +27,16 @@
       Retrieve the user info
      */
     getUserInfo = function() {
-      var admin, apikey, username;
+      var apikey, username;
       username = $("#username").val();
       apikey = $("#apikey").val();
-      admin = $("#adminCheck").is(":checked");
       if (!username || !apikey) {
         $("#emptyAlert").fadeIn();
         return false;
       } else {
         $("#emptyAlert").fadeOut();
       }
-      currentUser.setInfo(username, apikey, admin);
+      currentUser.setInfo(username, apikey);
       return true;
     };
 
@@ -54,9 +53,6 @@
     if (currentUser.isValid()) {
       $("#username").val(currentUser.name);
       $("#apikey").val(currentUser.apikey);
-      if (currentUser.admin) {
-        $("#adminCheck").prop('checked', true);
-      }
       setLogout();
     }
 

@@ -22,7 +22,6 @@
   getUserInfo = ->
     username = $("#username").val()
     apikey = $("#apikey").val()
-    admin = $("#adminCheck").is(":checked")
 
     if !username || !apikey
       $("#emptyAlert").fadeIn()
@@ -31,7 +30,7 @@
       $("#emptyAlert").fadeOut();
 
     #Save in local storage
-    currentUser.setInfo(username, apikey, admin)
+    currentUser.setInfo(username, apikey)
     return true
   ###
     Remove data from the localstorage and logout the user
@@ -44,8 +43,6 @@
   if currentUser.isValid()
     $("#username").val(currentUser.name)
     $("#apikey").val(currentUser.apikey)
-    if currentUser.admin
-      $("#adminCheck").prop('checked', true)
     setLogout()
 
   ###
