@@ -17,6 +17,16 @@
       delete this.name
       localStorage.removeItem('User')
       $(this).trigger('user.logout');
+    sendUserRequest: (url, method, data) ->
+      $.ajax(
+        url: url
+        dataType: 'json'
+        type: method
+        data: data
+        headers:
+          'Content-Type': 'application/json'
+          'apikey': this.apikey
+      )
     @fromLocalStorage: () ->
       localUser = localStorage.getItem('User')
       if localUser
@@ -24,7 +34,7 @@
         $.extend(localObject, JSON.parse(localUser))
         return localObject
       return new User()
-    @currentUser : null
+    @currentUser: null
     @getCurrentUser: () ->
       return this.currentUser ? this.currentUser = User.fromLocalStorage()
 

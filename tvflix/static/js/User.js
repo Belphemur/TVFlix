@@ -35,6 +35,19 @@
         return $(this).trigger('user.logout');
       };
 
+      User.prototype.sendUserRequest = function(url, method, data) {
+        return $.ajax({
+          url: url,
+          dataType: 'json',
+          type: method,
+          data: data,
+          headers: {
+            'Content-Type': 'application/json',
+            'apikey': this.apikey
+          }
+        });
+      };
+
       User.fromLocalStorage = function() {
         var localObject, localUser;
         localUser = localStorage.getItem('User');
