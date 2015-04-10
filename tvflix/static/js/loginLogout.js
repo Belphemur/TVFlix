@@ -6,8 +6,10 @@
     Handle the Login using Username and ApiKey
    */
   (function($) {
-    var currentUser, getUserInfo, handleLogout, setLogout;
+    var $loginModalButton, $userLoginButton, currentUser, getUserInfo, handleLogout, setLogout;
     currentUser = User.getCurrentUser();
+    $loginModalButton = $("#loginButton");
+    $userLoginButton = $('#userLoginButton');
 
     /*
       Activate tooltips on links
@@ -43,8 +45,7 @@
       Remove data from the localstorage and logout the user
      */
     handleLogout = function() {
-      currentUser.clearInfo();
-      return $(this).html("Login").removeAttr('data-logout');
+      return currentUser.clearInfo();
     };
 
     /*
@@ -62,20 +63,23 @@
     /*
       BUTTON MANAGEMENT
      */
-    $("#loginButton").click(function(e) {
+    $loginModalButton.click(function(e) {
       e.preventDefault();
       if (getUserInfo()) {
         $("#loginModal").modal("hide");
         return setLogout();
       }
     });
-    return $('#userLoginButton').click(function(e) {
+    $userLoginButton.click(function(e) {
       e.preventDefault();
       if ($(this).attr("data-logout")) {
-        return handleLogout.call(this);
+        return handleLogout();
       } else {
         return $("#loginModal").modal("show");
       }
+    });
+    return $(currentUser).on('user.logout', function() {
+      return $userLoginButton.html("Login").removeAttr('data-logout');
     });
   })(jQuery);
 

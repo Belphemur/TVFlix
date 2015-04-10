@@ -4,6 +4,8 @@
 ###
 (($) ->
   currentUser = User.getCurrentUser()
+  $loginModalButton = $("#loginButton")
+  $userLoginButton = $('#userLoginButton')
   ###
     Activate tooltips on links
   ###
@@ -29,14 +31,13 @@
       $("#emptyAlert").fadeOut();
 
     #Save in local storage
-    currentUser.setInfo(username,apikey,admin)
+    currentUser.setInfo(username, apikey, admin)
     return true
   ###
     Remove data from the localstorage and logout the user
   ###
   handleLogout = ->
     currentUser.clearInfo()
-    $(this).html("Login").removeAttr('data-logout')
   ###
     check if already logged in with LocalStorage
   ###
@@ -51,16 +52,20 @@
     BUTTON MANAGEMENT
   ###
 
-  $("#loginButton").click (e) ->
+  $loginModalButton.click (e) ->
     e.preventDefault()
     if getUserInfo()
       $("#loginModal").modal("hide")
       setLogout()
 
-  $('#userLoginButton').click (e) ->
+  $userLoginButton.click (e) ->
     e.preventDefault()
     if $(this).attr("data-logout")
-      handleLogout.call(this)
+      handleLogout()
     else
       $("#loginModal").modal("show")
+
+  $(currentUser).on('user.logout', () ->
+    $userLoginButton.html("Login").removeAttr('data-logout')
+  )
 ) jQuery
