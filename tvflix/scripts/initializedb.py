@@ -163,14 +163,20 @@ Khal Drogo to forge an alliance to take the throne.'''.replace("\n", "")
         
     #Comments
     with transaction.manager:
-        com1 = Comment(user_id = 2, show_id = 1, comment = "OH god no, why everyone keeps dying!??!! Bad show",
-                        posted = datetime.now(), updated = None)
-                        
-        com2 = Comment(user_id = 1, show_id = 1, comment = "buhahaaa",
-                        posted = datetime.now(), updated = None)
+        com1 = Comment(user_id=2, show_id=1, comment="OH god no, why everyone keeps dying!??!! Bad show",
+                       posted=datetime.now(), updated=None)
+
+        com2 = Comment(user_id=1, show_id=1, comment="buhahaaa",
+                       posted=datetime.now(), updated=None)
+        com3 = Comment(user_id=3, show_id=1, comment="What a Wonderful Show",
+                       posted=datetime.now(), updated=None)
+        com4 = Comment(user_id=4, show_id=1, comment="My Favourite",
+                       posted=datetime.now(), updated=None)
                         
         Session.add(com1)
         Session.add(com2)
+        Session.add(com3)
+        Session.add(com4)
         
     with transaction.manager:
         tag1 = Tag(name = 'Drama')
