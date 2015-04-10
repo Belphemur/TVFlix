@@ -20,7 +20,7 @@
       FUNCTION BLOCK
      */
     setLogout = function() {
-      return $('#userLoginButton').html("Logout").attr('data-logout', true);
+      return $userLoginButton.html("Logout").attr('data-logout', true);
     };
 
     /*

@@ -15,7 +15,7 @@
     FUNCTION BLOCK
   ###
   setLogout = ->
-    $('#userLoginButton').html("Logout").attr('data-logout', true)
+    $userLoginButton.html("Logout").attr('data-logout', true)
   ###
     Retrieve the user info
   ###
