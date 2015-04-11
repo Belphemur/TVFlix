@@ -2,7 +2,7 @@
 (function() {
   "use strict";
   (function($) {
-    var $addButton, $commentManager, $comments, $template, createComment, deleteComment, editComment, handleAddedComment, handleFailure, handleUserLogin, handleUserLogout, root, user;
+    var $addButton, $commentManager, $comments, $template, addComment, createComment, deleteComment, displayCommentEditor, editComment, handleAddedComment, handleDeletedComment, handleFailure, handleUserLogin, handleUserLogout, root, user;
     $comments = $("#showComments");
     $template = $("#commentTemplate");
     $addButton = $('#showCommentsContainer button.add');
@@ -21,24 +21,35 @@
     };
 
     /*
+      When deleting a comment, if it's the one of the current user reenable the addbutton
+     */
+    handleDeletedComment = function(event, $comment) {
+      if ($comment.attr('data-username') !== user.name) {
+        return;
+      }
+      return $addButton.prop('disabled', false);
+    };
+
+    /*
       Remove all managing button if the user logout
      */
     handleUserLogout = function(event) {
       $comments.find('.comment .commentManager').remove();
-      return $addButton.prop('disabled', false);
+      return $addButton.prop('disabled', true);
     };
 
     /*
       Check if the user have a comment for the current show and add the managing button
      */
     handleUserLogin = function(event) {
+      $addButton.prop('disabled', false);
       return $comments.find('.comment').each(function() {
         return handleAddedComment(null, $(this));
       });
     };
 
     /*
-      Transform a Comment object into a Comment DOM
+      Transform a Comment object into a Comment DOM and add it to the comment container
      */
     createComment = function(comment) {
       var $newComment;
@@ -50,6 +61,8 @@
       $newComment.find("p").text(comment.comment);
       $newComment.removeClass('invisible');
       $newComment.attr('data-url', comment._links.self.href);
+      $comments.append($newComment);
+      $comments.trigger('comment.added', [$newComment]);
       return $newComment;
     };
 
@@ -77,24 +90,24 @@
     /*
       Delete a comment. Send the request and remove it from the list
      */
-    deleteComment = function(url, $comment) {};
-    user.sendUserRequest(url, 'DELETE').success(function() {
-      $.notify({
-        message: 'Comment successfully deleted'
-      }, {
-        type: 'info'
+    deleteComment = function(url, $comment) {
+      return user.sendUserRequest(url, 'DELETE').success(function() {
+        $.notify({
+          message: 'Comment successfully deleted'
+        }, {
+          type: 'info'
+        });
+        $comment.fadeOut();
+        return $comments.trigger('comment.deleted', [$comment]);
+      }).fail(function(jQHXR) {
+        return handleFailure(jQHXR, 'delete');
       });
-      return $comment.fadeOut();
-    }).fail(function(jQHXR) {
-      return handleFailure(jQHXR, 'delete');
-    });
+    };
 
     /*
       Edit the comment. Send the request and modify it on success
      */
-    editComment = function(url, $comment) {
-      var newComment;
-      newComment = $("#editedComment").val();
+    editComment = function(newComment, url, $comment) {
       return user.sendUserRequest(url, 'PUT', {
         comment: newComment
       }).success(function() {
@@ -110,9 +123,49 @@
     };
 
     /*
+      Add the comment. Send the request and add it on success
+     */
+    addComment = function(newComment, url) {
+      return user.sendUserRequest(url, 'POST', {
+        comment: newComment
+      }).success(function(data) {
+        $.notify({
+          message: 'Comment successfully added'
+        }, {
+          type: 'info'
+        });
+        return createComment(data);
+      }).fail(function(jQXHR) {
+        return handleFailure(jQXHR, 'add');
+      });
+    };
+
+    /*
+      Open the modal with the comment editor
+     */
+    displayCommentEditor = function(title, commentText, callback) {
+      var buttonText;
+      buttonText = title.split(' ')[0];
+      return bootbox.dialog({
+        title: title,
+        message: '<div class="row"><div class="col-lg-12"><textarea id="commentTextarea" style="width: 100%;">' + commentText + '</textarea></div></div>',
+        buttons: {
+          success: {
+            label: '<span class="glyphicon glyphicon-edit">' + buttonText + '</span>',
+            className: 'btn-success',
+            callback: function() {
+              return callback($("#commentTextarea").val());
+            }
+          }
+        }
+      });
+    };
+
+    /*
       EVENTS
      */
     $comments.on('comment.added', handleAddedComment);
+    $comments.on('comment.deleted', handleDeletedComment);
     $(user).on('user.logout', handleUserLogout);
     $(user).on('user.login', handleUserLogin);
 
@@ -136,20 +189,22 @@
       $comment = $(this).parent().parent();
       url = $comment.attr('data-url');
       commentText = $comment.find('p').text();
-      return bootbox.dialog({
-        title: 'Edit Comment',
-        message: '<div class="row"><div class="col-lg-12"><textarea id="editedComment" style="width: 100%;">' + commentText + '</textarea></div></div>',
-        buttons: {
-          success: {
-            label: '<span class="glyphicon glyphicon-edit">Edit</span>',
-            className: 'btn-success',
-            callback: function() {
-              return editComment(url, $comment);
-            }
-          }
-        }
+      return displayCommentEditor('Edit Comment', commentText, function(newComment) {
+        return editComment(newComment, url, $comment);
       });
     });
+    $addButton.on('click', function(event) {
+      var url;
+      event.preventDefault();
+      url = $comments.attr('data-url');
+      return displayCommentEditor('Add a Comment', '', function(newComment) {
+        return addComment(newComment, url);
+      });
+    });
+    $addButton.parent().tooltip();
+    if (user.isValid()) {
+      handleUserLogin();
+    }
     root = typeof window !== "undefined" && window !== null ? window : this;
     return root.createComment = createComment;
   })(jQuery);

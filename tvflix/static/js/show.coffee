@@ -115,9 +115,7 @@
   displayComments = (comments) ->
     $comments = $("#showComments").html('')
     comments.forEach((comment) ->
-      $newComment = createComment(comment)
-      $comments.append($newComment)
-      $comments.trigger('comment.added', [$newComment])
+      createComment(comment)
     )
 
   ###

@@ -133,10 +133,7 @@
       var $comments;
       $comments = $("#showComments").html('');
       return comments.forEach(function(comment) {
-        var $newComment;
-        $newComment = createComment(comment);
-        $comments.append($newComment);
-        return $comments.trigger('comment.added', [$newComment]);
+        return createComment(comment);
       });
     };
 
