@@ -2,6 +2,7 @@
 (($)->
   $comments = $("#showComments")
   $template = $("#commentTemplate")
+  $addButton = $('#showCommentsContainer button.add')
   user = User.getCurrentUser()
   $commentManager = $('<div class="commentManager"><button class="btn btn-default edit"><span class="glyphicon glyphicon-edit"></span></button> <button class="btn btn-danger delete"><span class="glyphicon glyphicon-remove"></span></button></div>')
 
@@ -11,12 +12,14 @@
   handleAddedComment = (event, jQueryObject) ->
     if(jQueryObject.attr('data-username') != user.name)
       return
+    $addButton.prop('disabled', true)
     jQueryObject.append($commentManager)
   ###
     Remove all managing button if the user logout
   ###
   handleUserLogout = (event) ->
     $comments.find('.comment .commentManager').remove()
+    $addButton.prop('disabled', false)
 
   ###
     Check if the user have a comment for the current show and add the managing button
@@ -41,43 +44,37 @@
     return $newComment
 
   ###
-    EVENTS
+    Display error message in case of failure.
   ###
-  $comments.on('comment.added', handleAddedComment)
-  $(user).on('user.logout', handleUserLogout)
-  $(user).on('user.login', handleUserLogin)
-
-  deleteComment = (url, $comment) ->
-    user.sendUserRequest(url, 'DELETE').success(()->
+  handleFailure = (jQXHR, command)->
+    if(jQXHR.status == 401)
       $.notify(
-        {message: 'Comment successfully deleted'},
-        type: 'info'
+        {message: "You can't "+command+" this comment. Invalid APIKey. Please log again."},
+        type: 'danger'
       )
-      $comment.fadeOut()
-    ).fail((jQXHR)->
-      if(jQXHR.status == 401)
-        $.notify(
-          {message: "You can't delete this comment. Invalid APIKey. Please log again."},
-          type: 'danger'
-        )
-        user.clearInfo()
-      else
-        $.notify(
-          {message: "A problem happen, can't delete the comment"},
-          type: 'danger'
-        )
-        console.error(jQXHR)
+      user.clearInfo()
+    else
+      $.notify(
+        {message: "A problem happen, can't "+command+" the comment"},
+        type: 'danger'
+      )
+      console.error(jQXHR)
+  ###
+    Delete a comment. Send the request and remove it from the list
+  ###
+  deleteComment = (url, $comment) ->
+  user.sendUserRequest(url, 'DELETE').success(()->
+    $.notify(
+      {message: 'Comment successfully deleted'},
+      type: 'info'
     )
-  $comments.on('click', 'button.delete', (event) ->
-    event.preventDefault()
-    $comment = $(this).parent().parent()
-    url = $comment.attr('data-url')
-    bootbox.confirm("Delete the comment ?", (result) ->
-      if(result)
-        deleteComment(url, $comment)
-    )
+    $comment.fadeOut()
+  ).fail((jQHXR) ->
+    handleFailure(jQHXR, 'delete')
   )
-
+  ###
+    Edit the comment. Send the request and modify it on success
+  ###
   editComment = (url, $comment) ->
     newComment = $("#editedComment").val()
     user.sendUserRequest(url, 'PUT',
@@ -90,19 +87,29 @@
       )
       $comment.find('p').text(newComment)
     ).fail((jQXHR)->
-      if(jQXHR.status == 401)
-        $.notify(
-          {message: "You can't edit this comment. Invalid APIKey. Please log again."},
-          type: 'danger'
-        )
-        user.clearInfo()
-      else
-        $.notify(
-          {message: "A problem happen, can't delete the comment"},
-          type: 'danger'
-        )
-        console.error(jQXHR)
+      handleFailure(jQXHR, 'edit')
     )
+
+
+  ###
+    EVENTS
+  ###
+  $comments.on('comment.added', handleAddedComment)
+  $(user).on('user.logout', handleUserLogout)
+  $(user).on('user.login', handleUserLogin)
+
+  ###
+    BUTTONS
+  ###
+  $comments.on('click', 'button.delete', (event) ->
+    event.preventDefault()
+    $comment = $(this).parent().parent()
+    url = $comment.attr('data-url')
+    bootbox.confirm("Delete the comment ?", (result) ->
+      if(result)
+        deleteComment(url, $comment)
+    )
+  )
 
   $comments.on('click', 'button.edit', (event) ->
     event.preventDefault()

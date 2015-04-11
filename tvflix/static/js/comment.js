@@ -2,9 +2,10 @@
 (function() {
   "use strict";
   (function($) {
-    var $commentManager, $comments, $template, createComment, deleteComment, editComment, handleAddedComment, handleUserLogin, handleUserLogout, root, user;
+    var $addButton, $commentManager, $comments, $template, createComment, deleteComment, editComment, handleAddedComment, handleFailure, handleUserLogin, handleUserLogout, root, user;
     $comments = $("#showComments");
     $template = $("#commentTemplate");
+    $addButton = $('#showCommentsContainer button.add');
     user = User.getCurrentUser();
     $commentManager = $('<div class="commentManager"><button class="btn btn-default edit"><span class="glyphicon glyphicon-edit"></span></button> <button class="btn btn-danger delete"><span class="glyphicon glyphicon-remove"></span></button></div>');
 
@@ -15,6 +16,7 @@
       if (jQueryObject.attr('data-username') !== user.name) {
         return;
       }
+      $addButton.prop('disabled', true);
       return jQueryObject.append($commentManager);
     };
 
@@ -22,7 +24,8 @@
       Remove all managing button if the user logout
      */
     handleUserLogout = function(event) {
-      return $comments.find('.comment .commentManager').remove();
+      $comments.find('.comment .commentManager').remove();
+      return $addButton.prop('disabled', false);
     };
 
     /*
@@ -51,48 +54,44 @@
     };
 
     /*
-      EVENTS
+      Display error message in case of failure.
      */
-    $comments.on('comment.added', handleAddedComment);
-    $(user).on('user.logout', handleUserLogout);
-    $(user).on('user.login', handleUserLogin);
-    deleteComment = function(url, $comment) {
-      return user.sendUserRequest(url, 'DELETE').success(function() {
+    handleFailure = function(jQXHR, command) {
+      if (jQXHR.status === 401) {
         $.notify({
-          message: 'Comment successfully deleted'
+          message: "You can't " + command + " this comment. Invalid APIKey. Please log again."
         }, {
-          type: 'info'
+          type: 'danger'
         });
-        return $comment.fadeOut();
-      }).fail(function(jQXHR) {
-        if (jQXHR.status === 401) {
-          $.notify({
-            message: "You can't delete this comment. Invalid APIKey. Please log again."
-          }, {
-            type: 'danger'
-          });
-          return user.clearInfo();
-        } else {
-          $.notify({
-            message: "A problem happen, can't delete the comment"
-          }, {
-            type: 'danger'
-          });
-          return console.error(jQXHR);
-        }
-      });
+        return user.clearInfo();
+      } else {
+        $.notify({
+          message: "A problem happen, can't " + command + " the comment"
+        }, {
+          type: 'danger'
+        });
+        return console.error(jQXHR);
+      }
     };
-    $comments.on('click', 'button.delete', function(event) {
-      var $comment, url;
-      event.preventDefault();
-      $comment = $(this).parent().parent();
-      url = $comment.attr('data-url');
-      return bootbox.confirm("Delete the comment ?", function(result) {
-        if (result) {
-          return deleteComment(url, $comment);
-        }
+
+    /*
+      Delete a comment. Send the request and remove it from the list
+     */
+    deleteComment = function(url, $comment) {};
+    user.sendUserRequest(url, 'DELETE').success(function() {
+      $.notify({
+        message: 'Comment successfully deleted'
+      }, {
+        type: 'info'
       });
+      return $comment.fadeOut();
+    }).fail(function(jQHXR) {
+      return handleFailure(jQHXR, 'delete');
     });
+
+    /*
+      Edit the comment. Send the request and modify it on success
+     */
     editComment = function(url, $comment) {
       var newComment;
       newComment = $("#editedComment").val();
@@ -106,23 +105,31 @@
         });
         return $comment.find('p').text(newComment);
       }).fail(function(jQXHR) {
-        if (jQXHR.status === 401) {
-          $.notify({
-            message: "You can't edit this comment. Invalid APIKey. Please log again."
-          }, {
-            type: 'danger'
-          });
-          return user.clearInfo();
-        } else {
-          $.notify({
-            message: "A problem happen, can't delete the comment"
-          }, {
-            type: 'danger'
-          });
-          return console.error(jQXHR);
-        }
+        return handleFailure(jQXHR, 'edit');
       });
     };
+
+    /*
+      EVENTS
+     */
+    $comments.on('comment.added', handleAddedComment);
+    $(user).on('user.logout', handleUserLogout);
+    $(user).on('user.login', handleUserLogin);
+
+    /*
+      BUTTONS
+     */
+    $comments.on('click', 'button.delete', function(event) {
+      var $comment, url;
+      event.preventDefault();
+      $comment = $(this).parent().parent();
+      url = $comment.attr('data-url');
+      return bootbox.confirm("Delete the comment ?", function(result) {
+        if (result) {
+          return deleteComment(url, $comment);
+        }
+      });
+    });
     $comments.on('click', 'button.edit', function(event) {
       var $comment, commentText, url;
       event.preventDefault();
