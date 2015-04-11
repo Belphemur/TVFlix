@@ -25,7 +25,8 @@ Once you've activited it follow the next steps.
 - more information in: [Pyramid Installation Guide](http://docs.pylonsproject.org/docs/pyramid/en/latest/tutorials/wiki2/installation.html)
 
 ###URL
-- http://127.0.0.1:8081/tvflix/
+- API: http://127.0.0.1:8081/tvflix/
+- CLIENT: http://127.0.0.1:8081/client/
 
 ###Test Users
 - admin: username == admin, apikey == admin
