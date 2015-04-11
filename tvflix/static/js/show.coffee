@@ -106,7 +106,7 @@
       $newEp.addClass('col-md-6')
       $newEp.removeClass('invisible')
       $row.append($newEp)
-      if(++nb %2 || ++totalAdded == totalEpisode)
+      if(++nb %2 == 0 || ++totalAdded == totalEpisode)
         $episodes.append($row)
         $row = $rowTemplate.clone()
     )
