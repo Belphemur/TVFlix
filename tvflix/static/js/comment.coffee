@@ -141,11 +141,17 @@
   ###
   $comments.on('comment.added', handleAddedComment)
   $comments.on('comment.deleted', handleDeletedComment)
+  $comments.on('comment.no-comments', () ->
+    $addButton.prop('disabled', false)
+  )
+
   $(user).on('user.logout', handleUserLogout)
   $(user).on('user.login', handleUserLogin)
+
   $("#show").on('show.loaded', () ->
     $("#showComments").html('')
   )
+
 
   ###
     BUTTONS

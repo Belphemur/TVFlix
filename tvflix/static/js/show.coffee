@@ -129,6 +129,8 @@
       dataType: 'json'
     ).success((data)->
       displayComments(data._embedded.comment)
+    ).fail(() ->
+      $("#showComments").trigger("comment.no-comments")
     ).complete(() ->
       callback()
     )

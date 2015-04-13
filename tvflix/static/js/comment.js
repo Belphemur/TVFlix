@@ -166,6 +166,9 @@
      */
     $comments.on('comment.added', handleAddedComment);
     $comments.on('comment.deleted', handleDeletedComment);
+    $comments.on('comment.no-comments', function() {
+      return $addButton.prop('disabled', false);
+    });
     $(user).on('user.logout', handleUserLogout);
     $(user).on('user.login', handleUserLogin);
     $("#show").on('show.loaded', function() {

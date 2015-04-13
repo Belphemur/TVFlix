@@ -148,6 +148,8 @@
         dataType: 'json'
       }).success(function(data) {
         return displayComments(data._embedded.comment);
+      }).fail(function() {
+        return $("#showComments").trigger("comment.no-comments");
       }).complete(function() {
         return callback();
       });
