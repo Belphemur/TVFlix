@@ -8,7 +8,7 @@
     <meta name="author" content="Pylons Project">
     <link rel="shortcut icon" href="${request.static_url('tvflix:static/image/logo.jpg')}">
 
-    <title>Alchemy Scaffold for The Pyramid Web Framework</title>
+    <title>TVFlix: Your new show's source</title>
 
     <!-- Bootstrap core CSS -->
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
