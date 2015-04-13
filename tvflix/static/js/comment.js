@@ -168,6 +168,9 @@
     $comments.on('comment.deleted', handleDeletedComment);
     $(user).on('user.logout', handleUserLogout);
     $(user).on('user.login', handleUserLogin);
+    $("#show").on('show.loaded', function() {
+      return $("#showComments").html('');
+    });
 
     /*
       BUTTONS

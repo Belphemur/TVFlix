@@ -25,7 +25,7 @@
     $('#endYear').text(item.end_year)
     $('#channel').text(item.channel)
     $('#summary').text(item.summary)
-    $('#showEpisodes').html('')
+    $("#show").trigger("show.loaded")
     getShowImage(item.showLabel, (error, imgUrl) ->
       if(error)
         console.log(error)
@@ -132,6 +132,14 @@
     ).complete(() ->
       callback()
     )
+
+  ###
+    EVENTS
+  ###
+
+  $("#show").on('show.loaded', () ->
+    $("#showEpisodes").html('')
+  )
 
   ###
     LINK BLOCK

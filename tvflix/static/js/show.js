@@ -30,7 +30,7 @@
       $('#endYear').text(item.end_year);
       $('#channel').text(item.channel);
       $('#summary').text(item.summary);
-      $('#showEpisodes').html('');
+      $("#show").trigger("show.loaded");
       return getShowImage(item.showLabel, function(error, imgUrl) {
         if (error) {
           console.log(error);
@@ -152,6 +152,13 @@
         return callback();
       });
     };
+
+    /*
+      EVENTS
+     */
+    $("#show").on('show.loaded', function() {
+      return $("#showEpisodes").html('');
+    });
 
     /*
       LINK BLOCK
