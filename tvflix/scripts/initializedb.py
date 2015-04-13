@@ -34,7 +34,7 @@ defaultSummary = u'''Default summary. Having agreed to become the King’s Hand,
 while Catelyn stays behind in Winterfell. Jon Snow heads north to join the brotherhood of the Night’s Watch.
 Tyrion decides to forego the trip south with his family, instead joining Jon in the entourage heading to the Wall.
 Viserys bides his time in hopes of winning back the throne, while Daenerys focuses her attention on learning how 
-to please her new husband, Drogo.'''.replace("\n", "")        
+to please her new husband, Drogo.'''.replace("\n", " ")        
             
 episodeList = ["Lord Snow", "Cripples, Bastards, and Broken Things", "The Wolf and the Lion", "A Golden Crown",
             "You Win or You Die", "The Pointy End", "Baelor", "Fire and Blood"]
@@ -89,7 +89,7 @@ def main(argv=sys.argv):
 Friction between the houses leads to full-scale war. All while a very ancient
 evil awakens in the farthest north. Amidst the war, a neglected military order 
 of misfits, the Night's Watch, is all that stands between the realms 
-of men and icy horrors beyond.'''.replace("\n", "")
+of men and icy horrors beyond.'''.replace("\n", " ")
                             
     summary2 = u'''Charlie is a well-to-do bachelor with a house at the beach, a Jaguar in the front,
 and an easy way with women. His casual Malibu lifestyle is interrupted when his tightly 
@@ -100,14 +100,14 @@ Alan's estranged wife, Judith and Charlie's crazy neighbor Rose, who wants to be
 of his life and is willing to do anything to be around. After the death of his brother,
 Alan Harper meets and befriends a lonely young man named Walden Schmidt who turns out to be
 a billionaire. Unable to afford his brother's home, Alan sells Walden the house, 
-and as a way of showing his gratitude, Walden allows Alan and his son Jake to move in with him.'''.replace("\n", "")
+and as a way of showing his gratitude, Walden allows Alan and his son Jake to move in with him.'''.replace("\n", " ")
                             
     summary3 = u'''Set in Springfield, the average American town, 
 the show focuses on the antics and everyday adventures of the Simpson family; 
 Homer, Marge, Bart, Lisa and Maggie, as well as a virtual cast of thousands. 
 Since the beginning, the series has been a pop culture icon, attracting hundreds 
 of celebrities to guest star. The show has also made name for itself in its fearless 
-satirical take on politics, media and American life in general. '''.replace("\n", "")
+satirical take on politics, media and American life in general. '''.replace("\n", " ")
       
     #Shows
     with transaction.manager:
@@ -115,7 +115,7 @@ satirical take on politics, media and American life in general. '''.replace("\n"
                     start_year= 2009, end_year= 2016, bcast_day=6, 
                     summary= summary1, channel="HBO")
                     
-        show2 = Show(showlabel='two-and-half-men', title='Two and half men',
+        show2 = Show(showlabel='two-and-a-half-men', title='Two and a Half Men',
                     start_year= 2003, end_year=None, bcast_day=0, 
                     summary= summary2, channel="CBS")
                     
@@ -144,10 +144,14 @@ Khal Drogo to forge an alliance to take the throne.'''.replace("\n", "")
 
         epi3 = Episode(show_id=1, title = "Lord Snow 2", season = 2, number = 1,
                         bcast_date = datetime.strptime('20120425', "%Y%m%d").date(), summary = defaultSummary)
+                        
+        epi4 = Episode(show_id=3, title = "Simpsons begins", season = 1, number = 1,
+                        bcast_date = datetime.strptime('19960425', "%Y%m%d").date(), summary = summary3)
 
         Session.add(epi1)
         Session.add(epi2)
         Session.add(epi3)
+        Session.add(epi4)
         
         #lazy episode adding to game of thrones
         dateSeq = datetime.strptime('20110502', "%Y%m%d").date()
