@@ -30,6 +30,7 @@
       $('#endYear').text(item.end_year);
       $('#channel').text(item.channel);
       $('#summary').text(item.summary);
+      $('#showEpisodes').html('');
       return getShowImage(item.showLabel, function(error, imgUrl) {
         if (error) {
           console.log(error);

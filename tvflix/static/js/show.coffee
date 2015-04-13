@@ -25,6 +25,7 @@
     $('#endYear').text(item.end_year)
     $('#channel').text(item.channel)
     $('#summary').text(item.summary)
+    $('#showEpisodes').html('')
     getShowImage(item.showLabel, (error, imgUrl) ->
       if(error)
         console.log(error)
