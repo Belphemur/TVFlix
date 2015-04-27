@@ -1,4 +1,4 @@
-[![Build Status](https://secure.travis-ci.org/Belphemur/TVFlix.svg?branch=master)](http://travis-ci.org/Belphemur/TVFlix) [![Coverage Status](https://coveralls.io/repos/Belphemur/TVFlix/badge.svg?branch=master)](https://coveralls.io/r/Belphemur/TVFlix?branch=master)
+[![Build Status](https://api.travis-ci.org/Belphemur/TVFlix.svg?branch=master)](http://travis-ci.org/Belphemur/TVFlix) [![Coverage Status](https://coveralls.io/repos/Belphemur/TVFlix/badge.svg?branch=master)](https://coveralls.io/r/Belphemur/TVFlix?branch=master)
 #TVFlix README
 ##Framework
 SQLAchemy, Pyramid and Cornice
