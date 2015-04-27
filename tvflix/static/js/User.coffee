@@ -11,7 +11,7 @@
       this.saveLocalStorage()
       $(this).trigger('user.login');
     isValid: () ->
-      return this.name != null && this.apikey != null
+      return typeof this.name != "undefined" && typeof this.apikey != 'undefined'
     clearInfo: () ->
       delete this.apikey
       delete this.name
