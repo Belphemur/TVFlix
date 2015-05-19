@@ -1,4 +1,4 @@
-[![Build Status](https://secure.travis-ci.org/Belphemur/TVFlix.png?branch=master)](http://travis-ci.org/Belphemur/TVFlix) [![Coverage Status](https://img.shields.io/coveralls/Belphemur/TVFlix.svg)](https://coveralls.io/r/Belphemur/TVFlix?branch=master)
+[![Build Status](https://api.travis-ci.org/Belphemur/TVFlix.svg?branch=master)](http://travis-ci.org/Belphemur/TVFlix) [![Coverage Status](https://coveralls.io/repos/Belphemur/TVFlix/badge.svg?branch=master)](https://coveralls.io/r/Belphemur/TVFlix?branch=master)
 #TVFlix README
 ##Framework
 SQLAchemy, Pyramid and Cornice
@@ -25,8 +25,8 @@ Once you've activited it follow the next steps.
 - more information in: [Pyramid Installation Guide](http://docs.pylonsproject.org/docs/pyramid/en/latest/tutorials/wiki2/installation.html)
 
 ###URL
-- API: http://127.0.0.1:8081/tvflix/
-- CLIENT: http://127.0.0.1:8081/client/
+- API: http://balor.pythonanywhere.com/tvflix/
+- CLIENT: http://balor.pythonanywhere.com/client/
 
 ###Test Users
 - admin: username == admin, apikey == admin

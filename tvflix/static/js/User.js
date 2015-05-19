@@ -25,7 +25,7 @@
       };
 
       User.prototype.isValid = function() {
-        return this.name !== null && this.apikey !== null;
+        return typeof this.name !== "undefined" && typeof this.apikey !== 'undefined';
       };
 
       User.prototype.clearInfo = function() {
