@@ -307,10 +307,10 @@ class SingleEpisodesResource(object):
 
         if show:  
             #check if user exists and it has admin rights
-            if not 'apikey' in self.request.headers.keys():
+            apikey = self.request.headers.get("apikey")
+            if not apikey:
                 raise HTTPUnauthorized
-                    
-            apikey = self.request.headers['apikey']   
+  
             user = User.GetUserByApiKey(apikey)
                
             if not user or user.admin == False:
